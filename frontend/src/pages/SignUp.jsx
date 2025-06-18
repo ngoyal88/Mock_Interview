@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { sendEmailVerification } from "firebase/auth";
-import { auth } from "../firebase";
+//import { auth } from "../firebase";
 
 const SignUp = () => {
   const { signup } = useAuth();
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -38,6 +40,26 @@ const SignUp = () => {
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
         <form className="space-y-5" onSubmit={handleSubmit}>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Full Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 w-full px-4 py-2 border rounded-lg"
+              required
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Phone Number</label>
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="mt-1 w-full px-4 py-2 border rounded-lg"
+              required
+            />
+          </div>
           <div>
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input

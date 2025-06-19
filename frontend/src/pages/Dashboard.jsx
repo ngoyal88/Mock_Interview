@@ -2,17 +2,21 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import ResumeUpload from '../components/ResumeUpload';
 import { useState } from 'react';
+import useUserProfile from "../hooks/useUserProfile";
 
 const Dashboard = () => {
   const { currentUser, logout } = useAuth();
   const [parsedResume, setParsedResume] = useState(null);
+  const { profile, loading } = useUserProfile();
+
+  if (loading) return <p>Loading your profile...</p>;
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold">👋 Welcome, {currentUser?.name}</h1>
+          <h1 className="text-3xl font-bold">👋 Welcome, {profile.name}</h1>
           <p className="text-sm text-gray-500">UID: {currentUser?.uid}</p>
         </div>
         <button

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { sendEmailVerification } from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
 //import { auth } from "../firebase";
 
 const SignUp = () => {
@@ -22,9 +24,23 @@ const SignUp = () => {
       return setError("Passwords do not match");
     }
 
+    if (!/^\d{10}$/.test(phone)) {
+    return setError("Phone number must be 10 digits");
+  }
+
     try {
       const userCredential = await signup(email, password);
-      await sendEmailVerification(userCredential.user);
+      const user = userCredential.user;
+
+    // Save user profile in Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      name,
+      email,
+      phone,
+      createdAt: serverTimestamp(),
+    });
+
+      await sendEmailVerification(user);
       alert("Verification email sent. Please check your inbox.");
       navigate("/signin");
     } catch (err) {

@@ -44,6 +44,7 @@ const SignUp = () => {
       alert("Verification email sent. Please check your inbox.");
       navigate("/signin");
     } catch (err) {
+      console.error("Signup error:", err.code, err.message);
       setError("Failed to create account. Email may already be in use.");
     }
   };

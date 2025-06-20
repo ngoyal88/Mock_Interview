@@ -3,11 +3,19 @@ import { useAuth } from '../context/AuthContext';
 import ResumeUpload from '../components/ResumeUpload';
 import { useState } from 'react';
 import useUserProfile from "../hooks/useUserProfile";
+import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const Dashboard = () => {
   const { currentUser, logout } = useAuth();
   const [parsedResume, setParsedResume] = useState(null);
   const { profile, loading } = useUserProfile();
+  const navigate = useNavigate();
+
+  const handleStartInterview = () => {
+  const sessionId = uuidv4(); // generate unique session ID
+  navigate(`/interview/${sessionId}`);
+};
 
   if (loading) return <p>Loading your profile...</p>;
 
@@ -53,10 +61,7 @@ const Dashboard = () => {
               : 'bg-gray-400 cursor-not-allowed'
           }`}
           disabled={!parsedResume}
-          onClick={() => {
-            // Later: start interview API call
-            alert('Interview feature coming soon!');
-          }}
+          onClick={handleStartInterview}
         >
           Start Interview
         </button>

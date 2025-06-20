@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import InterviewRoom from './pages/InterviewRoom';
 
 function App() {
   return (
@@ -22,6 +23,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/interview/:sessionId"
+            element={
+              <PrivateRoute>
+                <InterviewRoom />
               </PrivateRoute>
             }
           />

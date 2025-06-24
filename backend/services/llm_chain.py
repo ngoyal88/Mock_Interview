@@ -1,14 +1,12 @@
-from langchain_community.llms import LLMEndpoint
+from langchain.chat_models import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
 # Connect to LM Studio running at localhost
-llm = LLMEndpoint(
-    endpoint_url="http://localhost:1234/v1/completions",
-    model_kwargs={
-        "stop": ["\n"],
-        "temperature": 0.7,
-        "max_tokens": 256
-    }
+llm = ChatOpenAI(
+    model="local-model",  # Name doesn't matter much here
+    temperature=0.7,
+    openai_api_key="not-needed",  # Required by LangChain even for local
+    openai_api_base="http://localhost:1234/v1",  # LM Studio's endpoint
 )
 
 parser = StrOutputParser()

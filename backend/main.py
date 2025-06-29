@@ -6,6 +6,15 @@ from routes import interview
 from pydantic import BaseModel
 import subprocess
 import os
+import subprocess, tempfile, os
+from datetime import datetime
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+cred = credentials.Certificate("serviceAccount.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 app = FastAPI()
 
@@ -34,60 +43,49 @@ async def upload_resume(file: UploadFile = File(...)):
 class CodeRequest(BaseModel):
     language: str
     code: str
+    question: str | None = None
+    userId: str | None = None
 
 @app.post("/run_code")
 async def run_code(req: CodeRequest):
-    lang = req.language
-    code = req.code
-    output = ""
-
     try:
-        if lang == "python":
-            with open("code.py", "w") as f:
-                f.write(code)
-            result = subprocess.run(["python", "code.py"], capture_output=True, text=True, timeout=5)
-        
-        elif lang == "javascript":
-            with open("code.js", "w") as f:
-                f.write(code)
-            result = subprocess.run(["node", "code.js"], capture_output=True, text=True, timeout=5)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            os.chdir(tmpdir)
+            lang = req.language.lower()
+            file_map = {
+                "python": ("code.py", ["python", "code.py"]),
+                "javascript": ("code.js", ["node", "code.js"]),
+                "java": ("Main.java", ["javac", "Main.java", "&&", "java", "Main"]),
+                "cpp": ("code.cpp", ["g++", "code.cpp", "-o", "a.out", "&&", "./a.out"]),
+                "c": ("code.c", ["gcc", "code.c", "-o", "a.out", "&&", "./a.out"]),
+                "go": ("main.go", ["go", "run", "main.go"]),
+            }
 
-        elif lang == "typescript":
-            with open("code.ts", "w") as f:
-                f.write(code)
-            subprocess.run(["tsc", "code.ts"], timeout=5)
-            result = subprocess.run(["node", "code.js"], capture_output=True, text=True, timeout=5)
+            if lang not in file_map:
+                return {"output": "❌ Unsupported language."}
 
-        elif lang == "cpp":
-            with open("code.cpp", "w") as f:
-                f.write(code)
-            subprocess.run(["g++", "code.cpp", "-o", "code.out"], timeout=5)
-            result = subprocess.run(["./code.out"], capture_output=True, text=True, timeout=5)
+            filename, cmd = file_map[lang]
+            with open(filename, "w") as f:
+                f.write(req.code)
 
-        elif lang == "c":
-            with open("code.c", "w") as f:
-                f.write(code)
-            subprocess.run(["gcc", "code.c", "-o", "code_c.out"], timeout=5)
-            result = subprocess.run(["./code_c.out"], capture_output=True, text=True, timeout=5)
+            result = subprocess.run(" ".join(cmd), shell=True, capture_output=True, text=True, timeout=5)
 
-        elif lang == "java":
-            with open("Main.java", "w") as f:
-                f.write(code)
-            subprocess.run(["javac", "Main.java"], timeout=5)
-            result = subprocess.run(["java", "Main"], capture_output=True, text=True, timeout=5)
+            output = result.stdout or result.stderr or "✅ No output"
+            success = result.returncode == 0
 
-        elif lang == "go":
-            with open("main.go", "w") as f:
-                f.write(code)
-            result = subprocess.run(["go", "run", "main.go"], capture_output=True, text=True, timeout=5)
+            if req.userId:
+                db.collection("users").document(req.userId).collection("submissions").add({
+                    "language": req.language,
+                    "question": req.question,
+                    "code": req.code,
+                    "output": output,
+                    "success": success,
+                    "timestamp": datetime.now(datetime.timezone.utc)
+                })
 
-        else:
-            return {"output": "❌ Unsupported language."}
-
-        output = result.stdout or result.stderr or "✅ Success. No output."
-        return {"output": output}
+            return {"output": output}
 
     except subprocess.TimeoutExpired:
-        return {"output": "⏱️ Code execution timed out."}
+        return {"output": "⏱ Code execution timed out."}
     except Exception as e:
         return {"output": f"❌ Error: {str(e)}"}

@@ -1,2 +1,3 @@
 backend/.env
 frontend/src/firebase.js
+backend\serviceAccount.json

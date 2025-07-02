@@ -3,13 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from parser.affinda_parser import parse_resume
 import traceback
 from routes import interview, code_runner
-
-import firebase_admin
-from firebase_admin import credentials, firestore
-
-cred = credentials.Certificate("serviceAccount.json")
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+from firebase_config import db
 
 app = FastAPI()
 
@@ -20,6 +14,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 app.include_router(interview.router)
 app.include_router(code_runner.router)
 

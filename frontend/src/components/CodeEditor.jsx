@@ -73,7 +73,7 @@ const CodeEditor = ({ question }) => {
               setLanguage(e.target.value);
               setCode(defaultCode[e.target.value]);
             }}
-            className="border px-2 py-1 rounded"
+            className="bg-gray-800 text-white border border-gray-700 px-2 py-1 rounded mr-4 w-40 focus:outline-none"
           >
             {Object.keys(languageMap).map((lang) => (
               <option key={lang} value={lang}>
@@ -119,7 +119,7 @@ const CodeEditor = ({ question }) => {
       {/* Output display */}
       <div className="mt-3">
         <h3 className="text-sm font-medium mb-1">Output:</h3>
-        <div className="bg-gray-100 text-sm font-mono p-2 rounded border h-36 overflow-auto">
+        <div className="w-full h-40 bg-[#1e1e1e] text-sm text-white rounded p-2 font-mono resize-none border border-gray-700" >
           {loading ? "⏳ Running..." : output || "No output yet."}
         </div>
       </div>

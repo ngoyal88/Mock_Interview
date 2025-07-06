@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,useLocation } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from "./pages/Home";
@@ -10,10 +10,10 @@ import PrivateRoute from './components/PrivateRoute';
 import InterviewRoom from './pages/InterviewRoom';
 
 function App() {
+  const location = useLocation();
   return (
-    <Router>
       <AuthProvider>
-        <Navbar />
+        {!location.pathname.includes('/interview') && <Navbar />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
@@ -36,7 +36,6 @@ function App() {
           />
         </Routes>
       </AuthProvider>
-    </Router>
   );
 }
 

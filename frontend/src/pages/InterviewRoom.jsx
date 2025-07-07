@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useUserProfile from "../hooks/useUserProfile";
 import useInterviewFlow from "../components/useInterviewFlow";
 import AvatarDisplay from "../components/AvatarDisplay";
@@ -12,13 +12,13 @@ import DSAQuestionDisplay from "../components/DSAQuestionDisplay";
 const InterviewRoom = () => {
   const { sessionId } = useParams();
   console.log(sessionId);
+  const navigate = useNavigate();
   const { profile, ploading } = useUserProfile();
 
   const {
     startInterview,
     isSpeaking,
     isListening,
-    chatLog,
     question,
     currentPhase, // "behavioral" | "theory" | "dsa"
   } = useInterviewFlow({ profile });
@@ -26,10 +26,14 @@ const InterviewRoom = () => {
   const [showChat, setShowChat] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
 
+  const [chatLog, setChatLog] = useState([
+  { from: "ai", text: "Hello! Let's begin your interview. Feel free to chat with me here anytime." },
+]);
+
   useEffect(() => {
   const q = getRandomDSAQuestion("hard");
   setCurrentQuestion(q);
-}, []);
+  }, []);
 
   useEffect(() => {
     if (profile) startInterview();
@@ -37,24 +41,40 @@ const InterviewRoom = () => {
 
   if (ploading || !profile) return <div className="p-6">Loading your profile...</div>;
 
+  const endInterview = () => {
+    if (window.confirm("Are you sure you want to end the interview?")) {
+      navigate("/dashboard");
+    }
+  };
+
   return (
-    <div className="h-screen flex flex-col bg-[#0e0e10] text-white">
+    
+    <div className="min-h-screen overflow-hidden flex flex-col bg-[#0e0e10] text-white">
       {/* Header */}
       <header className="p-4 bg-[#1c1c1e] shadow flex justify-between items-center border-b border-gray-700">
         <h1 className="text-xl font-bold text-cyan-400">🧠 AI Interview Room</h1>
         <div className="flex items-center gap-4">
           <p className="text-sm text-gray-400">Interviewing: {profile.name}</p>
+          {currentPhase !== "dsa" && (
+            <button
+              onClick={() => setShowChat(!showChat)}
+              className="text-sm px-3 py-1 border border-cyan-500 rounded hover:bg-cyan-500 hover:text-black transition"
+            >
+              {showChat ? "Hide Chat" : "Show Chat"}
+            </button>
+          )}
+
           <button
-            onClick={() => setShowChat(!showChat)}
-            className="text-sm px-3 py-1 border border-cyan-500 rounded hover:bg-cyan-500 hover:text-black transition"
+            onClick={endInterview}
+            className="text-sm px-3 py-1 border border-red-500 text-red-500 rounded hover:bg-red-600 hover:text-white transition"
           >
-            {showChat ? "Hide Chat" : "Show Chat"}
+            End Interview
           </button>
         </div>
       </header>
 
       {/* Main Layout */}
-      {currentPhase === "dsa" ? (
+      {currentPhase !== "dsa" ? (
         // 💬 Fullscreen Avatar with optional Chat
         <div className="flex flex-1 transition-all duration-500">
           <div className="flex-1 p-4 bg-black flex justify-center items-center">
@@ -62,9 +82,17 @@ const InterviewRoom = () => {
           </div>
 
           {showChat && (
-            <div className="w-1/3 bg-[#1c1c1e] p-4 border-l border-gray-700 overflow-y-auto">
-              <ChatDrawer chatLog={chatLog} />
-            </div>
+            <div className="w-[25%] p-4 border-l border-gray-800 bg-[#1c1c1e] overflow-y-auto">
+               <ChatDrawer
+                 chatLog={chatLog}
+                 onSend={(msg) => {
+                   setChatLog((prev) => [...prev, { from: "user", text: msg }]);
+                   setTimeout(() => {
+                     setChatLog((prev) => [...prev, { from: "ai", text: "Thanks for your message!" }]);
+                   }, 1000);
+                 }}
+               />
+             </div>
           )}
         </div>
       ) : (
@@ -76,7 +104,15 @@ const InterviewRoom = () => {
               <AvatarDisplay loading={isSpeaking} />
             </div>
             <div className="h-1/2 p-4 overflow-y-auto border-t border-gray-800">
-              <ChatDrawer chatLog={chatLog} />
+              <ChatDrawer
+                chatLog={chatLog}
+                onSend={(msg) => {
+                  setChatLog((prev) => [...prev, { from: "user", text: msg }]);
+                  setTimeout(() => {
+                    setChatLog((prev) => [...prev, { from: "ai", text: "Thanks for your message!" }]);
+                  }, 1000);
+                }}
+              />
             </div>
           </div>
 

@@ -8,6 +8,7 @@ import CodeEditor from "../components/CodeEditor";
 import ChatDrawer from "../components/ChatDrawer";
 import { getRandomDSAQuestion } from "../utils/getRandomDSAQuestion";
 import DSAQuestionDisplay from "../components/DSAQuestionDisplay";
+import CandidateWebcam from "../components/CandidateWebcam";
 
 const InterviewRoom = () => {
   const { sessionId } = useParams();
@@ -49,8 +50,7 @@ const InterviewRoom = () => {
 
   return (
     
-    <div className="min-h-screen overflow-hidden flex flex-col bg-[#0e0e10] text-white">
-      {/* Header */}
+    <div className="h-screen overflow-hidden flex flex-col bg-[#0e0e10] text-white">
       <header className="p-4 bg-[#1c1c1e] shadow flex justify-between items-center border-b border-gray-700">
         <h1 className="text-xl font-bold text-cyan-400">🧠 AI Interview Room</h1>
         <div className="flex items-center gap-4">
@@ -76,9 +76,13 @@ const InterviewRoom = () => {
       {/* Main Layout */}
       {currentPhase !== "dsa" ? (
         // 💬 Fullscreen Avatar with optional Chat
-        <div className="flex flex-1 transition-all duration-500">
-          <div className="flex-1 p-4 bg-black flex justify-center items-center">
+        <div className="flex flex-1 h-[calc(100vh-80px)] overflow-hidden">
+          <div className="flex-1 relative bg-black flex justify-center items-center h-full transition-all duration-500">
             <AvatarDisplay loading={isSpeaking} />
+            
+            <div className="absolute bottom-6 right-6 w-96 h-60 z-20 border border-gray-800 rounded-md overflow-hidden shadow-md bg-black">
+              <CandidateWebcam />
+            </div>
           </div>
 
           {showChat && (
@@ -104,7 +108,7 @@ const InterviewRoom = () => {
               <AvatarDisplay loading={isSpeaking} />
             </div>
             <div className="h-1/2 p-4 overflow-y-auto border-t border-gray-800">
-              <ChatDrawer
+              {/* <ChatDrawer
                 chatLog={chatLog}
                 onSend={(msg) => {
                   setChatLog((prev) => [...prev, { from: "user", text: msg }]);
@@ -112,7 +116,8 @@ const InterviewRoom = () => {
                     setChatLog((prev) => [...prev, { from: "ai", text: "Thanks for your message!" }]);
                   }, 1000);
                 }}
-              />
+              /> */}
+              <CandidateWebcam />
             </div>
           </div>
 

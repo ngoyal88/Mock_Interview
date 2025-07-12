@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useUserProfile from "../hooks/useUserProfile";
 import useInterviewFlow from "../components/useInterviewFlow";
-import AvatarDisplay from "../components/AvatarDisplay";
+import TalkingHeadAvatar from "../components/TalkingHeadAvatar";
 import MicInput from "../components/MicInput";
 import CodeEditor from "../components/CodeEditor";
 import ChatDrawer from "../components/ChatDrawer";
@@ -10,12 +10,13 @@ import { getRandomDSAQuestion } from "../utils/getRandomDSAQuestion";
 import DSAQuestionDisplay from "../components/DSAQuestionDisplay";
 import CandidateWebcam from "../components/CandidateWebcam";
 
+
 const InterviewRoom = () => {
   const { sessionId } = useParams();
   console.log(sessionId);
   const navigate = useNavigate();
   const { profile, ploading } = useUserProfile();
-
+  const avatar = "https://models.readyplayer.me/686eb32c144951ad7904a162.glb";
   const {
     startInterview,
     isSpeaking,
@@ -78,7 +79,11 @@ const InterviewRoom = () => {
         // 💬 Fullscreen Avatar with optional Chat
         <div className="flex flex-1 h-[calc(100vh-80px)] overflow-hidden">
           <div className="flex-1 relative bg-black flex justify-center items-center h-full transition-all duration-500">
-            <AvatarDisplay loading={isSpeaking} />
+            <TalkingHeadAvatar
+              containerId="talking-head"
+              avatarUrl= {avatar}
+              text="Hello, welcome to your interview!"
+            />
             
             <div className="absolute bottom-6 right-6 w-96 h-60 z-20 border border-gray-800 rounded-md overflow-hidden shadow-md bg-black">
               <CandidateWebcam />
@@ -105,7 +110,11 @@ const InterviewRoom = () => {
           {/* Left: Avatar + Chat stacked */}
           <div className="w-1/3 flex flex-col border-r border-gray-800 bg-[#141417]">
             <div className="p-4 h-1/2">
-              <AvatarDisplay loading={isSpeaking} />
+              <TalkingHeadAvatar
+                containerId="talking-head"
+                avatarUrl={avatar}
+                text="Hello, welcome to your interview!"
+              />
             </div>
             <div className="h-1/2 p-4 overflow-y-auto border-t border-gray-800">
               {/* <ChatDrawer

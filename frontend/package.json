@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@met4citizen/talkinghead": "^1.4.0",
     "@monaco-editor/react": "^4.7.0",
     "@react-three/drei": "^10.5.0",
     "@react-three/fiber": "^9.2.0",

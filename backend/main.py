@@ -2,7 +2,8 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from parser.affinda_parser import parse_resume
 import traceback
-from routes import interview, code_runner
+from routes import interview, code_runner,tts
+
 from firebase_config import db
 
 app = FastAPI()
@@ -17,6 +18,7 @@ app.add_middleware(
 
 app.include_router(interview.router)
 app.include_router(code_runner.router)
+app.include_router(tts.router)
 
 @app.post("/upload_resume")
 async def upload_resume(file: UploadFile = File(...)):

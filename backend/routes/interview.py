@@ -1,66 +1,27 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from services.llm_chain import build_chain
-from services.prompt_templates import start_prompt, followup_prompt
+from services.interview_brain import generate_question
 
 router = APIRouter()
 
-# -------------------------------
-# Endpoint: /start_interview
-# -------------------------------
-
-class StartInterviewRequest(BaseModel):
+class InterviewStartRequest(BaseModel):
     name: str
     resume: str
     role: str = "SDE-1"
+    phase: str = "behavioral"  # optional override
 
-class StartInterviewResponse(BaseModel):
-    question: str
-
-@router.post("/start_interview", response_model=StartInterviewResponse)
-async def start_interview(data: StartInterviewRequest):
-    """
-    Generate the first smart interview question using LangChain + local LLM.
-    """
+@router.post("/start_interview")
+def start_interview(data: InterviewStartRequest):
     try:
-        chain = build_chain(start_prompt)
-        result = chain.invoke({
-            "name": data.name,
-            "resume": data.resume,
-            "role": data.role
-        })
-        return {"question": result}
+        welcome = f"Hello {data.name}, welcome to your AI interview for the {data.role} position."
+        question = generate_question(phase=data.phase, resume=data.resume)
+
+        return {
+            "welcome": welcome,
+            "question": question,
+            "phase": data.phase
+        }
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-# -------------------------------
-# Endpoint: /interview/respond
-# -------------------------------
-
-class FollowUpRequest(BaseModel):
-    name: str
-    resume: str
-    last_question: str
-    user_answer: str
-    role: str = "SDE-1"
-
-class FollowUpResponse(BaseModel):
-    follow_up_question: str
-
-@router.post("/interview/respond", response_model=FollowUpResponse)
-async def interview_respond(data: FollowUpRequest):
-    """
-    Accepts the user's Hinglish or English answer and generates the next question.
-    """
-    try:
-        chain = build_chain(followup_prompt)
-        result = chain.invoke({
-            "name": data.name,
-            "resume": data.resume,
-            "last_question": data.last_question,
-            "user_answer": data.user_answer,
-            "role": data.role
-        })
-        return {"follow_up_question": result}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error in start_interview: {e}")
+        raise HTTPException(status_code=500, detail="Failed to start interview.")

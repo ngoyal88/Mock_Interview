@@ -16,7 +16,7 @@ const InterviewRoom = () => {
   console.log(sessionId);
   const navigate = useNavigate();
   const { profile, ploading } = useUserProfile();
-  const avatar = "https://models.readyplayer.me/686eb32c144951ad7904a162.glb";
+  const avatar = "avatars/interviewer.glb";
   const {
     startInterview,
     isSpeaking,
@@ -27,7 +27,7 @@ const InterviewRoom = () => {
 
   const [showChat, setShowChat] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
-
+  const [textToSpeak, setTextToSpeak] = useState("");
   const [chatLog, setChatLog] = useState([
   { from: "ai", text: "Hello! Let's begin your interview. Feel free to chat with me here anytime." },
 ]);
@@ -38,7 +38,9 @@ const InterviewRoom = () => {
   }, []);
 
   useEffect(() => {
-    if (profile) startInterview();
+    if (profile) {startInterview();
+    setTextToSpeak("Hello, welcome to your interview. Let's begin!");
+    }
   }, [profile, startInterview]);
 
   if (ploading || !profile) return <div className="p-6">Loading your profile...</div>;
@@ -80,9 +82,8 @@ const InterviewRoom = () => {
         <div className="flex flex-1 h-[calc(100vh-80px)] overflow-hidden">
           <div className="flex-1 relative bg-black flex justify-center items-center h-full transition-all duration-500">
             <TalkingHeadAvatar
-              containerId="talking-head"
-              avatarUrl= {avatar}
-              text="Hello, welcome to your interview!"
+              avatarUrl={avatar}
+              textToSpeak={textToSpeak}
             />
             
             <div className="absolute bottom-6 right-6 w-96 h-60 z-20 border border-gray-800 rounded-md overflow-hidden shadow-md bg-black">
@@ -110,11 +111,10 @@ const InterviewRoom = () => {
           {/* Left: Avatar + Chat stacked */}
           <div className="w-1/3 flex flex-col border-r border-gray-800 bg-[#141417]">
             <div className="p-4 h-1/2">
-              <TalkingHeadAvatar
-                containerId="talking-head"
-                avatarUrl={avatar}
-                text="Hello, welcome to your interview!"
-              />
+            <TalkingHeadAvatar
+              avatarUrl={avatar}
+              textToSpeak={textToSpeak}
+            />
             </div>
             <div className="h-1/2 p-4 overflow-y-auto border-t border-gray-800">
               {/* <ChatDrawer

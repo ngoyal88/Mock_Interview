@@ -85,7 +85,7 @@ def split_sections(text: str) -> Dict[str, List[str]]:
     if not sections: sections['full'] = lines
     return sections
 
-def extract_contact(text: str) -> (str, str):
+def extract_contact(text: str) -> tuple[str, str]:
     email_match = re.search(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", text)
     phone_match = re.search(
         r"(\+91|0)?[\s\-]?\d{10,12}|\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}",

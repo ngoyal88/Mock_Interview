@@ -3,6 +3,7 @@ import type { useBuilderLanding } from '../../hooks/useBuilderLanding';
 
 import BuilderDraftHub from './BuilderDraftHub';
 import BuilderEntryCards from './BuilderEntryCards';
+import LinkedInImportModal from './LinkedInImportModal';
 import VaultPickerModal from './VaultPickerModal';
 
 type BuilderLandingViewProps = {
@@ -22,7 +23,7 @@ export default function BuilderLandingView({ landing, vaultEntryCount }: Builder
           Build a resume that interviews can use
         </h1>
         <p className="type-body-lg mt-4 text-[var(--color-on-surface-variant)]">
-          Start from scratch or a resume you already uploaded — choose a layout while editing.
+          Start from scratch, a resume you uploaded, or your public LinkedIn profile — choose a layout while editing.
         </p>
         {!landing.profileReady ? (
           <p className="type-body-md mt-4 text-[var(--color-on-surface-variant)]">
@@ -43,6 +44,13 @@ export default function BuilderLandingView({ landing, vaultEntryCount }: Builder
         saving={landing.saving}
         onClose={landing.closeVaultPicker}
         onSelect={(resumeId) => void landing.createDraftFromVault(resumeId)}
+      />
+
+      <LinkedInImportModal
+        open={landing.linkedInImportOpen}
+        saving={landing.saving}
+        onClose={landing.closeLinkedInImport}
+        onSubmit={(input) => void landing.importFromLinkedIn(input)}
       />
 
       <SaveDraftModal

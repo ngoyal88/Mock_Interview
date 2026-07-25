@@ -16,6 +16,7 @@ from services.resume_builder.models import (
     CreateDraftRequest,
     DraftPatchRequest,
     DraftUpdateRequest,
+    DraftSourceKind,
     ResumeBuilderDraft,
     default_section_layout,
 )
@@ -53,6 +54,8 @@ async def create_draft(
     request: CreateDraftRequest,
     *,
     source_profile: Optional[dict] = None,
+    source_kind: Optional[DraftSourceKind] = None,
+    source_linkedin_url: Optional[str] = None,
 ) -> ResumeBuilderDraft:
     def _create() -> ResumeBuilderDraft:
         draft_id = f"draft_{uuid.uuid4().hex[:12]}"
@@ -72,7 +75,7 @@ async def create_draft(
             section_layout = default_section_layout()
             custom_sections = []
 
-        source_kind = "vault_fork" if request.resume_id else "blank"
+        source_kind_value = source_kind or ("vault_fork" if request.resume_id else "blank")
         payload = {
             "name": draft_name,
             "created_at": now,
@@ -85,9 +88,11 @@ async def create_draft(
             "target_resume_id": request.resume_id,
             "source_resume_id": request.resume_id,
             "source_version_id": request.version_id,
-            "source_kind": source_kind,
+            "source_kind": source_kind_value,
             "status": "draft",
         }
+        if source_linkedin_url:
+            payload["source_linkedin_url"] = source_linkedin_url
         _collection(uid).document(draft_id).set(payload)
         return _hydrate(draft_id, uid, payload)
 

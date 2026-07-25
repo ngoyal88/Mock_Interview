@@ -7,6 +7,8 @@ import type {
   DraftPatchPayload,
   DraftResponse,
   LatexResponse,
+  LinkedInImportPayload,
+  LinkedInImportResponse,
   PublishDraftPayload,
   PublishDraftResponse,
   ResumeBuilderHealthResponse,
@@ -182,6 +184,15 @@ const publishDraft = async (draftId: string, payload: PublishDraftPayload): Prom
   return parseJsonResponse<PublishDraftResponse>(response, 'Failed to publish draft');
 };
 
+const importLinkedInProfile = async (payload: LinkedInImportPayload): Promise<LinkedInImportResponse> => {
+  const response = await fetch(`${API_URL}/resume-builder/import/linkedin`, {
+    method: 'POST',
+    headers: await getAuthHeaders(),
+    body: JSON.stringify(payload),
+  });
+  return parseJsonResponse<LinkedInImportResponse>(response, 'Failed to import LinkedIn profile');
+};
+
 const getTemplatePreview = async (templateId: string): Promise<Blob> => {
   const response = await fetch(`${API_URL}/resume-builder/templates/${encodeURIComponent(templateId)}/preview`, {
     method: 'GET',
@@ -207,5 +218,6 @@ export const resumeBuilderApi = {
   getLatex,
   previewDraft,
   publishDraft,
+  importLinkedInProfile,
 };
 

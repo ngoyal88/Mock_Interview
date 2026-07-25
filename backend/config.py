@@ -129,6 +129,11 @@ class Settings(BaseSettings):
     resume_builder_compile_timeout_s: int = 30
     resume_builder_max_pdf_bytes: int = 2_097_152
 
+    linkedin_import_enabled: bool = True
+    apify_api_token: str = ""
+    apify_linkedin_actor_id: str = "VhxlqQXRwhW8H5hNV"
+    apify_linkedin_timeout_s: int = 180
+
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=False,

@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field, model_validator
 from models.resume import ResumeProfile
 
 TemplateStatus = Literal["live", "coming_soon"]
-DraftSourceKind = Literal["blank", "vault_fork"]
+DraftSourceKind = Literal["blank", "vault_fork", "linkedin_import"]
 BuilderSectionKind = Literal[
     "identity",
     "summary",
@@ -79,6 +79,7 @@ class ResumeBuilderDraft(BaseModel):
     source_resume_id: Optional[str] = None
     source_version_id: Optional[str] = None
     source_kind: Optional[DraftSourceKind] = None
+    source_linkedin_url: Optional[str] = None
     status: Literal["draft"] = "draft"
 
     @model_validator(mode="after")
@@ -164,6 +165,18 @@ class PublishDraftResponse(BaseModel):
     entry: dict[str, Any]
     version: dict[str, Any]
     scorecard: dict[str, Any]
+
+
+class LinkedInImportRequest(BaseModel):
+    input: str = Field(..., min_length=1, max_length=500)
+    template_id: str = "professional_v1"
+
+
+class LinkedInImportResponse(BaseModel):
+    linkedin_url: str
+    profile: ResumeProfile
+    draft: Optional[ResumeBuilderDraft] = None
+    warnings: list[str] = Field(default_factory=list)
 
 
 class BuilderValidationError(ValueError):

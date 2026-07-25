@@ -7,6 +7,7 @@ import { useAuth } from 'shared/context/AuthContext';
 import { useUserSettingsQuery } from 'features/dashboard/queries/useUserSettingsQuery';
 
 import { useBuilderDraftMutations } from '../mutations/useBuilderDraftMutations';
+import { resumeBuilderApi } from '../services/resumeBuilderApi';
 import {
   useBuilderDraftsQuery,
   useBuilderHealthQuery,
@@ -43,6 +44,7 @@ export function useBuilderLanding() {
 
   const [saving, setSaving] = useState(false);
   const [vaultPickerOpen, setVaultPickerOpen] = useState(false);
+  const [linkedInImportOpen, setLinkedInImportOpen] = useState(false);
   const [openMenuDraftId, setOpenMenuDraftId] = useState<string | null>(null);
   const [renameTarget, setRenameTarget] = useState<RenameTarget>(null);
   const [statusMessage, setStatusMessage] = useState('');
@@ -124,6 +126,35 @@ export function useBuilderLanding() {
     [draftMutations, navigate],
   );
 
+  const importFromLinkedIn = useCallback(
+    async (input: string) => {
+      const identity = requireProfile();
+      if (!identity) return;
+
+      try {
+        setSaving(true);
+        const response = await resumeBuilderApi.importLinkedInProfile({
+          input,
+          template_id: DEFAULT_TEMPLATE_ID,
+        });
+        if (!response.draft?.id) {
+          throw new Error('Import succeeded but no draft was created');
+        }
+        setLinkedInImportOpen(false);
+        toast.success('Draft created from LinkedIn');
+        if (typeof window !== 'undefined') {
+          window.sessionStorage.setItem('builder_show_template_hint', '1');
+        }
+        navigate(`/resume-vault/builder/${response.draft.id}`);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : 'Failed to import LinkedIn profile');
+      } finally {
+        setSaving(false);
+      }
+    },
+    [navigate, requireProfile],
+  );
+
   const openDraft = useCallback(
     (draftId: string) => {
       navigate(`/resume-vault/builder/${draftId}`);
@@ -203,6 +234,10 @@ export function useBuilderLanding() {
     vaultPickerOpen,
     openVaultPicker: () => setVaultPickerOpen(true),
     closeVaultPicker: () => setVaultPickerOpen(false),
+    linkedInImportOpen,
+    openLinkedInImport: () => setLinkedInImportOpen(true),
+    closeLinkedInImport: () => setLinkedInImportOpen(false),
+    importFromLinkedIn,
     openMenuDraftId,
     toggleMenu,
     renameTarget,

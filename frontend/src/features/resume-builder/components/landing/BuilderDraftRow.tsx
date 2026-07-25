@@ -63,7 +63,7 @@ function BuilderDraftRow({
             </div>
 
             <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-              {sourceKind === 'vault_fork' ? (
+              {sourceKind === 'vault_fork' || sourceKind === 'linkedin_import' ? (
                 <span className="rb-draft-row__chip rb-draft-row__chip--source">
                   {draftSourceLabel(sourceKind)}
                 </span>

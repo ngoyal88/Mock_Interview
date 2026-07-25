@@ -28,12 +28,16 @@ from services.resume_builder.models import (
     DraftUpdateRequest,
     HealthResponse,
     LatexResponse,
+    LinkedInImportRequest,
+    LinkedInImportResponse,
     PublishDraftRequest,
     PublishDraftResponse,
     TemplateListResponse,
     validate_draft_name,
     validate_identity_fields,
 )
+from services.resume_builder.linkedin_import.errors import LinkedInImportError
+from services.resume_builder.linkedin_import.service import import_linkedin_to_draft
 from services.resume_builder.publish_service import publish_draft
 from services.resume_builder.template_catalog import get_template, list_templates, template_preview_file
 from services.resume_builder.template_renderer import render_template
@@ -50,6 +54,21 @@ log = get_logger(__name__)
 def _ensure_enabled() -> None:
     if not get_settings().resume_builder_enabled:
         raise HTTPException(status_code=404, detail="Resume Builder is disabled")
+
+
+def _ensure_linkedin_import_enabled() -> None:
+    _ensure_enabled()
+    settings = get_settings()
+    if not settings.linkedin_import_enabled:
+        raise HTTPException(status_code=404, detail="LinkedIn import is disabled")
+    if not settings.apify_api_token.strip():
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "code": "provider_unconfigured",
+                "message": "LinkedIn import is not configured on the server.",
+            },
+        )
 
 
 async def _load_source_profile(uid: str, request: CreateDraftRequest) -> dict | None:
@@ -70,6 +89,25 @@ async def _load_source_profile(uid: str, request: CreateDraftRequest) -> dict | 
             raise HTTPException(status_code=404, detail="Source version not found")
         return version.get("profile_snapshot") or {}
     return None
+
+
+@router.post("/import/linkedin", response_model=LinkedInImportResponse)
+async def resume_builder_import_linkedin(
+    request: LinkedInImportRequest,
+    uid: str = Depends(verify_firebase_token),
+) -> LinkedInImportResponse:
+    _ensure_linkedin_import_enabled()
+    await check_rate_limit(uid, "resume_builder_linkedin_import", limit=10, window_seconds=3600)
+    try:
+        return await import_linkedin_to_draft(uid, request)
+    except LinkedInImportError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.as_detail()) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise_internal_error(log, exc, message="Failed to import LinkedIn profile")
 
 
 @router.get("/health", response_model=HealthResponse)

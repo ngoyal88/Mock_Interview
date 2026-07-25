@@ -55,15 +55,22 @@ export default function BuilderEntryCards({ landing, vaultEntryCount }: BuilderE
         )}
       </article>
 
-      <article className="rb-entry-card rb-entry-card--disabled" aria-disabled="true">
+      <article className="rb-entry-card">
         <div className="rb-entry-card__icon" aria-hidden>
           <Linkedin className="h-5 w-5" />
         </div>
         <h2 className="type-headline-sm text-[var(--color-on-surface)]">LinkedIn</h2>
         <p className="type-body-md mt-2 text-[var(--color-on-surface-variant)]">
-          Import from LinkedIn is coming soon.
+          Import public profile data from your LinkedIn username or profile URL.
         </p>
-        <span className="rb-entry-card__cta rb-entry-card__cta--disabled">Coming soon</span>
+        <button
+          type="button"
+          onClick={landing.openLinkedInImport}
+          disabled={disabled}
+          className={`rb-entry-card__cta ${landing.focusRingClass}`}
+        >
+          {landing.saving ? 'Importing…' : 'Import from LinkedIn'}
+        </button>
       </article>
     </div>
   );

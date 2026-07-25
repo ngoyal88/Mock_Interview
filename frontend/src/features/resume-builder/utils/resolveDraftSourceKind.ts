@@ -1,6 +1,6 @@
 import type { ResumeBuilderDraft } from '../types/resumeBuilder';
 
-export type DraftSourceKind = 'blank' | 'vault_fork';
+export type DraftSourceKind = 'blank' | 'vault_fork' | 'linkedin_import';
 
 export function resolveDraftSourceKind(draft: ResumeBuilderDraft): DraftSourceKind {
   if (draft.source_kind) return draft.source_kind;
@@ -8,5 +8,7 @@ export function resolveDraftSourceKind(draft: ResumeBuilderDraft): DraftSourceKi
 }
 
 export function draftSourceLabel(kind: DraftSourceKind): string {
-  return kind === 'vault_fork' ? 'From Vault' : 'Blank';
+  if (kind === 'vault_fork') return 'From Vault';
+  if (kind === 'linkedin_import') return 'From LinkedIn';
+  return 'Blank';
 }

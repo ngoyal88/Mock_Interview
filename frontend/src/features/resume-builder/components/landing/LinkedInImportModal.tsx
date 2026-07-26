@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from 'react';
 
 import Modal from 'shared/components/Modal';
+import ModalActions, { modalInputClass } from 'shared/ui/ModalActions';
 
 type LinkedInImportModalProps = {
   open: boolean;
@@ -48,10 +49,10 @@ export default function LinkedInImportModal({ open, saving, onClose, onSubmit }:
                 handleSubmit();
               }
             }}
-            placeholder="ngoyal88 or linkedin.com/in/ngoyal88"
+            placeholder="username or linkedin.com/in/username"
             disabled={saving}
             autoComplete="off"
-            className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--color-surface-container)] px-3 py-2.5 text-[var(--color-on-surface)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal-2)] disabled:opacity-60"
+            className={`${modalInputClass} mt-0`}
           />
         </div>
 
@@ -61,24 +62,14 @@ export default function LinkedInImportModal({ open, saving, onClose, onSubmit }:
           </p>
         ) : null}
 
-        <div className="flex justify-end gap-2 pt-1">
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={saving}
-            className="rounded-lg px-4 py-2 text-[var(--color-on-surface-variant)] transition-colors hover:bg-[var(--color-surface-container)] disabled:opacity-60"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={saving || !input.trim()}
-            className="rounded-lg bg-[var(--color-primary)] px-4 py-2 font-medium text-[var(--color-on-primary)] transition-opacity hover:opacity-90 disabled:opacity-60"
-          >
-            {saving ? 'Importing…' : 'Import profile'}
-          </button>
-        </div>
+        <ModalActions
+          onCancel={onClose}
+          onConfirm={handleSubmit}
+          confirmLabel="Import profile"
+          loadingLabel="Importing…"
+          loading={saving}
+          disabled={!input.trim()}
+        />
       </div>
     </Modal>
   );

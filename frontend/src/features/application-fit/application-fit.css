@@ -14,8 +14,7 @@
   margin-inline: auto;
 }
 
-/* Override global glass-panel white borders inside this feature */
-.application-fit-page .glass-panel,
+/* Override global glass-panel white borders inside report surfaces only */
 .application-fit-report .glass-panel,
 .application-fit-panel,
 .application-fit-surface {
@@ -502,7 +501,7 @@
   }
 }
 
-/* Input page — one shared class; panels/layout use glass-panel + Tailwind (role-targeted pattern). */
+/* Input page — shared form field class lives in shared/ui/ModalActions (formFieldClass). */
 .application-fit-target-input {
   display: block;
   width: 100%;

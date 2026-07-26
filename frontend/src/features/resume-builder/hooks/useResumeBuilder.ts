@@ -1254,6 +1254,8 @@ export function useResumeBuilder() {
       title: 'Delete Draft',
       message: 'This draft cannot be recovered after deletion.',
       destructive: true,
+      confirmLabel: 'Delete',
+      cancelLabel: 'Keep draft',
       onConfirm: async () => {
         try {
           await draftMutations.deleteDraft(draft.id);

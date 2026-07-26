@@ -1,5 +1,6 @@
 import SaveDraftModal from '../SaveDraftModal';
 import type { useBuilderLanding } from '../../hooks/useBuilderLanding';
+import AppPageShell from 'shared/ui/AppPageShell';
 
 import BuilderDraftHub from './BuilderDraftHub';
 import BuilderEntryCards from './BuilderEntryCards';
@@ -13,20 +14,18 @@ type BuilderLandingViewProps = {
 
 export default function BuilderLandingView({ landing, vaultEntryCount }: BuilderLandingViewProps) {
   return (
-    <div className="space-y-10">
+    <>
       <p className="sr-only" aria-live="polite">
         {landing.statusMessage}
       </p>
 
-      <header className="max-w-3xl min-w-0">
-        <h1 className="type-display-lg text-[var(--color-on-surface)]">
-          Build a resume that interviews can use
-        </h1>
-        <p className="type-body-lg mt-4 text-[var(--color-on-surface-variant)]">
-          Start from scratch, a resume you uploaded, or your public LinkedIn profile — choose a layout while editing.
-        </p>
+      <AppPageShell
+        embedded
+        title="Build a resume that interviews can use"
+        subtitle="Start from scratch, a resume you uploaded, or your public LinkedIn profile — choose a layout while editing."
+      >
         {!landing.profileReady ? (
-          <p className="type-body-md mt-4 text-[var(--color-on-surface-variant)]">
+          <p className="type-body-md -mt-4 mb-8 text-[var(--color-on-surface-variant)]">
             Add your name and email in{' '}
             <a href="/profile" className="text-[var(--color-primary)] underline-offset-2 hover:underline">
               Profile
@@ -34,10 +33,12 @@ export default function BuilderLandingView({ landing, vaultEntryCount }: Builder
             before creating a draft.
           </p>
         ) : null}
-      </header>
 
-      <BuilderEntryCards landing={landing} vaultEntryCount={vaultEntryCount} />
-      <BuilderDraftHub landing={landing} />
+        <div className="space-y-10">
+          <BuilderEntryCards landing={landing} vaultEntryCount={vaultEntryCount} />
+          <BuilderDraftHub landing={landing} />
+        </div>
+      </AppPageShell>
 
       <VaultPickerModal
         open={landing.vaultPickerOpen}
@@ -67,6 +68,6 @@ export default function BuilderLandingView({ landing, vaultEntryCount }: Builder
           }
         }}
       />
-    </div>
+    </>
   );
 }

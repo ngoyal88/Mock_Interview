@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useEffect, useId, useRef } from "react";
+import { createPortal } from "react-dom";
 
 type ModalProps = {
   open: boolean;
@@ -27,6 +28,9 @@ export default function Modal({
     if (!open) return undefined;
 
     previousActiveRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     const focusable = panelRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
     const first = focusable?.[0];
@@ -58,13 +62,14 @@ export default function Modal({
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
       previousActiveRef.current?.focus();
     };
   }, [open, onClose]);
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(2,6,23,0.72)] p-4 backdrop-blur-md"
       role="dialog"
@@ -86,6 +91,7 @@ export default function Modal({
         ) : null}
         <div className={title ? "px-6 pb-6 pt-5" : "p-6"}>{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

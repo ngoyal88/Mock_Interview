@@ -186,6 +186,8 @@ export function useBuilderLanding() {
         title: 'Delete Draft',
         message: `Delete ${label}? This cannot be undone.`,
         destructive: true,
+        confirmLabel: 'Delete',
+        cancelLabel: 'Keep draft',
         onConfirm: async () => {
           try {
             await draftMutations.deleteDraft(draftId);

@@ -2,12 +2,15 @@ import type { ReactNode } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 import Modal from 'shared/components/Modal';
+import ModalActions from 'shared/ui/ModalActions';
 
 type ConfirmDialogOptions = {
   title?: string;
   message: string;
   onConfirm?: () => void | Promise<void>;
   destructive?: boolean;
+  confirmLabel?: string;
+  cancelLabel?: string;
 };
 
 type ConfirmDialogState = {
@@ -16,6 +19,8 @@ type ConfirmDialogState = {
   message: string;
   onConfirm: () => void | Promise<void>;
   destructive: boolean;
+  confirmLabel: string;
+  cancelLabel: string;
 };
 
 type ConfirmDialogContextValue = {
@@ -40,17 +45,31 @@ export function ConfirmDialogProvider({ children }: { children: ReactNode }) {
     message: '',
     onConfirm: NOOP,
     destructive: false,
+    confirmLabel: 'Confirm',
+    cancelLabel: 'Cancel',
   });
 
-  const confirmDialog = useCallback(({ title = 'Confirm', message, onConfirm = NOOP, destructive = false }: ConfirmDialogOptions) => {
-    setState({
-      open: true,
-      title,
+  const confirmDialog = useCallback(
+    ({
+      title = 'Confirm',
       message,
-      onConfirm,
-      destructive,
-    });
-  }, []);
+      onConfirm = NOOP,
+      destructive = false,
+      confirmLabel = destructive ? 'Delete' : 'Confirm',
+      cancelLabel = 'Cancel',
+    }: ConfirmDialogOptions) => {
+      setState({
+        open: true,
+        title,
+        message,
+        onConfirm,
+        destructive,
+        confirmLabel,
+        cancelLabel,
+      });
+    },
+    [],
+  );
 
   const close = useCallback(() => {
     setState((current) => ({ ...current, open: false }));
@@ -74,27 +93,13 @@ export function ConfirmDialogProvider({ children }: { children: ReactNode }) {
       {children}
       <Modal open={state.open} onClose={close} title={state.title}>
         <p className="type-body-md mb-6 text-[var(--color-on-surface-variant)]">{state.message}</p>
-        <div className="flex flex-wrap justify-end gap-3">
-          <button
-            type="button"
-            onClick={close}
-            className="inline-flex items-center justify-center rounded-xl border border-[var(--border-subtle)] bg-[var(--color-surface-container-low)]/70 px-4 py-2.5 text-sm font-semibold text-[var(--color-on-surface)] transition-[border-color,background-color,color] duration-150 hover:border-[var(--color-primary)]/25 hover:bg-[var(--color-surface-container)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-0)]"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleConfirm}
-            className={[
-              'inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-[background-color,box-shadow,opacity] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-0)]',
-              state.destructive
-                ? 'bg-[var(--color-error-container)] text-[var(--color-on-error-container)] hover:opacity-95 focus-visible:ring-[var(--color-error)]'
-                : 'bg-[var(--color-primary)] text-[var(--color-on-primary)] hover:opacity-95 focus-visible:ring-[var(--color-primary)]',
-            ].join(' ')}
-          >
-            Confirm
-          </button>
-        </div>
+        <ModalActions
+          onCancel={close}
+          onConfirm={handleConfirm}
+          cancelLabel={state.cancelLabel}
+          confirmLabel={state.confirmLabel}
+          destructive={state.destructive}
+        />
       </Modal>
     </ConfirmDialogContext.Provider>
   );

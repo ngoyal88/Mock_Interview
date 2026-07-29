@@ -78,7 +78,7 @@ Do **not** create `backend/helpers.py` or dump cross-domain logic into `utils/` 
 | **Interview** | [`routes/interview/`](routes/interview/) | [`services/interview/`](services/interview/) | [`models/interview.py`](models/interview.py); modes SSOT [`modes/registry.py`](services/interview/modes/registry.py); start body SSOT [`modes/start_configs.py`](services/interview/modes/start_configs.py) |
 | **Vault** | [`routes/vault.py`](routes/vault.py) | [`services/vault/`](services/vault/) | [`models/vault.py`](models/vault.py), [`models/resume.py`](models/resume.py) |
 | **JD Fit** | [`routes/jd_fit.py`](routes/jd_fit.py) | [`services/jd_fit/`](services/jd_fit/) | [`jd_fit_models.py`](services/jd_fit/jd_fit_models.py) |
-| **Resume builder** | [`routes/resume_builder.py`](routes/resume_builder.py) | [`services/resume_builder/`](services/resume_builder/) | compile worker separate from public API |
+| **Resume builder** | [`routes/resume_builder.py`](routes/resume_builder.py) | [`services/resume_builder/`](services/resume_builder/) | compile worker separate from public API; LinkedIn import at `linkedin_import/` + `POST /resume-builder/import/linkedin` |
 | **Profile memory (VPM)** | via interview routes | [`services/profile_memory/`](services/profile_memory/) | LiveKit-only pipeline |
 | **Platform** | — | [`services/platform/llm/`](services/platform/llm/) | `get_platform_llm()` |
 | **LiveKit tokens** | [`routes/livekit.py`](routes/livekit.py) | [`services/livekit/token_service.py`](services/livekit/token_service.py) | — |

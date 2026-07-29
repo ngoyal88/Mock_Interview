@@ -1,4 +1,5 @@
 import Modal from 'shared/components/Modal';
+import ModalActions, { modalInputClass } from 'shared/ui/ModalActions';
 import type { BuilderReadinessResult } from '../utils/builderReadiness';
 
 type PublishModalProps = {
@@ -20,9 +21,6 @@ type PublishModalProps = {
   onSetActiveChange: (value: boolean) => void;
   onSubmit: () => void | Promise<void>;
 };
-
-const inputClass =
-  'mt-2 w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-0)] px-3 py-2.5 text-[var(--color-on-surface)] transition-[border-color,box-shadow] duration-150 hover:border-[var(--color-primary)]/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]';
 
 export default function PublishModal(props: PublishModalProps) {
   const totalIssues = props.readiness.blocking.length + props.readiness.warnings.length + props.readiness.info.length;
@@ -174,7 +172,7 @@ export default function PublishModal(props: PublishModalProps) {
                 autoComplete="off"
                 value={props.resumeName}
                 onChange={(event) => props.onResumeNameChange(event.target.value)}
-                className={inputClass}
+                className={modalInputClass}
                 placeholder="Software Engineer Resume…"
               />
             </label>
@@ -186,7 +184,7 @@ export default function PublishModal(props: PublishModalProps) {
                 autoComplete="off"
                 value={props.tags}
                 onChange={(event) => props.onTagsChange(event.target.value)}
-                className={inputClass}
+                className={modalInputClass}
                 placeholder="Backend, India, 2026…"
               />
             </label>
@@ -200,7 +198,7 @@ export default function PublishModal(props: PublishModalProps) {
             rows={4}
             value={props.userNote}
             onChange={(event) => props.onUserNoteChange(event.target.value)}
-            className={inputClass}
+            className={modalInputClass}
             placeholder="What changed in this version…"
           />
         </label>
@@ -215,23 +213,14 @@ export default function PublishModal(props: PublishModalProps) {
           <span>Set this resume as your active Vault resume after publish</span>
         </label>
 
-        <div className="flex justify-end gap-3 pt-2">
-          <button
-            type="button"
-            onClick={props.onClose}
-            className="rounded-xl border border-[var(--border-subtle)] px-4 py-2.5 text-sm text-[var(--cream-1)] transition-[border-color,background-color,box-shadow] duration-150 hover:bg-[var(--bg-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={() => void props.onSubmit()}
-            disabled={props.publishing || !props.canPublish}
-            className="rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-medium text-[var(--color-on-primary)] transition-[background-color,box-shadow] duration-150 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {props.publishing ? 'Publishing…' : 'Publish to Vault'}
-          </button>
-        </div>
+        <ModalActions
+          onCancel={props.onClose}
+          onConfirm={() => void props.onSubmit()}
+          confirmLabel="Publish to Vault"
+          loadingLabel="Publishing…"
+          loading={props.publishing}
+          disabled={!props.canPublish}
+        />
       </div>
     </Modal>
   );

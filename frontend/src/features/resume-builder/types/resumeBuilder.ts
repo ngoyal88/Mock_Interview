@@ -38,7 +38,21 @@ export interface ResumeBuilderDraft {
   target_resume_id?: string | null;
   source_resume_id?: string | null;
   source_version_id?: string | null;
+  source_kind?: 'blank' | 'vault_fork' | 'linkedin_import';
+  source_linkedin_url?: string | null;
   status: 'draft';
+}
+
+export interface LinkedInImportPayload {
+  input: string;
+  template_id?: string;
+}
+
+export interface LinkedInImportResponse {
+  linkedin_url: string;
+  profile: ResumeProfile;
+  draft: ResumeBuilderDraft | null;
+  warnings: string[];
 }
 
 export interface DraftResponse {
@@ -91,6 +105,11 @@ export interface SaveDraftPayload {
   section_layout: BuilderSection[];
   custom_sections: BuilderCustomSection[];
   target_resume_id?: string | null;
+}
+
+export interface DraftPatchPayload {
+  name?: string;
+  template_id?: string;
 }
 
 export interface PublishDraftPayload {

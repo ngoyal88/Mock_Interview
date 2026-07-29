@@ -1,3 +1,5 @@
+import { formFieldClass } from 'shared/ui/ModalActions';
+
 type TargetDetailsFormProps = {
   targetRole: string;
   targetCompany: string;
@@ -27,7 +29,7 @@ export function TargetDetailsForm({
             value={targetRole}
             onChange={(e) => onRoleChange(e.target.value)}
             placeholder="e.g., Senior UX Engineer"
-            className="application-fit-target-input"
+            className={`${formFieldClass} mt-0 min-h-[3rem]`}
           />
         </div>
         <div className="space-y-2">
@@ -40,7 +42,7 @@ export function TargetDetailsForm({
             value={targetCompany}
             onChange={(e) => onCompanyChange(e.target.value)}
             placeholder="e.g., Acme Corp"
-            className="application-fit-target-input"
+            className={`${formFieldClass} mt-0 min-h-[3rem]`}
           />
         </div>
       </div>

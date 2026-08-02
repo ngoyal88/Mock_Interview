@@ -1,12 +1,15 @@
 """Load resume profile snapshot from Vault for JD Fit compute."""
-
 from __future__ import annotations
 
 from typing import Any, Dict, Optional, Tuple
 
-from fastapi import HTTPException
-
-from services.vault.vault_service import get_vault_entry, get_vault_meta, get_version_by_id
+from services.vault.vault_service import (
+    get_vault_entry,
+    get_vault_meta,
+    get_version_by_id,
+    get_version_for_resume,
+)
+from utils.domain_errors import DomainError
 
 
 async def load_resume_snapshot(
@@ -34,18 +37,19 @@ async def load_resume_snapshot(
     if not selected_version_id:
         return {}, selected_resume_id, None
 
-    version = await get_version_by_id(uid, selected_version_id)
+    if selected_resume_id:
+        version = await get_version_for_resume(uid, selected_resume_id, selected_version_id)
+    else:
+        version = await get_version_by_id(uid, selected_version_id)
     if not version:
         return {}, selected_resume_id, None
 
     version_resume_id = version.get("resume_id")
     if selected_resume_id and version_resume_id and selected_resume_id != version_resume_id:
-        raise HTTPException(
-            409,
-            detail={
-                "code": "version_resume_mismatch",
-                "message": "version_id does not belong to resume_id",
-            },
+        raise DomainError(
+            "version_resume_mismatch",
+            "version_id does not belong to resume_id",
+            context={"http_status": 409, "structured": True},
         )
 
     resume_profile = version.get("profile_snapshot")

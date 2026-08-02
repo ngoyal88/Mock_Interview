@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException
 
 from services.interview.interview_complete_service import complete_interview_session
 from utils.auth import verify_firebase_token
+from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error
 from utils.rate_limit import check_rate_limit
 from . import SESSION_TTL, interview_service, logger, router
@@ -21,7 +22,7 @@ async def complete_interview(
             interview_service=interview_service,
             session_ttl=SESSION_TTL,
         )
-    except HTTPException:
+    except DomainError:
         raise
     except Exception as e:
         raise_internal_error(logger, e, message="Failed to complete interview")

@@ -2,8 +2,8 @@
 import uuid
 from typing import Any, Dict, Optional, Union
 
-from fastapi import HTTPException
 from firebase_admin import firestore
+from utils.domain_errors import DomainError
 
 from firebase_config import db
 from models.interview import DifficultyLevel, InterviewSession, InterviewType
@@ -21,6 +21,7 @@ from services.interview.modes.start_configs import (
     StartRoleTargetedRequest,
 )
 from services.interview.interview_service import InterviewService
+from utils.async_io import run_in_thread
 from utils.logger import get_logger
 from utils.redis_client import create_session
 
@@ -119,14 +120,17 @@ async def start_interview_session(
                 target_company = clean_optional_text(stored_company, max_len=120)
 
     if not is_startable_interview_type(interview_type):
-        raise HTTPException(
-            400,
+        raise DomainError(
+            "mode_disabled",
             f"{interview_type.value} mode is currently disabled.",
         )
 
     caps = get_mode_capabilities(interview_type)
     if caps.requires_resume and not resume_data:
-        raise HTTPException(400, "Upload an active resume in Vault before starting this interview mode.")
+        raise DomainError(
+            "resume_required",
+            "Upload an active resume in Vault before starting this interview mode.",
+        )
 
     mode_config = request.config
     if isinstance(request, StartRoleTargetedRequest) and snapshot_data:
@@ -212,33 +216,36 @@ async def start_interview_session(
     )
 
     try:
-        db.collection("interviews").document(session_id).set(
-            {
-                "session_id": session_id,
-                "user_id": uid,
-                "candidate_name": candidate_name,
-                "years_experience": request.years_experience,
-                "interview_type": interview_type.value,
-                "difficulty": request.difficulty.value,
-                "custom_role": None,
-                "target_company": target_company,
-                "target_role": target_role,
-                "job_description": job_description,
-                "interview_focus": interview_focus if interview_type == InterviewType.ROLE_TARGETED else None,
-                "track": pair_track if interview_type == InterviewType.PAIR_PROGRAMMING else None,
-                "session_focus": session_focus if interview_type == InterviewType.PAIR_PROGRAMMING else None,
-                "jd_fit_context": jd_fit_context,
-                "resume_probe_context": resume_probe_context,
-                "questions": seeded_questions,
-                "current_question_index": 0,
-                "status": "active",
-                "started_at": firestore.SERVER_TIMESTAMP,
-                "created_at": firestore.SERVER_TIMESTAMP,
-                "last_updated": firestore.SERVER_TIMESTAMP,
-                "questions_answered": 0,
-                "code_problems_attempted": 0,
-            }
-        )
+        seed_payload = {
+            "session_id": session_id,
+            "user_id": uid,
+            "candidate_name": candidate_name,
+            "years_experience": request.years_experience,
+            "interview_type": interview_type.value,
+            "difficulty": request.difficulty.value,
+            "custom_role": None,
+            "target_company": target_company,
+            "target_role": target_role,
+            "job_description": job_description,
+            "interview_focus": interview_focus if interview_type == InterviewType.ROLE_TARGETED else None,
+            "track": pair_track if interview_type == InterviewType.PAIR_PROGRAMMING else None,
+            "session_focus": session_focus if interview_type == InterviewType.PAIR_PROGRAMMING else None,
+            "jd_fit_context": jd_fit_context,
+            "resume_probe_context": resume_probe_context,
+            "questions": seeded_questions,
+            "current_question_index": 0,
+            "status": "active",
+            "started_at": firestore.SERVER_TIMESTAMP,
+            "created_at": firestore.SERVER_TIMESTAMP,
+            "last_updated": firestore.SERVER_TIMESTAMP,
+            "questions_answered": 0,
+            "code_problems_attempted": 0,
+        }
+
+        def _write() -> None:
+            db.collection("interviews").document(session_id).set(seed_payload)
+
+        await run_in_thread(_write)
     except Exception as e:
         logger.warning("Failed to persist interview start to Firestore: %s", e)
 

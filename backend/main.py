@@ -13,14 +13,13 @@ from routes.websocket_routes import router as websocket_fallback_router
 from routes.interview import router as interview_router
 from services.interview import InterviewService
 from utils.cors import apply_cors_headers
+from utils.domain_errors import DomainError
+from utils.domain_error_registry import resolve_domain_error
 from utils.http_errors import client_error_detail, json_error_content
 from utils.logger import setup_logging, get_logger
 from utils.redis_client import close_redis, test_connection
 
-try:
-    from livekit.agents import AgentServer
-except Exception:
-    AgentServer = None  # type: ignore[assignment, misc]
+from livekit.agents import AgentServer
 
 setup_logging()
 log = get_logger(__name__)
@@ -181,6 +180,12 @@ app.add_middleware(
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
     return _cors_json_response(request, exc.status_code, exc.detail)
+
+
+@app.exception_handler(DomainError)
+async def domain_error_handler(request: Request, exc: DomainError) -> JSONResponse:
+    http_exc = resolve_domain_error(exc)
+    return _cors_json_response(request, http_exc.status_code, http_exc.detail)
 
 
 @app.exception_handler(Exception)

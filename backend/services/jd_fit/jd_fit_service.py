@@ -6,8 +6,6 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional, Tuple
 
-from fastapi import HTTPException
-
 from config import get_settings
 from services.interview.contracts.mode_contexts import JdFitContext
 from services.interview.jd_context_service import JDContextService
@@ -51,6 +49,7 @@ from services.jd_fit.jd_fit_weights import (
 from services.jd_fit.narrative import build_why_this_score
 from services.jd_fit.profile_loader import load_resume_snapshot
 from services.jd_fit.score_derivation import fit_band_from_score
+from utils.domain_errors import DomainError
 from services.jd_fit.typed_requirement_alignment import (
     apply_requirement_soft_cap,
     demote_skills_from_preferred_section,
@@ -257,29 +256,26 @@ class JDFitService:
     ) -> ComputeResponse:
         settings = get_settings()
         if not settings.jd_fit_enabled:
-            raise HTTPException(503, "Application Fit is temporarily unavailable")
+            raise DomainError("jd_fit_disabled", "Application Fit is temporarily unavailable")
 
         role = (target_role or "").strip()
         if not role:
-            raise HTTPException(400, detail={"code": "target_role_required", "message": "target_role is required"})
+            raise DomainError("target_role_required", "target_role is required")
 
         jd_text = (job_description or "").strip()
         if len(jd_text) < MIN_JD_CHARS:
-            raise HTTPException(
-                400,
-                detail={"code": "jd_too_short", "message": f"Job description must be at least {MIN_JD_CHARS} characters"},
+            raise DomainError(
+                "jd_too_short",
+                f"Job description must be at least {MIN_JD_CHARS} characters",
             )
 
         profile, selected_resume_id, selected_version_id = await load_resume_snapshot(
             uid, resume_id=resume_id, version_id=version_id
         )
         if not profile:
-            raise HTTPException(
-                422,
-                detail={
-                    "code": "profile_insufficient",
-                    "message": "Upload a resume to Vault to analyze application fit",
-                },
+            raise DomainError(
+                "profile_insufficient",
+                "Upload a resume to Vault to analyze application fit",
             )
 
         started = time.perf_counter()
@@ -539,7 +535,7 @@ class JDFitService:
     ) -> HistoryResponse:
         role = (target_role or "").strip()
         if not role:
-            raise HTTPException(400, detail={"code": "target_role_required", "message": "target_role is required"})
+            raise DomainError("target_role_required", "target_role is required")
         jd_digest = jd_hash((job_description or "").strip()) if (job_description or "").strip() else None
         entries = await list_history(uid, role, jd_digest, limit)
         return HistoryResponse(history=entries)
@@ -547,7 +543,7 @@ class JDFitService:
     async def get_snapshot_response(self, uid: str, snapshot_id: str) -> ComputeResponse:
         data = await get_snapshot(uid, snapshot_id)
         if not data:
-            raise HTTPException(404, detail={"code": "snapshot_not_found", "message": "Snapshot not found"})
+            raise DomainError("snapshot_not_found", "Snapshot not found")
         data.pop("created_at", None)
         data.pop("target_company", None)
         data.pop("target_role", None)

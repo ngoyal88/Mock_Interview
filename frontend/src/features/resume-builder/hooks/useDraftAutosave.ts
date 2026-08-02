@@ -111,7 +111,7 @@ export function useDraftAutosave({ signal, dirty, enabled, onSave }: UseDraftAut
     [],
   );
 
-  /** Persist any pending change immediately (used before preview/latex/publish). */
+  /** Persist any pending change immediately (used before preview/publish). */
   const flushAutosave = useCallback(async (): Promise<boolean> => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);

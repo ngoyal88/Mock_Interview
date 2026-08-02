@@ -13,7 +13,7 @@ class CompileRequestError(ValueError):
     pass
 
 
-async def compile_preview(tex: str) -> tuple[bytes, int]:
+async def compile_typst_bundle(files_b64: dict[str, str], *, entry: str = "template.typ") -> tuple[bytes, int]:
     settings = get_settings()
     try:
         async with httpx.AsyncClient(timeout=settings.resume_builder_compile_timeout_s + 5) as client:
@@ -21,7 +21,8 @@ async def compile_preview(tex: str) -> tuple[bytes, int]:
                 f"{settings.compile_service_url.rstrip('/')}/internal/compile",
                 headers={"X-Internal-Token": settings.compile_service_token},
                 json={
-                    "tex": tex,
+                    "files": files_b64,
+                    "entry": entry,
                     "timeout_s": settings.resume_builder_compile_timeout_s,
                     "max_pdf_bytes": settings.resume_builder_max_pdf_bytes,
                 },
@@ -54,6 +55,9 @@ async def compile_service_health() -> bool:
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             response = await client.get(f"{settings.compile_service_url.rstrip('/')}/health")
-        return response.status_code == 200
+        if response.status_code != 200:
+            return False
+        payload = response.json()
+        return payload.get("typst_available") is not False
     except Exception:
         return False

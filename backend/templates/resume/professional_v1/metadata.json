@@ -7,6 +7,8 @@
   "tags": ["Single column", "Compact", "Tech"],
   "preview_asset": "template-hashibar.webp",
   "supports_flexible_sections": true,
+  "supports_style_spec": true,
+  "ats_tier": "standard",
   "sections": {
     "projects": {
       "fields": ["name", "description", "start_date", "end_date"]

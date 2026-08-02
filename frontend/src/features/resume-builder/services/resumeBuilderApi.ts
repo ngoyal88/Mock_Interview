@@ -6,7 +6,6 @@ import type {
   DraftListResponse,
   DraftPatchPayload,
   DraftResponse,
-  LatexResponse,
   LinkedInImportPayload,
   LinkedInImportResponse,
   PublishDraftPayload,
@@ -155,15 +154,7 @@ const deleteDraft = async (draftId: string): Promise<void> => {
   }
 };
 
-const getLatex = async (draftId: string): Promise<LatexResponse> => {
-  const response = await fetch(`${API_URL}/resume-builder/drafts/${encodeURIComponent(draftId)}/latex`, {
-    method: 'GET',
-    headers: await getAuthHeaders(),
-  });
-  return parseJsonResponse<LatexResponse>(response, 'Failed to load LaTeX');
-};
-
-const previewDraft = async (draftId: string): Promise<{ blob: Blob; pageCount: number }> => {
+const previewDraft = async (draftId: string): Promise<{ blob: Blob; pageCount: number; renderWarnings: string[] }> => {
   const response = await fetch(`${API_URL}/resume-builder/drafts/${encodeURIComponent(draftId)}/preview`, {
     method: 'POST',
     headers: await getAuthHeaders(),
@@ -172,7 +163,23 @@ const previewDraft = async (draftId: string): Promise<{ blob: Blob; pageCount: n
     throw new Error(await getErrorMessage(response, 'Failed to generate preview'));
   }
   const pageCount = Number(response.headers.get('X-Page-Count') || '0');
-  return { blob: await response.blob(), pageCount: Number.isNaN(pageCount) ? 0 : pageCount };
+  const warningsHeader = response.headers.get('X-Render-Warnings');
+  let renderWarnings: string[] = [];
+  if (warningsHeader) {
+    try {
+      const parsed = JSON.parse(warningsHeader) as unknown;
+      if (Array.isArray(parsed)) {
+        renderWarnings = parsed.filter((item): item is string => typeof item === 'string');
+      }
+    } catch {
+      renderWarnings = [];
+    }
+  }
+  return {
+    blob: await response.blob(),
+    pageCount: Number.isNaN(pageCount) ? 0 : pageCount,
+    renderWarnings,
+  };
 };
 
 const publishDraft = async (draftId: string, payload: PublishDraftPayload): Promise<PublishDraftResponse> => {
@@ -215,7 +222,6 @@ export const resumeBuilderApi = {
   patchDraft,
   duplicateDraft,
   deleteDraft,
-  getLatex,
   previewDraft,
   publishDraft,
   importLinkedInProfile,

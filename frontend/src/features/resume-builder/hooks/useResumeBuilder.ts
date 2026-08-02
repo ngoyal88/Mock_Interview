@@ -41,6 +41,7 @@ import type {
   SaveDraftPayload,
   TemplateMetadata,
 } from '../types/resumeBuilder';
+import { DEFAULT_STYLE_SPEC } from '../types/styleSpec';
 
 const BUILDER_ENABLED = import.meta.env.VITE_RESUME_BUILDER_ENABLED === 'true';
 const DEFAULT_TEMPLATE_ID = 'professional_v1';
@@ -56,9 +57,15 @@ const buildDraftFingerprint = (draft: ResumeBuilderDraft | null): string =>
           section_layout: draft.section_layout,
           custom_sections: draft.custom_sections,
           target_resume_id: draft.target_resume_id ?? null,
+          style_spec: draft.style_spec ?? DEFAULT_STYLE_SPEC,
         }
       : null,
   );
+
+const normalizeDraft = (draft: ResumeBuilderDraft): ResumeBuilderDraft => ({
+  ...draft,
+  style_spec: { ...DEFAULT_STYLE_SPEC, ...(draft.style_spec ?? {}) },
+});
 
 function cloneProfile(profile: ResumeProfile): ResumeProfile {
   return JSON.parse(JSON.stringify(profile)) as ResumeProfile;
@@ -243,12 +250,10 @@ export function useResumeBuilder() {
   const [previewsLoading, setPreviewsLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [previewing, setPreviewing] = useState(false);
-  const [latexLoading, setLatexLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewStatus, setPreviewStatus] = useState<'idle' | 'ready' | 'failed'>('idle');
   const [pageCount, setPageCount] = useState(0);
-  const [latex, setLatex] = useState('');
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
   const [previewStale, setPreviewStale] = useState(false);
   const [savedFingerprint, setSavedFingerprint] = useState<string>(buildDraftFingerprint(null));
@@ -325,25 +330,28 @@ export function useResumeBuilder() {
   const draftRef = useRef<ResumeBuilderDraft | null>(null);
   draftRef.current = draft;
 
+  const previewGenRef = useRef(0);
+
   const applyDraftState = useCallback(
     (
       nextDraft: ResumeBuilderDraft,
       { replaceRoute = true, preserveUi = false }: { replaceRoute?: boolean; preserveUi?: boolean } = {},
     ) => {
-      setDraft(nextDraft);
-      setSavedFingerprint(buildDraftFingerprint(nextDraft));
+      const normalized = normalizeDraft(nextDraft);
+      setDraft(normalized);
+      setSavedFingerprint(buildDraftFingerprint(normalized));
       setPublishServerIssue(null);
       if (!preserveUi) {
         setSelectedSectionId(null);
-        setPublishMode(nextDraft.target_resume_id || nextDraft.source_resume_id ? 'existing' : 'new');
-        setPublishResumeName(buildDefaultResumeName(nextDraft.profile));
+        setPublishMode(normalized.target_resume_id || normalized.source_resume_id ? 'existing' : 'new');
+        setPublishResumeName(buildDefaultResumeName(normalized.profile));
         setPublishUserNote('');
         setPublishTags('');
         setPublishSetActive(true);
       }
       if (replaceRoute && mountedRef.current) {
         const jdFitSnapshotId = searchParams.get('jd_fit_snapshot_id')?.trim();
-        const path = `/resume-vault/builder/${nextDraft.id}`;
+        const path = `/resume-vault/builder/${normalized.id}`;
         navigate(
           jdFitSnapshotId
             ? `${path}?jd_fit_snapshot_id=${encodeURIComponent(jdFitSnapshotId)}`
@@ -373,6 +381,9 @@ export function useResumeBuilder() {
       setDraft((prev) => {
         if (!prev) return prev;
         const next = updater(prev);
+        if (next !== prev) {
+          setPreviewStale(true);
+        }
         return next === prev ? prev : next;
       });
     },
@@ -420,9 +431,6 @@ export function useResumeBuilder() {
       }
       historyRef.current.clear();
       applyDraftStateRef.current(nextDraft, { replaceRoute: false });
-      const latexResponse = await resumeBuilderApi.getLatex(targetDraftId);
-      if (!mountedRef.current) return;
-      setLatex(latexResponse.tex);
       setPreviewStatus('idle');
     } finally {
       if (mountedRef.current) {
@@ -450,7 +458,6 @@ export function useResumeBuilder() {
       setDraft(null);
       setSavedFingerprint(buildDraftFingerprint(null));
       cleanupPreviewUrl();
-      setLatex('');
       setPreviewStatus('idle');
       setPreviewStale(false);
       setPageCount(0);
@@ -959,6 +966,7 @@ export function useResumeBuilder() {
           section_layout: current.section_layout,
           custom_sections: current.custom_sections,
           target_resume_id: current.target_resume_id ?? null,
+          style_spec: current.style_spec ?? DEFAULT_STYLE_SPEC,
         });
         // Do NOT replace the live draft with the server's sanitized copy: it strips
         // in-progress entries (empty skill groups, half-typed bullets/highlights) and,
@@ -1007,6 +1015,34 @@ export function useResumeBuilder() {
 
   const saveState: SaveState = saving || autosaveState === 'saving' ? 'saving' : autosaveState;
 
+  const refreshPreview = useCallback(async () => {
+    if (!draft) return;
+    const generation = ++previewGenRef.current;
+    try {
+      setPreviewing(true);
+      const saved = await flushAutosave();
+      if (!saved) return;
+      const response = await resumeBuilderApi.previewDraft(draft.id);
+      if (generation !== previewGenRef.current) return;
+      cleanupPreviewUrl();
+      setPreviewUrl(URL.createObjectURL(response.blob));
+      setPageCount(response.pageCount);
+      setPreviewStatus('ready');
+      setPreviewStale(false);
+      if (response.renderWarnings.length > 0) {
+        toast(response.renderWarnings[0], { icon: 'ℹ️' });
+      }
+      announce(`Preview refreshed. ${response.pageCount || 0} page${response.pageCount === 1 ? '' : 's'}.`);
+    } catch (err) {
+      setPreviewStatus('failed');
+      toast.error(err instanceof Error ? err.message : 'Failed to preview draft');
+    } finally {
+      if (generation === previewGenRef.current) {
+        setPreviewing(false);
+      }
+    }
+  }, [announce, cleanupPreviewUrl, draft, flushAutosave]);
+
   const setTemplateId = useCallback(
     async (templateId: string) => {
       if (!draft || draft.template_id === templateId) return;
@@ -1015,27 +1051,73 @@ export function useResumeBuilder() {
 
       try {
         setSaving(true);
+        cancelAutosave();
         const saved = await flushAutosave();
         if (!saved) return;
         const response = await draftMutations.patchDraft(draft.id, { template_id: templateId });
-        setDraft(response.draft);
-        setSavedFingerprint(buildDraftFingerprint(response.draft));
-        setPreviewStale(true);
+        const current = draftRef.current;
+        if (!current) return;
+        const merged = normalizeDraft({
+          ...current,
+          template_id: response.draft.template_id,
+          template_version: response.draft.template_version,
+        });
+        draftRef.current = merged;
+        setDraft(merged);
+        setSavedFingerprint(buildDraftFingerprint(merged));
         setPreviewStatus('idle');
-        const warnings = computeTemplateFieldWarnings(response.draft.profile, nextTemplate);
+        const warnings = computeTemplateFieldWarnings(merged.profile, nextTemplate);
         if (warnings.length) {
           toast(warnings[0], { icon: 'ℹ️' });
-        } else {
-          toast.success('Template updated — refresh preview to see changes.');
         }
+        await refreshPreview();
       } catch (err) {
         toast.error(err instanceof Error ? err.message : 'Failed to change template');
       } finally {
         setSaving(false);
       }
     },
-    [draft, flushAutosave, templates],
+    [cancelAutosave, draft, flushAutosave, refreshPreview, templates],
   );
+
+  const patchStyleSpec = useCallback(
+    async (patch: Partial<ResumeBuilderDraft['style_spec']>) => {
+      const current = draftRef.current;
+      if (!current) return;
+      const priorStyle = current.style_spec ?? DEFAULT_STYLE_SPEC;
+      historyRef.current.recordBeforeChange(captureDraftSnapshot(current), 'immediate');
+      const nextStyle = { ...priorStyle, ...patch };
+      const optimistic = normalizeDraft({ ...current, style_spec: nextStyle });
+      draftRef.current = optimistic;
+      setDraft(optimistic);
+      try {
+        setSaving(true);
+        cancelAutosave();
+        const saved = await flushAutosave();
+        if (!saved) {
+          const reverted = normalizeDraft({ ...current, style_spec: priorStyle });
+          draftRef.current = reverted;
+          setDraft(reverted);
+          return;
+        }
+        await draftMutations.patchDraft(current.id, { style_spec: nextStyle });
+        setSavedFingerprint(buildDraftFingerprint(optimistic));
+        await refreshPreview();
+      } catch (err) {
+        const reverted = normalizeDraft({ ...current, style_spec: priorStyle });
+        draftRef.current = reverted;
+        setDraft(reverted);
+        toast.error(err instanceof Error ? err.message : 'Failed to update style');
+      } finally {
+        setSaving(false);
+      }
+    },
+    [cancelAutosave, draftMutations, flushAutosave, refreshPreview],
+  );
+
+  const resetStyleSpec = useCallback(() => {
+    void patchStyleSpec(DEFAULT_STYLE_SPEC);
+  }, [patchStyleSpec]);
 
   const saveCurrentDraft = useCallback(
     async (draftName?: string) => {
@@ -1065,45 +1147,6 @@ export function useResumeBuilder() {
     }
   }, [saveCurrentDraft, saveDraftName]);
 
-  const refreshLatex = useCallback(async () => {
-    if (!draft) return;
-    try {
-      setLatexLoading(true);
-      const saved = await flushAutosave();
-      if (!saved) return;
-      const response = await resumeBuilderApi.getLatex(draft.id);
-      setLatex(response.tex);
-      announce('LaTeX refreshed.');
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to load LaTeX');
-    } finally {
-      setLatexLoading(false);
-    }
-  }, [announce, draft, flushAutosave]);
-
-  const refreshPreview = useCallback(async () => {
-    if (!draft) return;
-    try {
-      setPreviewing(true);
-      const saved = await flushAutosave();
-      if (!saved) return;
-      const response = await resumeBuilderApi.previewDraft(draft.id);
-      cleanupPreviewUrl();
-      setPreviewUrl(URL.createObjectURL(response.blob));
-      setPageCount(response.pageCount);
-      setPreviewStatus('ready');
-      setPreviewStale(false);
-      const latexResponse = await resumeBuilderApi.getLatex(draft.id);
-      setLatex(latexResponse.tex);
-      announce(`Preview refreshed. ${response.pageCount || 0} page${response.pageCount === 1 ? '' : 's'}.`);
-    } catch (err) {
-      setPreviewStatus('failed');
-      toast.error(err instanceof Error ? err.message : 'Failed to preview draft');
-    } finally {
-      setPreviewing(false);
-    }
-  }, [announce, cleanupPreviewUrl, draft, flushAutosave]);
-
   const readiness = useMemo(() => {
     const base = computeBuilderReadiness({ draft, saveState, previewStatus, pageCount });
     if (!publishServerIssue) return base;
@@ -1116,6 +1159,7 @@ export function useResumeBuilder() {
   }, [draft, pageCount, previewStatus, publishServerIssue, saveState]);
 
   const canPublish = readiness.blocking.length === 0;
+  const compileUnavailable = Boolean(health?.enabled && health.compile_ok === false);
   const overflowWarnings = useMemo(
     () => readiness.warnings.filter((issue) => issue.category === 'layout').map((issue) => issue.message),
     [readiness.warnings],
@@ -1155,6 +1199,9 @@ export function useResumeBuilder() {
       setPublishServerIssue(null);
       const saved = await flushAutosave();
       if (!saved) return null;
+      if (previewStale || previewStatus !== 'ready') {
+        await refreshPreview();
+      }
       const response = await draftMutations.publishDraft(draft.id, {
         user_note: publishUserNote.trim(),
         target_resume_id: targetResumeId,
@@ -1167,7 +1214,6 @@ export function useResumeBuilder() {
       setDraft(null);
       setSavedFingerprint(buildDraftFingerprint(null));
       setPreviewStatus('idle');
-      setLatex('');
       setPageCount(0);
       setPublishOpen(false);
       announce('Resume published to Vault.');
@@ -1193,6 +1239,9 @@ export function useResumeBuilder() {
     draft,
     flushAutosave,
     navigate,
+    previewStale,
+    previewStatus,
+    refreshPreview,
     publishMode,
     publishResumeName,
     publishSetActive,
@@ -1207,11 +1256,26 @@ export function useResumeBuilder() {
     historyRef.current.pauseRecording();
     const snapshot = historyRef.current.undo(captureDraftSnapshot(current));
     if (snapshot) {
+      const styleChanged =
+        JSON.stringify(current.style_spec ?? DEFAULT_STYLE_SPEC) !==
+        JSON.stringify(snapshot.style_spec ?? DEFAULT_STYLE_SPEC);
       updateDraft((draftState) => applyDraftSnapshot(draftState, snapshot), { history: 'skip' });
       announce('Undo.');
+      if (styleChanged) {
+        void (async () => {
+          try {
+            await draftMutations.patchDraft(current.id, {
+              style_spec: snapshot.style_spec ?? DEFAULT_STYLE_SPEC,
+            });
+            await refreshPreview();
+          } catch (err) {
+            toast.error(err instanceof Error ? err.message : 'Failed to sync style after undo');
+          }
+        })();
+      }
     }
     historyRef.current.resumeRecording();
-  }, [announce, updateDraft]);
+  }, [announce, draftMutations, refreshPreview, updateDraft]);
 
   const redoDraft = useCallback(() => {
     const current = draftRef.current;
@@ -1219,17 +1283,37 @@ export function useResumeBuilder() {
     historyRef.current.pauseRecording();
     const snapshot = historyRef.current.redo(captureDraftSnapshot(current));
     if (snapshot) {
+      const styleChanged =
+        JSON.stringify(current.style_spec ?? DEFAULT_STYLE_SPEC) !==
+        JSON.stringify(snapshot.style_spec ?? DEFAULT_STYLE_SPEC);
       updateDraft((draftState) => applyDraftSnapshot(draftState, snapshot), { history: 'skip' });
       announce('Redo.');
+      if (styleChanged) {
+        void (async () => {
+          try {
+            await draftMutations.patchDraft(current.id, {
+              style_spec: snapshot.style_spec ?? DEFAULT_STYLE_SPEC,
+            });
+            await refreshPreview();
+          } catch (err) {
+            toast.error(err instanceof Error ? err.message : 'Failed to sync style after redo');
+          }
+        })();
+      }
     }
     historyRef.current.resumeRecording();
-  }, [announce, updateDraft]);
+  }, [announce, draftMutations, refreshPreview, updateDraft]);
 
   useEffect(() => {
     if (!draft || workspaceLoading) return undefined;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       const modifier = event.metaKey || event.ctrlKey;
+      if (modifier && event.key === 'Enter') {
+        event.preventDefault();
+        void refreshPreview();
+        return;
+      }
       if (!modifier) return;
 
       if (event.key === 'z' && !event.shiftKey) {
@@ -1246,7 +1330,7 @@ export function useResumeBuilder() {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [draft, redoDraft, undoDraft, workspaceLoading]);
+  }, [draft, redoDraft, refreshPreview, undoDraft, workspaceLoading]);
 
   const deleteCurrentDraft = useCallback(async () => {
     if (!draft) return;
@@ -1264,7 +1348,6 @@ export function useResumeBuilder() {
           setDraft(null);
           setSavedFingerprint(buildDraftFingerprint(null));
           setPreviewStatus('idle');
-          setLatex('');
           setPageCount(0);
           announce('Draft deleted.');
           navigate('/resume-vault/builder', { replace: true });
@@ -1291,7 +1374,6 @@ export function useResumeBuilder() {
     loading: catalogLoading || workspaceLoading,
     saving,
     previewing,
-    latexLoading,
     publishing,
     error,
     templates,
@@ -1303,11 +1385,11 @@ export function useResumeBuilder() {
     previewStatus,
     previewStale,
     pageCount,
-    latex,
     dirty,
     saveState,
     readiness,
     canPublish,
+    compileUnavailable,
     statusMessage,
     overflowWarnings,
     selectedSectionId,
@@ -1370,7 +1452,8 @@ export function useResumeBuilder() {
     closeSaveDraftModal,
     confirmSaveDraft,
     refreshPreview,
-    refreshLatex,
+    patchStyleSpec,
+    resetStyleSpec,
     openPublishModal,
     closePublishModal,
     publishCurrentDraft,

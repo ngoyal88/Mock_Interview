@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.responses import FileResponse
 
@@ -7,7 +9,6 @@ from config import get_settings
 from services.resume_builder.compile_client import (
     CompileRequestError,
     CompileServiceUnavailableError,
-    compile_preview,
     compile_service_health,
 )
 from services.resume_builder.draft_store import (
@@ -20,14 +21,12 @@ from services.resume_builder.draft_store import (
     save_draft,
 )
 from services.resume_builder.models import (
-    BuilderValidationError,
     CreateDraftRequest,
     DraftListResponse,
     DraftPatchRequest,
     DraftResponse,
     DraftUpdateRequest,
     HealthResponse,
-    LatexResponse,
     LinkedInImportRequest,
     LinkedInImportResponse,
     PublishDraftRequest,
@@ -36,13 +35,13 @@ from services.resume_builder.models import (
     validate_draft_name,
     validate_identity_fields,
 )
-from services.resume_builder.linkedin_import.errors import LinkedInImportError
 from services.resume_builder.linkedin_import.service import import_linkedin_to_draft
 from services.resume_builder.publish_service import publish_draft
+from services.resume_builder.render_service import render_draft_pdf
 from services.resume_builder.template_catalog import get_template, list_templates, template_preview_file
-from services.resume_builder.template_renderer import render_template
 from services.vault.vault_service import get_vault_entry, get_version_by_id
 from utils.auth import verify_firebase_token
+from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error, raise_service_error
 from utils.logger import get_logger
 from utils.rate_limit import check_rate_limit
@@ -100,8 +99,8 @@ async def resume_builder_import_linkedin(
     await check_rate_limit(uid, "resume_builder_linkedin_import", limit=10, window_seconds=3600)
     try:
         return await import_linkedin_to_draft(uid, request)
-    except LinkedInImportError as exc:
-        raise HTTPException(status_code=exc.status_code, detail=exc.as_detail()) from exc
+    except DomainError:
+        raise
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except HTTPException:
@@ -165,8 +164,8 @@ async def resume_builder_create_draft(
         return DraftResponse(draft=draft)
     except HTTPException:
         raise
-    except BuilderValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.as_detail()) from exc
+    except DomainError:
+        raise
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except Exception as exc:
@@ -206,8 +205,8 @@ async def resume_builder_save_draft(
             request.model_copy(update={"name": draft_name}),
         )
         return DraftResponse(draft=draft)
-    except BuilderValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.as_detail()) from exc
+    except DomainError:
+        raise
     except ValueError as exc:
         if str(exc) == "draft_not_found":
             raise HTTPException(status_code=404, detail="Draft not found") from exc
@@ -241,8 +240,8 @@ async def resume_builder_patch_draft(
             template_version=template_version,
         )
         return DraftResponse(draft=draft)
-    except BuilderValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.as_detail()) from exc
+    except DomainError:
+        raise
     except ValueError as exc:
         if str(exc) == "draft_not_found":
             raise HTTPException(status_code=404, detail="Draft not found") from exc
@@ -279,23 +278,6 @@ async def resume_builder_delete_draft(draft_id: str, uid: str = Depends(verify_f
     return Response(status_code=204)
 
 
-@router.get("/drafts/{draft_id}/latex", response_model=LatexResponse)
-async def resume_builder_get_latex(draft_id: str, uid: str = Depends(verify_firebase_token)) -> LatexResponse:
-    _ensure_enabled()
-    draft = await get_draft(uid, draft_id)
-    if not draft:
-        raise HTTPException(status_code=404, detail="Draft not found")
-    try:
-        tex = render_template(draft.template_id, draft)
-        return LatexResponse(tex=tex)
-    except BuilderValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.as_detail()) from exc
-    except ValueError as exc:
-        raise HTTPException(status_code=422, detail=str(exc)) from exc
-    except Exception as exc:
-        raise_internal_error(log, exc, message="Failed to render LaTeX")
-
-
 @router.post("/drafts/{draft_id}/preview")
 async def resume_builder_preview(draft_id: str, uid: str = Depends(verify_firebase_token)) -> Response:
     _ensure_enabled()
@@ -305,15 +287,21 @@ async def resume_builder_preview(draft_id: str, uid: str = Depends(verify_fireba
         raise HTTPException(status_code=404, detail="Draft not found")
     try:
         validate_identity_fields(draft.profile)
-        tex = render_template(draft.template_id, draft)
-        pdf_bytes, page_count = await compile_preview(tex)
+        pdf_bytes, page_count, render_hash, payload = await render_draft_pdf(draft)
+        warnings = payload.get("document", {}).get("warnings") or []
+        headers = {
+            "X-Page-Count": str(page_count),
+            "X-Render-Hash": render_hash,
+        }
+        if warnings:
+            headers["X-Render-Warnings"] = json.dumps(warnings)
         return Response(
             content=pdf_bytes,
             media_type="application/pdf",
-            headers={"X-Page-Count": str(page_count)},
+            headers=headers,
         )
-    except BuilderValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.as_detail()) from exc
+    except DomainError:
+        raise
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except CompileRequestError as exc:
@@ -340,8 +328,8 @@ async def resume_builder_publish(
     await check_rate_limit(uid, "resume_builder_publish", limit=10, window_seconds=60)
     try:
         return await publish_draft(uid, draft_id, request)
-    except BuilderValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.as_detail()) from exc
+    except DomainError:
+        raise
     except ValueError as exc:
         message = str(exc)
         if message == "draft_not_found":

@@ -89,7 +89,7 @@ export default function ResumeBuilderPage() {
         onRedo={builder.redoDraft}
         onSaveDraft={builder.openSaveDraftModal}
         onRefreshPreview={builder.refreshPreview}
-        onRefreshLatex={builder.refreshLatex}
+        compileUnavailable={builder.compileUnavailable}
         onOpenPublish={builder.openPublishModal}
         onDeleteDraft={builder.deleteCurrentDraft}
         onOpenTemplateTab={() => setRequestedEditorTab('template')}
@@ -117,10 +117,18 @@ export default function ResumeBuilderPage() {
         </section>
       ) : null}
 
-      {builder.previewStale ? (
+      {builder.previewStale && builder.previewStatus === 'ready' ? (
         <section className="rounded-xl border border-[var(--color-primary)]/25 bg-[var(--color-primary)]/8 px-4 py-3">
           <p className="type-body-md text-[var(--color-on-surface)]">
-            Template changed — refresh preview to see updates.
+            Content changed — use Preview PDF to update the output.
+          </p>
+        </section>
+      ) : null}
+
+      {builder.compileUnavailable ? (
+        <section className="rounded-xl border border-[var(--color-error)]/25 bg-[var(--color-error)]/8 px-4 py-3">
+          <p className="type-body-md text-[var(--color-on-surface)]">
+            PDF compile service is unavailable. Start the Typst compile worker on port 8001, then refresh preview.
           </p>
         </section>
       ) : null}
@@ -146,8 +154,8 @@ export default function ResumeBuilderPage() {
               previewUrl={builder.previewUrl}
               previewing={builder.previewing}
               pageCount={builder.pageCount}
-              latex={builder.latex}
-              latexLoading={builder.latexLoading}
+              previewStale={builder.previewStale}
+              overflowWarnings={builder.overflowWarnings}
             />
           </div>
         </div>

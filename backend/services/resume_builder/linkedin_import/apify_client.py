@@ -30,7 +30,7 @@ class ApifyLinkedInClient:
             raise LinkedInImportError(
                 "provider_unconfigured",
                 "LinkedIn import is not configured on the server.",
-                status_code=503,
+                http_status=503,
             )
 
         url = f"{APIFY_BASE_URL}/acts/{self._actor_id}/run-sync-get-dataset-items"
@@ -48,21 +48,21 @@ class ApifyLinkedInClient:
             raise LinkedInImportError(
                 "scrape_timeout",
                 "LinkedIn import timed out. Try again in a moment.",
-                status_code=504,
+                http_status=504,
             ) from exc
         except httpx.HTTPError as exc:
             log.warning("Apify LinkedIn request failed", exc_info=True)
             raise LinkedInImportError(
                 "scrape_failed",
                 "Could not fetch the LinkedIn profile. Try again later.",
-                status_code=502,
+                http_status=502,
             ) from exc
 
         if response.status_code == 401:
             raise LinkedInImportError(
                 "provider_auth_failed",
                 "LinkedIn import provider authentication failed.",
-                status_code=503,
+                http_status=503,
             )
 
         if response.status_code >= 400:
@@ -70,7 +70,7 @@ class ApifyLinkedInClient:
             raise LinkedInImportError(
                 "scrape_failed",
                 "Could not fetch the LinkedIn profile. Try again later.",
-                status_code=502 if response.status_code >= 500 else 422,
+                http_status=502 if response.status_code >= 500 else 422,
             )
 
         try:
@@ -79,14 +79,14 @@ class ApifyLinkedInClient:
             raise LinkedInImportError(
                 "scrape_failed",
                 "LinkedIn import returned an invalid response.",
-                status_code=502,
+                http_status=502,
             ) from exc
 
         if not isinstance(items, list) or not items:
             raise LinkedInImportError(
                 "profile_not_found",
                 "No public LinkedIn profile was found for that username.",
-                status_code=404,
+                http_status=404,
             )
 
         first = items[0]
@@ -94,7 +94,7 @@ class ApifyLinkedInClient:
             raise LinkedInImportError(
                 "scrape_failed",
                 "LinkedIn import returned an invalid profile payload.",
-                status_code=502,
+                http_status=502,
             )
 
         basic = first.get("basic_info")
@@ -102,7 +102,7 @@ class ApifyLinkedInClient:
             raise LinkedInImportError(
                 "profile_not_found",
                 "No public LinkedIn profile was found for that username.",
-                status_code=404,
+                http_status=404,
             )
 
         return first

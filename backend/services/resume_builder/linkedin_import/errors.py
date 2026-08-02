@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+from utils.domain_errors import DomainError
 
-class LinkedInImportError(Exception):
-    def __init__(self, code: str, message: str, *, status_code: int = 422) -> None:
-        super().__init__(message)
-        self.code = code
-        self.message = message
-        self.status_code = status_code
 
-    def as_detail(self) -> dict[str, str]:
-        return {"code": self.code, "message": self.message}
+class LinkedInImportError(DomainError):
+    def __init__(
+        self,
+        code: str,
+        message: str,
+        *,
+        http_status: int | None = None,
+    ) -> None:
+        context = {"http_status": http_status} if http_status is not None else None
+        super().__init__(code, message, context=context or {})

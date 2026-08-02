@@ -1,5 +1,8 @@
 import type { ResumeProfile } from 'features/vault/types/domain';
 
+import type { StyleSpec } from './styleSpec';
+import { DEFAULT_STYLE_SPEC } from './styleSpec';
+
 export type BuilderSectionKind =
   | 'identity'
   | 'summary'
@@ -40,6 +43,7 @@ export interface ResumeBuilderDraft {
   source_version_id?: string | null;
   source_kind?: 'blank' | 'vault_fork' | 'linkedin_import';
   source_linkedin_url?: string | null;
+  style_spec: StyleSpec;
   status: 'draft';
 }
 
@@ -83,9 +87,8 @@ export interface TemplateListResponse {
   templates: TemplateMetadata[];
 }
 
-export interface LatexResponse {
-  tex: string;
-}
+export { DEFAULT_STYLE_SPEC };
+export type { StyleSpec } from './styleSpec';
 
 export interface ResumeBuilderHealthResponse {
   enabled: boolean;
@@ -105,11 +108,13 @@ export interface SaveDraftPayload {
   section_layout: BuilderSection[];
   custom_sections: BuilderCustomSection[];
   target_resume_id?: string | null;
+  style_spec?: StyleSpec;
 }
 
 export interface DraftPatchPayload {
   name?: string;
   template_id?: string;
+  style_spec?: StyleSpec;
 }
 
 export interface PublishDraftPayload {

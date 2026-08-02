@@ -20,6 +20,8 @@ from services.resume_builder.models import (
     ResumeBuilderDraft,
     default_section_layout,
 )
+from services.resume_builder.style_spec import default_style_spec, hydrate_style_spec
+from services.resume_builder.template_catalog import get_template
 
 COLLECTION_NAME = "resume_builder_drafts"
 
@@ -46,6 +48,7 @@ def _hydrate(doc_id: str, uid: str, data: dict) -> ResumeBuilderDraft:
         if isinstance(profile, dict) and isinstance(profile.get("name"), str):
             profile_name = profile["name"].strip()
         payload["name"] = profile_name or "Resume(1)"
+    payload["style_spec"] = hydrate_style_spec(payload.get("style_spec")).model_dump()
     return ResumeBuilderDraft.model_validate(payload)
 
 
@@ -65,6 +68,7 @@ async def create_draft(
             for snap in _collection(uid).stream()
         ]
         draft_name = next_resume_draft_name(existing_names)
+        template = get_template(request.template_id)
         profile_payload = source_profile or (
             request.profile.model_dump() if request.profile is not None else _default_profile().model_dump()
         )
@@ -81,7 +85,8 @@ async def create_draft(
             "created_at": now,
             "updated_at": now,
             "template_id": request.template_id,
-            "template_version": "1.0.0",
+            "template_version": template.version,
+            "style_spec": default_style_spec().model_dump(),
             "profile": profile_snapshot_dict(profile.model_dump()),
             "section_layout": [section.model_dump() for section in section_layout],
             "custom_sections": [section.model_dump() for section in custom_sections],
@@ -137,6 +142,8 @@ async def save_draft(uid: str, draft_id: str, request: DraftUpdateRequest) -> Re
             "custom_sections": [section.model_dump() for section in request.custom_sections],
             "target_resume_id": request.target_resume_id,
         }
+        if request.style_spec is not None:
+            payload["style_spec"] = request.style_spec.model_dump()
         doc.set(payload, merge=True)
         return _hydrate(draft_id, uid, payload)
 
@@ -162,6 +169,7 @@ async def patch_draft(
             request.section_layout,
             request.custom_sections,
             request.target_resume_id,
+            request.style_spec,
         )
     )
 
@@ -176,6 +184,7 @@ async def patch_draft(
             target_resume_id=(
                 request.target_resume_id if request.target_resume_id is not None else current.target_resume_id
             ),
+            style_spec=request.style_spec if request.style_spec is not None else current.style_spec,
         )
         draft = await save_draft(uid, draft_id, update_request)
     else:
@@ -226,6 +235,7 @@ async def duplicate_draft(uid: str, draft_id: str) -> ResumeBuilderDraft:
             "profile": profile_snapshot_dict(source.profile.model_dump()),
             "section_layout": [section.model_dump() for section in source.section_layout],
             "custom_sections": [section.model_dump() for section in source.custom_sections],
+            "style_spec": source.style_spec.model_dump(),
             "target_resume_id": None,
             "source_resume_id": source.source_resume_id,
             "source_version_id": source.source_version_id,

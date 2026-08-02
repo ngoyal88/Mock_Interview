@@ -644,6 +644,17 @@ export function computeBuilderReadiness(input: ComputeBuilderReadinessInput): Bu
   ensureCustomSectionWarnings(draft, warnings, seenIssues);
   ensureAbandonedEnabledSectionInfo(draft, info, seenIssues);
 
+  if (previewStatus === 'ready' && (input.pageCount ?? 0) > 1) {
+    addIssue(warnings, {
+      id: 'layout-multi-page',
+      severity: 'warning',
+      category: 'layout',
+      dimension: 'preview_state',
+      title: 'Resume likely exceeds one page',
+      message: 'Try Compact density, tighter margins, or shorter bullets to fit a single page.',
+    }, seenIssues);
+  }
+
   const activeDimensions = issueDimensions(blocking, warnings, info);
   for (const rule of STRENGTH_RULES) {
     if (activeDimensions.has(rule.dimension)) continue;

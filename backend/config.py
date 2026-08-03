@@ -108,7 +108,7 @@ class Settings(BaseSettings):
     log_format: str = "console"
 
     # Contact form (free options: Firestore only, Resend free tier, Gmail SMTP, Discord webhook)
-    contact_recipient_email: str = "hello@vetta.ai"
+    contact_recipient_email: str = "goyalnikhil883@gmail.com"
     contact_from_email: str = ""
     resend_api_key: str = ""
     smtp_host: str = ""
@@ -125,7 +125,7 @@ class Settings(BaseSettings):
     trusted_proxy_ips: str = "127.0.0.1"
     compile_service_url: str = "http://127.0.0.1:8001"
     compile_service_token: str = ""
-    tectonic_bin: str = "tectonic"
+    typst_bin: str = "typst"
     resume_builder_compile_timeout_s: int = 30
     resume_builder_max_pdf_bytes: int = 2_097_152
 

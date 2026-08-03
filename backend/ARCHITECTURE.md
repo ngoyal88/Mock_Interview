@@ -25,6 +25,8 @@ Route file must only:
   - return response
 
 Never put business logic, LLM calls, or Firestore orchestration in a route.
+
+**Errors:** Services raise [`DomainError`](utils/domain_errors.py) (stable `code` + message). HTTP status mapping lives in [`domain_error_registry.py`](utils/domain_error_registry.py) + the app handler in [`main.py`](main.py). Route-level input validators (e.g. [`routes/vault_validators.py`](routes/vault_validators.py)) may raise `HTTPException` at the trust boundary.
 ```
 
 **Examples:** [`routes/interview/start.py`](routes/interview/start.py) → [`interview_start_service.py`](services/interview/interview_start_service.py); [`routes/interview/code.py`](routes/interview/code.py) → [`code_submission_service.py`](services/interview/code_submission_service.py); [`routes/vault.py`](routes/vault.py) upload → [`vault_upload_service.py`](services/vault/vault_upload_service.py).
@@ -79,6 +81,8 @@ Do **not** create `backend/helpers.py` or dump cross-domain logic into `utils/` 
 | **Vault** | [`routes/vault.py`](routes/vault.py) | [`services/vault/`](services/vault/) | [`models/vault.py`](models/vault.py), [`models/resume.py`](models/resume.py) |
 | **JD Fit** | [`routes/jd_fit.py`](routes/jd_fit.py) | [`services/jd_fit/`](services/jd_fit/) | [`jd_fit_models.py`](services/jd_fit/jd_fit_models.py) |
 | **Resume builder** | [`routes/resume_builder.py`](routes/resume_builder.py) | [`services/resume_builder/`](services/resume_builder/) | compile worker separate from public API; LinkedIn import at `linkedin_import/` + `POST /resume-builder/import/linkedin` |
+| **Career preferences** | [`routes/career_preferences.py`](routes/career_preferences.py) | [`services/user/career_preferences/`](services/user/career_preferences/) | `users/{uid}.career_preferences` via Admin SDK; cross-domain reads via `loader.py` |
+| **User account** | [`routes/user_account.py`](routes/user_account.py) | [`services/user/account/`](services/user/account/) | `DELETE /user/account` purge; legacy shim at `/interview/account/purge` |
 | **Profile memory (VPM)** | via interview routes | [`services/profile_memory/`](services/profile_memory/) | LiveKit-only pipeline |
 | **Platform** | — | [`services/platform/llm/`](services/platform/llm/) | `get_platform_llm()` |
 | **LiveKit tokens** | [`routes/livekit.py`](routes/livekit.py) | [`services/livekit/token_service.py`](services/livekit/token_service.py) | — |
@@ -97,6 +101,9 @@ backend/
     interview/      # LiveKit agent, sessions, modes, questions
     vault/
     jd_fit/
+    user/             # User-owned settings (career_preferences v1, account purge)
+      career_preferences/
+      account/        # purge_service.py
     platform/       # Cross-domain kernel (LLM)
   models/           # Shared API/storage Pydantic shapes
   utils/            # Redis, auth, rate limit, logging (infra only)

@@ -1,9 +1,8 @@
-# DEPRECATED: Gemini LLM client used by InterviewService (interview_websocket path).
-# Still imported as a secondary LLM fallback in InterviewService. Can be removed
-# once the project standardises on Groq-only for question/feedback generation.
+# NOTE: Secondary LLM adapter for platform LLMEngine when Gemini is primary/fallback.
 
 import google.generativeai as genai
 from config import get_settings
+from utils.async_io import run_in_thread
 from utils.logger import get_logger
 from typing import List, Dict
 
@@ -25,16 +24,16 @@ class GeminiService:
         """Generate text response from Gemini"""
         if not self.model:
             return "LLM service not configured"
-        
-        try:
+
+        def _call() -> str:
             temp = temperature or settings.llm_temperature
-            
+
             response = self.model.generate_content(
                 prompt,
                 generation_config={
                     "temperature": temp,
                     "max_output_tokens": settings.llm_max_tokens,
-                }
+                },
             )
             # Try quick accessor and log finish details when absent
             try:
@@ -44,16 +43,18 @@ class GeminiService:
                 finish = None
                 candidates_len = None
                 try:
-                    if hasattr(response, 'candidates') and response.candidates is not None:
+                    if hasattr(response, "candidates") and response.candidates is not None:
                         candidates_len = len(response.candidates)
                         # try to read finish_reason from first candidate
                         first = response.candidates[0] if candidates_len else None
-                        finish = getattr(first, 'finish_reason', None)
+                        finish = getattr(first, "finish_reason", None)
                 except Exception:
                     pass
                 logger.warning(f"Gemini returned no text. candidates={candidates_len} finish_reason={finish}")
                 return "No response generated"
-            
+
+        try:
+            return await run_in_thread(_call)
         except Exception as e:
             logger.error(f"Gemini generation error: {e}", exc_info=True)
             return f"Error generating response: {str(e)}"

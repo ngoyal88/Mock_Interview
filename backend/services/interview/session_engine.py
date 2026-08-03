@@ -7,25 +7,17 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from firebase_admin import firestore
-
-from firebase_config import db
 from models.interview import DifficultyLevel, InterviewType
+from services.interview.interview_completion_core import CompletionOptions, finalize_interview
 from services.interview.modes.registry import is_coding_interview_type
 from services.interview.session_conductor import SessionConductor
 from services.interview.contracts.session_events import (
     InterviewEndedEvent,
-    SessionEvent,
-    SessionEventType,
-    SessionLifecycleState,
-    SessionStateMachine,
     SessionStatusEvent,
 )
-from services.interview.transcript_service import attach_transcript_to_session
-from utils.feedback_parser import parse_scores_from_feedback
-from utils.logger import get_logger
 from services.interview.session_store import persist_ws_session_blob
-from utils.redis_client import get_session, redis as redis_client
+from utils.logger import get_logger
+from utils.redis_client import get_session
 
 if TYPE_CHECKING:
     from config import Settings
@@ -470,15 +462,6 @@ class InterviewSessionEngine:
     async def on_end_interview(self, completion_reason: Optional[str] = None) -> None:
         if self.current_phase == InterviewPhase.ENDED.value:
             return
-        feedback_lock_key = f"feedback_generating:{self.session_id}"
-        try:
-            acquired = await redis_client.set(feedback_lock_key, "1", nx=True, ex=120)
-        except Exception as e:
-            logger.warning("Could not acquire feedback lock: %s", e)
-            acquired = False
-        if not acquired:
-            logger.info("Feedback already being generated for session %s, skipping", self.session_id)
-            return
 
         self.current_phase = InterviewPhase.FEEDBACK.value
         self._set_conductor_phase_str(self.current_phase)
@@ -488,95 +471,31 @@ class InterviewSessionEngine:
                 await self.transport.send_error("Session not found")
                 return
 
-            started_at_raw = session_data.get("started_at")
-            started_at: Optional[datetime] = None
-            if isinstance(started_at_raw, str):
-                try:
-                    started_at = datetime.fromisoformat(started_at_raw.replace("Z", "+00:00"))
-                except Exception:
-                    started_at = None
-            elif isinstance(started_at_raw, datetime):
-                started_at = started_at_raw
-            if not started_at:
-                started_at = datetime.now(timezone.utc)
-
-            duration_minutes = int(max(0, (datetime.now(timezone.utc) - started_at).total_seconds() / 60))
-            attach_transcript_to_session(session_data)
-            feedback_payload = {
-                "interview_type": session_data.get("interview_type"),
-                "custom_role": session_data.get("custom_role"),
-                "target_company": session_data.get("target_company"),
-                "target_role": session_data.get("target_role"),
-                "job_description": session_data.get("job_description"),
-                "interview_focus": session_data.get("interview_focus"),
-                "jd_fit_context": session_data.get("jd_fit_context"),
-                "resume_probe_context": session_data.get("resume_probe_context"),
-                "completion_reason": completion_reason or session_data.get("completion_reason"),
-                "duration": duration_minutes,
-                "responses": session_data.get("responses", []),
-                "code_submissions": session_data.get("code_submissions", []),
-                "live_transcription": session_data.get("live_transcription", []),
-                "session_conductor": session_data.get("session_conductor"),
-            }
-            final_feedback = await self.interview_service.generate_final_feedback(feedback_payload)
-            scores = parse_scores_from_feedback(
-                final_feedback.get("feedback") if isinstance(final_feedback, dict) else None
-            )
-
             if not completion_reason:
                 completion_reason = (
                     "ended_early" if session_data.get("status") != "completed" else "completed"
                 )
-            completed_ts = datetime.now(timezone.utc).isoformat()
 
-            if completion_reason == "candidate_disconnected":
-                end_event = SessionEventType.DISCONNECT_TIMEOUT
-            elif completion_reason == "silence_timeout":
-                end_event = SessionEventType.SILENCE_TIMEOUT
-            elif completion_reason == "tab_away_timeout":
-                end_event = SessionEventType.TAB_AWAY_TIMEOUT
-            elif completion_reason == "max_duration":
-                end_event = SessionEventType.MAX_DURATION
-            elif completion_reason == "user_ended":
-                end_event = SessionEventType.MANUAL_END
-            else:
-                end_event = SessionEventType.MANUAL_END
-            session_data["status"] = SessionStateMachine.transition(
-                session_data.get("status", "active"),
-                SessionEvent(type=end_event, reason=completion_reason),
-            ).value
-            session_data["completion_reason"] = completion_reason
-            session_data["completed_at"] = completed_ts
-            session_data["last_updated"] = completed_ts
-            session_data["final_feedback"] = final_feedback
-            session_data["duration_minutes"] = duration_minutes
-            session_data["questions_answered"] = len(session_data.get("responses", []))
-            session_data["code_problems_attempted"] = len(session_data.get("code_submissions", []))
-            session_data["live_transcription"] = session_data.get("live_transcription", [])
+            result = await finalize_interview(
+                self.session_id,
+                session_data,
+                interview_service=self.interview_service,
+                options=CompletionOptions(
+                    completion_reason=completion_reason,
+                    transport="websocket",
+                ),
+            )
+            if not result.acquired:
+                logger.info("Completion skipped for session %s (lock or already terminal)", self.session_id)
+                return
+
+            session_data = result.session_data
             session_data["session_conductor"] = self.conductor.serialize()
             await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
 
-            try:
-                db.collection("interviews").document(self.session_id).set(
-                    {
-                        "status": session_data["status"],
-                        "completion_reason": completion_reason,
-                        "completed_at": firestore.SERVER_TIMESTAMP,
-                        "last_updated": firestore.SERVER_TIMESTAMP,
-                        "duration_minutes": duration_minutes,
-                        "questions_answered": session_data["questions_answered"],
-                        "code_problems_attempted": session_data["code_problems_attempted"],
-                        "responses": session_data.get("responses", []),
-                        "questions": session_data.get("questions", []),
-                        "code_submissions": session_data.get("code_submissions", []),
-                        "live_transcription": session_data.get("live_transcription", []),
-                        "final_feedback": final_feedback,
-                        "scores": scores or None,
-                    },
-                    merge=True,
-                )
-            except Exception as fe:
-                logger.warning("Firestore persist failed: %s", fe)
+            final_feedback = result.final_feedback
+            duration_minutes = result.duration_minutes
+            completed_ts = result.completed_at_iso
 
             await self.transport.send_message(
                 InterviewEndedEvent(
@@ -617,82 +536,24 @@ class InterviewSessionEngine:
             session_data = await get_session(self.session_key)
             if not session_data:
                 return
-            session_data["status"] = SessionStateMachine.transition(
-                session_data.get("status", "active"),
-                SessionEvent(type=SessionEventType.DISCONNECT_TIMEOUT, reason="candidate_disconnected"),
-            ).value
-            session_data["completion_reason"] = "candidate_disconnected"
-            completed_ts = datetime.now(timezone.utc).isoformat()
-            session_data["completed_at"] = completed_ts
-            session_data["last_updated"] = completed_ts
-            attach_transcript_to_session(session_data)
-            turn_count = len(session_data.get("responses", []))
-            if turn_count >= 2:
-                try:
-                    started_at_raw = session_data.get("started_at")
-                    started_at = None
-                    if isinstance(started_at_raw, str):
-                        try:
-                            started_at = datetime.fromisoformat(started_at_raw.replace("Z", "+00:00"))
-                        except Exception:
-                            pass
-                    elif isinstance(started_at_raw, datetime):
-                        started_at = started_at_raw
-                    if not started_at:
-                        started_at = datetime.now(timezone.utc)
-                    duration_minutes = int(max(0, (datetime.now(timezone.utc) - started_at).total_seconds() / 60))
-                    feedback_payload = {
-                        "interview_type": session_data.get("interview_type"),
-                        "custom_role": session_data.get("custom_role"),
-                        "target_company": session_data.get("target_company"),
-                        "target_role": session_data.get("target_role"),
-                        "job_description": session_data.get("job_description"),
-                        "interview_focus": session_data.get("interview_focus"),
-                        "jd_fit_context": session_data.get("jd_fit_context"),
-                        "resume_probe_context": session_data.get("resume_probe_context"),
-                        "duration": duration_minutes,
-                        "responses": session_data.get("responses", []),
-                        "code_submissions": session_data.get("code_submissions", []),
-                        "live_transcription": session_data.get("live_transcription", []),
-                        "session_conductor": session_data.get("session_conductor"),
-                    }
-                    final_feedback = await asyncio.wait_for(
-                        self.interview_service.generate_final_feedback(feedback_payload),
-                        45.0,
-                    )
-                    session_data["final_feedback"] = final_feedback
-                except (asyncio.TimeoutError, Exception) as e:
-                    logger.warning("Partial feedback generation failed: %s", e)
-            session_data["questions_answered"] = len(session_data.get("responses", []))
-            session_data["code_problems_attempted"] = len(session_data.get("code_submissions", []))
-            session_data["live_transcription"] = session_data.get("live_transcription", [])
-            await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
 
-            try:
-                scores = parse_scores_from_feedback(
-                    session_data.get("final_feedback", {}).get("feedback")
-                    if isinstance(session_data.get("final_feedback"), dict)
-                    else None
-                )
-                db.collection("interviews").document(self.session_id).set(
-                    {
-                        "status": "incomplete_exit",
-                        "completion_reason": "candidate_disconnected",
-                        "completed_at": firestore.SERVER_TIMESTAMP,
-                        "last_updated": firestore.SERVER_TIMESTAMP,
-                        "questions_answered": session_data["questions_answered"],
-                        "code_problems_attempted": session_data["code_problems_attempted"],
-                        "responses": session_data.get("responses", []),
-                        "questions": session_data.get("questions", []),
-                        "code_submissions": session_data.get("code_submissions", []),
-                        "live_transcription": session_data.get("live_transcription", []),
-                        "final_feedback": session_data.get("final_feedback"),
-                        "scores": scores,
-                    },
-                    merge=True,
-                )
-            except Exception as fe:
-                logger.warning("Firestore persist on disconnect failed: %s", fe)
+            result = await finalize_interview(
+                self.session_id,
+                session_data,
+                interview_service=self.interview_service,
+                options=CompletionOptions(
+                    completion_reason="candidate_disconnected",
+                    transport="websocket",
+                    disconnect_mode=True,
+                    feedback_timeout_seconds=45.0,
+                ),
+            )
+            if not result.acquired:
+                return
+
+            session_data = result.session_data
+            session_data["session_conductor"] = self.conductor.serialize()
+            await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
         except Exception as e:
             logger.warning("Candidate disconnect handling failed: %s", e)
 

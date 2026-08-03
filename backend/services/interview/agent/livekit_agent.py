@@ -20,22 +20,15 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 from config import get_settings
-from firebase_admin import firestore
-from firebase_config import db
 from models.interview import DifficultyLevel, InterviewType
 from services.interview.contracts.session_events import (
     InterviewEndedEvent,
-    SessionEvent,
-    SessionEventType,
-    SessionStateMachine,
     SessionStatusEvent,
 )
-from services.profile_memory.profile_claims_service import run_profile_claims_pipeline
+from services.interview.interview_completion_core import CompletionOptions, finalize_interview
 from services.interview.interview_service import InterviewService
-from services.interview.completion_guard import try_begin_completion
 from services.interview.session_conductor import SessionConductor
-from services.interview.transcript_service import attach_transcript_to_session, extract_assistant_transcript_text
-from utils.feedback_parser import parse_scores_from_feedback
+from services.interview.transcript_service import extract_assistant_transcript_text
 from services.interview.modes.registry import is_coding_interview_type
 from utils.logger import get_logger
 from services.interview.session_store import SessionStore, deep_merge_session_conductor
@@ -870,11 +863,19 @@ async def _handle_end_interview(
         return
 
     worker_redis = await _ensure_redis()
-    begin = await try_begin_completion(session_id, session_data, redis_client=worker_redis)
-    if not begin.proceed:
+    result = await finalize_interview(
+        session_id,
+        session_data,
+        interview_service=interview_service,
+        options=CompletionOptions(
+            completion_reason=completion_reason,
+            transport="livekit",
+            trigger_vpm=True,
+        ),
+        redis_client=worker_redis,
+    )
+    if not result.acquired:
         return
-
-    session_data = dict(begin.session_data or session_data)
 
     if hasattr(session, "update_options"):
         try:
@@ -882,115 +883,19 @@ async def _handle_end_interview(
         except Exception:
             pass
 
-    started_at_raw = session_data.get("started_at")
-    started_at = None
-    if isinstance(started_at_raw, str):
-        try:
-            started_at = datetime.fromisoformat(started_at_raw.replace("Z", "+00:00"))
-        except Exception:
-            pass
-    elif isinstance(started_at_raw, datetime):
-        started_at = started_at_raw
-    if not started_at:
-        started_at = datetime.now(timezone.utc)
-
-    duration_minutes = int(max(0, (datetime.now(timezone.utc) - started_at).total_seconds() / 60))
-    attach_transcript_to_session(session_data)
-    feedback_payload = {
-        "interview_type": session_data.get("interview_type"),
-        "custom_role": session_data.get("custom_role"),
-        "target_company": session_data.get("target_company"),
-        "target_role": session_data.get("target_role"),
-        "job_description": session_data.get("job_description"),
-        "interview_focus": session_data.get("interview_focus"),
-        "jd_fit_context": session_data.get("jd_fit_context"),
-        "resume_probe_context": session_data.get("resume_probe_context"),
-        "completion_reason": completion_reason,
-        "duration": duration_minutes,
-        "responses": session_data.get("responses", []),
-        "code_submissions": session_data.get("code_submissions", []),
-        "live_transcription": session_data.get("live_transcription", []),
-        "session_conductor": session_data.get("session_conductor"),
-    }
-    final_feedback = await interview_service.generate_final_feedback(feedback_payload)
-    scores = parse_scores_from_feedback(
-        final_feedback.get("feedback") if isinstance(final_feedback, dict) else None
-    )
-
-    completed_ts = datetime.now(timezone.utc).isoformat()
-    if completion_reason == "silence_timeout":
-        end_event = SessionEventType.SILENCE_TIMEOUT
-    elif completion_reason == "tab_away_timeout":
-        end_event = SessionEventType.TAB_AWAY_TIMEOUT
-    elif completion_reason == "max_duration":
-        end_event = SessionEventType.MAX_DURATION
-    elif completion_reason in {"error", "candidate_disconnected"}:
-        end_event = SessionEventType.ERROR_END
-    else:
-        end_event = SessionEventType.MANUAL_END
-    terminal_state = SessionStateMachine.transition(
-        session_data.get("status", "active"),
-        SessionEvent(type=end_event, reason=completion_reason),
-    ).value
-    terminal_patch = {
-        "status": terminal_state,
-        "completion_reason": completion_reason,
-        "completed_at": completed_ts,
-        "last_updated": completed_ts,
-        "final_feedback": final_feedback,
-        "duration_minutes": duration_minutes,
-        "questions_answered": len(session_data.get("responses", [])),
-        "code_problems_attempted": len(session_data.get("code_submissions", [])),
-        "live_transcription": session_data.get("live_transcription", []),
-    }
+    session_data = result.session_data
+    final_feedback = result.final_feedback
+    duration_minutes = result.duration_minutes
+    terminal_state = result.terminal_status
+    completed_ts = result.completed_at_iso
 
     def _apply_terminal(current: Dict[str, Any]) -> Dict[str, Any]:
         base = dict(current) if isinstance(current, dict) else {}
-        base.update(terminal_patch)
+        base.update(result.terminal_patch)
         return base
 
-    updated = await _mutate_session(session_key, _apply_terminal) or terminal_patch
+    updated = await _mutate_session(session_key, _apply_terminal) or result.terminal_patch
     session_data.update(updated)
-
-    async def _run_vpm_task() -> None:
-        if not get_settings().vpm_enabled:
-            return
-        try:
-            result = await run_profile_claims_pipeline(
-                uid=str(session_data.get("user_id") or ""),
-                session_id=session_id,
-                session_data=session_data,
-                engine=interview_service._engine,  # noqa: SLF001
-            )
-            if result.get("failed") or result.get("pipeline_status") == "failed":
-                log.warning(
-                    "Agent VPM pipeline failed session=%s reason=%s",
-                    session_id,
-                    result.get("reason"),
-                )
-        except Exception as vpm_error:
-            log.warning("Agent VPM pipeline failed: %s", vpm_error)
-
-    asyncio.create_task(_run_vpm_task())
-
-    try:
-        db.collection("interviews").document(session_id).set({
-            "status": terminal_state,
-            "completion_reason": completion_reason,
-            "completed_at": firestore.SERVER_TIMESTAMP,
-            "last_updated": firestore.SERVER_TIMESTAMP,
-            "duration_minutes": duration_minutes,
-            "questions_answered": session_data["questions_answered"],
-            "code_problems_attempted": session_data["code_problems_attempted"],
-            "responses": session_data.get("responses", []),
-            "questions": session_data.get("questions", []),
-            "code_submissions": session_data.get("code_submissions", []),
-            "live_transcription": session_data.get("live_transcription", []),
-            "final_feedback": final_feedback,
-            "scores": scores,
-        }, merge=True)
-    except Exception as e:
-        log.warning("Firestore persist failed: %s", e)
 
     await _send_control(ctx.room, InterviewEndedEvent(
         completion_reason=completion_reason,
@@ -1025,117 +930,31 @@ async def _handle_candidate_disconnect(
         return
 
     worker_redis = await _ensure_redis()
-    begin = await try_begin_completion(session_id, session_data, redis_client=worker_redis)
-    if not begin.proceed:
+    result = await finalize_interview(
+        session_id,
+        session_data,
+        interview_service=interview_service,
+        options=CompletionOptions(
+            completion_reason="candidate_disconnected",
+            transport="livekit",
+            trigger_vpm=True,
+            disconnect_mode=True,
+            feedback_timeout_seconds=45.0,
+        ),
+        redis_client=worker_redis,
+    )
+    if not result.acquired:
         return
 
-    session_data = dict(begin.session_data or session_data)
-    completed_ts = datetime.now(timezone.utc).isoformat()
-    attach_transcript_to_session(session_data)
-
-    responses = session_data.get("responses", []) or []
-    final_feedback = session_data.get("final_feedback")
-    if len(responses) >= 2 and not final_feedback:
-        try:
-            started_at_raw = session_data.get("started_at")
-            started_at = None
-            if isinstance(started_at_raw, str):
-                try:
-                    started_at = datetime.fromisoformat(started_at_raw.replace("Z", "+00:00"))
-                except Exception:
-                    pass
-            elif isinstance(started_at_raw, datetime):
-                started_at = started_at_raw
-            if not started_at:
-                started_at = datetime.now(timezone.utc)
-            duration_minutes = int(max(0, (datetime.now(timezone.utc) - started_at).total_seconds() / 60))
-            feedback_payload = {
-                "interview_type": session_data.get("interview_type"),
-                "custom_role": session_data.get("custom_role"),
-                "target_company": session_data.get("target_company"),
-                "target_role": session_data.get("target_role"),
-                "job_description": session_data.get("job_description"),
-                "interview_focus": session_data.get("interview_focus"),
-                "jd_fit_context": session_data.get("jd_fit_context"),
-                "resume_probe_context": session_data.get("resume_probe_context"),
-                "duration": duration_minutes,
-                "responses": responses,
-                "code_submissions": session_data.get("code_submissions", []),
-                "live_transcription": session_data.get("live_transcription", []),
-                "session_conductor": session_data.get("session_conductor"),
-            }
-            final_feedback = await asyncio.wait_for(
-                interview_service.generate_final_feedback(feedback_payload), 45.0
-            )
-        except (asyncio.TimeoutError, Exception) as e:
-            log.warning("Partial feedback generation failed: %s", e)
-            final_feedback = None
-
-    terminal_state = SessionStateMachine.transition(
-        session_data.get("status", "active"),
-        SessionEvent(type=SessionEventType.DISCONNECT_TIMEOUT, reason="candidate_disconnected"),
-    ).value
-    disconnect_patch = {
-        "status": terminal_state,
-        "completion_reason": "candidate_disconnected",
-        "completed_at": completed_ts,
-        "last_updated": completed_ts,
-        "questions_answered": len(responses),
-        "code_problems_attempted": len(session_data.get("code_submissions", [])),
-    }
-    if final_feedback is not None:
-        disconnect_patch["final_feedback"] = final_feedback
+    session_data = result.session_data
 
     def _apply_disconnect(current: Dict[str, Any]) -> Dict[str, Any]:
         base = dict(current) if isinstance(current, dict) else {}
-        base.update(disconnect_patch)
+        base.update(result.terminal_patch)
         return base
 
-    updated = await _mutate_session(session_key, _apply_disconnect) or disconnect_patch
+    updated = await _mutate_session(session_key, _apply_disconnect) or result.terminal_patch
     session_data.update(updated)
-
-    async def _run_vpm_task() -> None:
-        if not get_settings().vpm_enabled:
-            return
-        try:
-            result = await run_profile_claims_pipeline(
-                uid=str(session_data.get("user_id") or ""),
-                session_id=session_id,
-                session_data=session_data,
-                engine=interview_service._engine,  # noqa: SLF001
-            )
-            if result.get("failed") or result.get("pipeline_status") == "failed":
-                log.warning(
-                    "Disconnect VPM pipeline failed session=%s reason=%s",
-                    session_id,
-                    result.get("reason"),
-                )
-        except Exception as vpm_error:
-            log.warning("Disconnect VPM pipeline failed: %s", vpm_error)
-
-    asyncio.create_task(_run_vpm_task())
-
-    try:
-        scores = parse_scores_from_feedback(
-            session_data.get("final_feedback", {}).get("feedback")
-            if isinstance(session_data.get("final_feedback"), dict) else None
-        )
-        db.collection("interviews").document(session_id).set({
-            "status": "incomplete_exit",
-            "completion_reason": "candidate_disconnected",
-            "completed_at": firestore.SERVER_TIMESTAMP,
-            "last_updated": firestore.SERVER_TIMESTAMP,
-            "questions_answered": session_data["questions_answered"],
-            "code_problems_attempted": session_data["code_problems_attempted"],
-            "responses": session_data.get("responses", []),
-            "questions": session_data.get("questions", []),
-            "code_submissions": session_data.get("code_submissions", []),
-            "live_transcription": session_data.get("live_transcription", []),
-            "final_feedback": session_data.get("final_feedback"),
-            "scores": scores,
-        }, merge=True)
-    except Exception as e:
-        log.warning("Firestore persist on disconnect failed: %s", e)
 
 
 @server.rtc_session(agent_name=settings.livekit_agent_name or "vetta-interviewer")

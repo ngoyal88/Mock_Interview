@@ -16,6 +16,7 @@ from models.vault import (
 from services.resume.profile_normalizer import profile_snapshot_dict
 from services.vault.analysis_service import build_vault_scorecard, generate_diff_summary
 from services.vault import file_storage
+from utils.async_io import run_in_thread
 
 
 MAX_RESUMES_PER_USER = 5
@@ -99,43 +100,55 @@ def normalize_entry_name(raw: Any) -> str:
 
 
 async def get_vault_meta(uid: str) -> Dict[str, Any]:
-    ref = _vault_meta_ref(uid)
-    snap = ref.get()
-    if snap.exists:
-        data = snap.to_dict() or {}
-        return {
-            "resume_count": int(data.get("resume_count", 0)),
-            "active_resume_id": data.get("active_resume_id"),
-        }
-    return {"resume_count": 0, "active_resume_id": None}
+    def _read() -> Dict[str, Any]:
+        ref = _vault_meta_ref(uid)
+        snap = ref.get()
+        if snap.exists:
+            data = snap.to_dict() or {}
+            return {
+                "resume_count": int(data.get("resume_count", 0)),
+                "active_resume_id": data.get("active_resume_id"),
+            }
+        return {"resume_count": 0, "active_resume_id": None}
+
+    return await run_in_thread(_read)
 
 
 async def set_vault_meta(uid: str, resume_count: int, active_resume_id: Optional[str]) -> None:
-    _vault_meta_ref(uid).set(
-        {
-            "resume_count": resume_count,
-            "active_resume_id": active_resume_id,
-        },
-        merge=True,
-    )
+    def _write() -> None:
+        _vault_meta_ref(uid).set(
+            {
+                "resume_count": resume_count,
+                "active_resume_id": active_resume_id,
+            },
+            merge=True,
+        )
+
+    await run_in_thread(_write)
 
 
 async def list_vault_entries(uid: str) -> List[Dict[str, Any]]:
-    entries: List[Dict[str, Any]] = []
-    for doc in _vault_collection(uid).order_by("last_updated", direction=firestore.Query.DESCENDING).stream():
-        payload = doc.to_dict() or {}
-        payload.setdefault("id", doc.id)
-        entries.append(_normalize_entry_payload(payload))
-    return entries
+    def _read() -> List[Dict[str, Any]]:
+        entries: List[Dict[str, Any]] = []
+        for doc in _vault_collection(uid).order_by("last_updated", direction=firestore.Query.DESCENDING).stream():
+            payload = doc.to_dict() or {}
+            payload.setdefault("id", doc.id)
+            entries.append(_normalize_entry_payload(payload))
+        return entries
+
+    return await run_in_thread(_read)
 
 
 async def get_vault_entry(uid: str, resume_id: str) -> Optional[Dict[str, Any]]:
-    snap = _vault_collection(uid).document(resume_id).get()
-    if not snap.exists:
-        return None
-    payload = snap.to_dict() or {}
-    payload.setdefault("id", resume_id)
-    return _normalize_entry_payload(payload)
+    def _read() -> Optional[Dict[str, Any]]:
+        snap = _vault_collection(uid).document(resume_id).get()
+        if not snap.exists:
+            return None
+        payload = snap.to_dict() or {}
+        payload.setdefault("id", resume_id)
+        return _normalize_entry_payload(payload)
+
+    return await run_in_thread(_read)
 
 
 @firestore.transactional
@@ -232,9 +245,14 @@ async def add_version(
     if version_count > 0:
         last_version_id = entry.get("current_version_id")
         if last_version_id:
-            last_snap = _versions_collection(uid, resume_id).document(last_version_id).get()
-            if last_snap.exists:
-                prev = (last_snap.to_dict() or {}).get("profile_snapshot") or {}
+            def _read_prev() -> Optional[Dict[str, Any]]:
+                last_snap = _versions_collection(uid, resume_id).document(last_version_id).get()
+                if not last_snap.exists:
+                    return None
+                return (last_snap.to_dict() or {}).get("profile_snapshot") or {}
+
+            prev = await run_in_thread(_read_prev)
+            if prev:
                 diff_summary = await generate_diff_summary(prev, canonical_snapshot)
 
     scorecard = await build_vault_scorecard(canonical_snapshot, role=role)
@@ -381,22 +399,28 @@ async def _invalidate_jd_fit_cache(uid: str) -> None:
 
 
 async def list_versions(uid: str, resume_id: str) -> List[Dict[str, Any]]:
-    versions: List[Dict[str, Any]] = []
-    for doc in _versions_collection(uid, resume_id).order_by("version_number", direction=firestore.Query.DESCENDING).stream():
-        payload = doc.to_dict() or {}
-        payload.setdefault("id", doc.id)
-        versions.append(_normalize_version_payload(payload))
-    return versions
+    def _read() -> List[Dict[str, Any]]:
+        versions: List[Dict[str, Any]] = []
+        for doc in _versions_collection(uid, resume_id).order_by("version_number", direction=firestore.Query.DESCENDING).stream():
+            payload = doc.to_dict() or {}
+            payload.setdefault("id", doc.id)
+            versions.append(_normalize_version_payload(payload))
+        return versions
+
+    return await run_in_thread(_read)
 
 
 async def get_version_for_resume(uid: str, resume_id: str, version_id: str) -> Optional[Dict[str, Any]]:
-    snap = _versions_collection(uid, resume_id).document(version_id).get()
-    if not snap.exists:
-        return None
-    payload = snap.to_dict() or {}
-    payload.setdefault("id", version_id)
-    payload.setdefault("resume_id", resume_id)
-    return _normalize_version_payload(payload)
+    def _read() -> Optional[Dict[str, Any]]:
+        snap = _versions_collection(uid, resume_id).document(version_id).get()
+        if not snap.exists:
+            return None
+        payload = snap.to_dict() or {}
+        payload.setdefault("id", version_id)
+        payload.setdefault("resume_id", resume_id)
+        return _normalize_version_payload(payload)
+
+    return await run_in_thread(_read)
 
 
 async def get_version_by_id(uid: str, version_id: str) -> Optional[Dict[str, Any]]:
@@ -447,20 +471,22 @@ async def restore_version(uid: str, version_id: str, role: Optional[str] = None)
     )
     score_history = _cap_score_history(score_history)
 
-    _versions_collection(uid, resume_id).document(version_id).set(
-        {"latest_score": scorecard.score},
-        merge=True,
-    )
+    def _persist_restore() -> None:
+        _versions_collection(uid, resume_id).document(version_id).set(
+            {"latest_score": scorecard.score},
+            merge=True,
+        )
+        _vault_collection(uid).document(resume_id).set(
+            {
+                "current_version_id": version_id,
+                "last_updated": now,
+                "scorecard": scorecard.model_dump(),
+                "score_history": score_history,
+            },
+            merge=True,
+        )
 
-    _vault_collection(uid).document(resume_id).set(
-        {
-            "current_version_id": version_id,
-            "last_updated": now,
-            "scorecard": scorecard.model_dump(),
-            "score_history": score_history,
-        },
-        merge=True,
-    )
+    await run_in_thread(_persist_restore)
 
     return {
         "resume_id": resume_id,
@@ -513,7 +539,11 @@ async def update_entry(uid: str, resume_id: str, name: Optional[str], tags: Opti
         updates["name"] = normalize_entry_name(name)
     if tags is not None:
         updates["tags"] = normalize_update_tags(tags)
-    _vault_collection(uid).document(resume_id).update(updates)
+
+    def _write() -> None:
+        _vault_collection(uid).document(resume_id).update(updates)
+
+    await run_in_thread(_write)
     entry = await get_vault_entry(uid, resume_id)
     if not entry:
         raise ValueError("resume_not_found")
@@ -558,7 +588,11 @@ async def delete_resume_entry(uid: str, resume_id: str) -> None:
         ref = _versions_collection(uid, resume_id).document(version["id"])
         batch.delete(ref)
     batch.delete(_vault_collection(uid).document(resume_id))
-    batch.commit()
+
+    def _delete_firestore() -> None:
+        batch.commit()
+
+    await run_in_thread(_delete_firestore)
 
     await asyncio.to_thread(file_storage.delete_resume_files, uid, resume_id)
 
@@ -583,7 +617,10 @@ async def delete_resume_entry(uid: str, resume_id: str) -> None:
             )
             dirty = True
         if dirty:
-            active_batch.commit()
+            def _commit_active() -> None:
+                active_batch.commit()
+
+            await run_in_thread(_commit_active)
 
     await set_vault_meta(uid, len(remaining_entries), next_active_id)
 
@@ -599,10 +636,13 @@ def _find_version_ref(uid: str, version_id: str):
 
 
 async def update_version_score(uid: str, version_id: str, score: int) -> None:
-    ref = _find_version_ref(uid, version_id)
-    if ref is None:
-        raise ValueError("version_not_found")
-    ref.set({"latest_score": score}, merge=True)
+    def _write() -> None:
+        ref = _find_version_ref(uid, version_id)
+        if ref is None:
+            raise ValueError("version_not_found")
+        ref.set({"latest_score": score}, merge=True)
+
+    await run_in_thread(_write)
 
 
 async def update_entry_scorecard(
@@ -630,11 +670,15 @@ async def update_entry_scorecard(
             )
         )
     score_history = _cap_score_history(score_history)
-    _vault_collection(uid).document(resume_id).set(
-        {
-            "scorecard": scorecard.model_dump(),
-            "last_updated": scorecard.last_analyzed_at,
-            "score_history": score_history,
-        },
-        merge=True,
-    )
+
+    def _write() -> None:
+        _vault_collection(uid).document(resume_id).set(
+            {
+                "scorecard": scorecard.model_dump(),
+                "last_updated": scorecard.last_analyzed_at,
+                "score_history": score_history,
+            },
+            merge=True,
+        )
+
+    await run_in_thread(_write)

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from services.vault.vault_service import get_vault_entry, get_vault_meta, get_version_by_id
+from services.vault.vault_service import get_vault_entry, get_vault_meta, get_version_for_resume
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -22,7 +22,7 @@ async def load_active_resume_snapshot(uid: str) -> dict[str, Any]:
         version_id = entry.get("current_version_id")
         if not version_id:
             return {}
-        version = await get_version_by_id(uid, version_id)
+        version = await get_version_for_resume(uid, active_id, version_id)
         if not version:
             return {}
         profile = version.get("profile_snapshot")

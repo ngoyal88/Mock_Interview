@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -110,9 +111,11 @@ async def generate_diff_summary(prev_profile: Dict[str, Any], next_profile: Dict
 
 
 async def build_vault_scorecard(profile: Dict[str, Any], role: Optional[str] = None) -> VaultScorecard:
-    base = await build_resume_scorecard(profile_data=profile, role_hint=role)
-    ats_flags = await extract_ats_flags(profile)
-    role_fit_score, role_fit_role = await extract_role_fit(role, profile)
+    base, ats_flags, (role_fit_score, role_fit_role) = await asyncio.gather(
+        build_resume_scorecard(profile_data=profile, role_hint=role),
+        extract_ats_flags(profile),
+        extract_role_fit(role, profile),
+    )
 
     weak_areas = []
     raw_weak = profile.get("weak_areas")

@@ -4,9 +4,8 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any, Optional, Protocol
 
-from fastapi import HTTPException
-
 from models.interview import CodeSubmission, InterviewSession, TestCase
+from utils.domain_errors import DomainError
 from services.interview.session_store import SessionStore, deep_merge_session_conductor
 from utils.logger import get_logger
 from utils.redis_client import get_session
@@ -90,21 +89,23 @@ async def submit_code(
     uid: str,
     code_service: CodeExecutor,
     session_ttl: int,
+    session_data: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     session_key = f"interview:{session_id}"
-    session_data = await get_session(session_key)
+    if session_data is None:
+        session_data = await get_session(session_key)
     if not session_data:
-        raise HTTPException(404, "Session not found")
+        raise DomainError("session_not_found", "Session not found")
 
     session = InterviewSession(**session_data)
 
     question_inner = find_question_inner(session, question_id)
     if not question_inner:
-        raise HTTPException(404, f"Question {question_id} not found")
+        raise DomainError("question_not_found", f"Question {question_id} not found")
 
     test_cases = build_test_cases(question_inner)
     if not test_cases:
-        raise HTTPException(400, "No test cases found")
+        raise DomainError("no_test_cases", "No test cases found")
 
     language_id = code_service.get_language_id(language)
     logger.info(
@@ -133,19 +134,14 @@ async def submit_code(
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
-    def _first_write(current: dict[str, Any]) -> dict[str, Any]:
-        return _append_submission_fields(current, session)
-
-    await _persist_mutator(session_key, _first_write, session_ttl=session_ttl)
-
-    def _append_result(current: dict[str, Any]) -> dict[str, Any]:
-        base = dict(current)
-        code_results = list(base.get("code_results", []) or [])
+    def _persist_submission(current: dict[str, Any]) -> dict[str, Any]:
+        merged = _append_submission_fields(current, session)
+        code_results = list(merged.get("code_results", []) or [])
         code_results.append(code_result_entry)
-        base["code_results"] = code_results
-        return base
+        merged["code_results"] = code_results
+        return merged
 
-    await _persist_mutator(session_key, _append_result, session_ttl=session_ttl)
+    await _persist_mutator(session_key, _persist_submission, session_ttl=session_ttl)
 
     logger.info(
         "code_executed",

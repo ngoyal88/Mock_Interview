@@ -1,12 +1,10 @@
-# DEPRECATED: Direct Groq HTTP client used by InterviewService (interview_websocket path).
-# The agent uses livekit.plugins.groq directly. Can be deleted once interview_service.py
-# no longer falls back to this for the WebSocket flow.
-# NOTE: InterviewService still imports this for fallback question/feedback generation.
+# NOTE: Primary LLM adapter for platform LLMEngine (Groq JSON + chat completions).
 import asyncio
 import threading
 from typing import AsyncGenerator, List, Dict, Optional
 from groq import Groq
 from config import get_settings
+from utils.async_io import run_in_thread
 from utils.logger import get_logger
 
 logger = get_logger("GroqService")
@@ -39,16 +37,19 @@ class GroqService:
         if not self.client:
             return "LLM service not configured"
         try:
-            chat_completion = self.client.chat.completions.create(
-                messages=[{"role": "user", "content": prompt}],
-                model=self.model,
-                temperature=(temperature if temperature is not None else self.temperature),
-                max_tokens=self.max_tokens,
-                stream=False,
-            )
-            choice = (chat_completion.choices or [None])[0]
-            content = getattr(choice, "message", None).content if choice and getattr(choice, "message", None) else None
-            return content or "No response generated"
+            def _call() -> str:
+                chat_completion = self.client.chat.completions.create(
+                    messages=[{"role": "user", "content": prompt}],
+                    model=self.model,
+                    temperature=(temperature if temperature is not None else self.temperature),
+                    max_tokens=self.max_tokens,
+                    stream=False,
+                )
+                choice = (chat_completion.choices or [None])[0]
+                content = getattr(choice, "message", None).content if choice and getattr(choice, "message", None) else None
+                return content or "No response generated"
+
+            return await run_in_thread(_call)
         except Exception as e:
             logger.error(f"Groq generation error: {e}", exc_info=True)
             return f"Error generating response: {str(e)}"
@@ -119,24 +120,27 @@ class GroqService:
         sys_c = _clip(system_prompt, 12000)
         usr_c = _clip(user_prompt, 24000)
         try:
-            chat_completion = self.client.chat.completions.create(
-                messages=[
-                    {"role": "system", "content": sys_c},
-                    {"role": "user", "content": usr_c},
-                ],
-                model=json_model,
-                temperature=0.0,
-                max_tokens=min(4096, int(self.max_tokens or 4096)),
-                stream=False,
-                response_format={"type": "json_object"},
-            )
-            choice = (chat_completion.choices or [None])[0]
-            content = (
-                getattr(choice, "message", None).content
-                if choice and getattr(choice, "message", None)
-                else None
-            )
-            return content or "{}"
+            def _call() -> str:
+                chat_completion = self.client.chat.completions.create(
+                    messages=[
+                        {"role": "system", "content": sys_c},
+                        {"role": "user", "content": usr_c},
+                    ],
+                    model=json_model,
+                    temperature=0.0,
+                    max_tokens=min(4096, int(self.max_tokens or 4096)),
+                    stream=False,
+                    response_format={"type": "json_object"},
+                )
+                choice = (chat_completion.choices or [None])[0]
+                content = (
+                    getattr(choice, "message", None).content
+                    if choice and getattr(choice, "message", None)
+                    else None
+                )
+                return content or "{}"
+
+            return await run_in_thread(_call)
         except Exception as e:
             logger.error(f"Groq JSON completion error (model={json_model}): {e}", exc_info=True)
             return "{}"

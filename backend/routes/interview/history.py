@@ -6,6 +6,7 @@ from services.interview.interview_history_service import (
     list_interview_history,
 )
 from utils.auth import verify_firebase_token
+from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error
 from utils.logger import get_logger
 from utils.rate_limit import check_rate_limit
@@ -23,7 +24,7 @@ async def get_interview_history(
     """Return recent interviews for the authenticated user from Firestore."""
     try:
         await check_rate_limit(uid, "history", limit=60, window_seconds=60)
-        return list_interview_history(uid, limit=limit)
+        return await list_interview_history(uid, limit=limit)
     except Exception as e:
         logger.error("Error fetching history: %s", e, exc_info=True)
         raise HTTPException(500, "Failed to fetch interview history")
@@ -37,7 +38,7 @@ async def get_session_details(
     """Return complete session details from Redis."""
     try:
         return await get_redis_session_details(session_id, uid)
-    except HTTPException:
+    except DomainError:
         raise
     except Exception as e:
         raise_internal_error(logger, e, message="Failed to fetch session details")
@@ -52,7 +53,7 @@ async def delete_interview_history_route(
     try:
         await check_rate_limit(uid, "delete", limit=20, window_seconds=60)
         return await delete_interview_history(session_id, uid)
-    except HTTPException:
+    except DomainError:
         raise
     except Exception as e:
         logger.error("Error deleting interview history: %s", e, exc_info=True)

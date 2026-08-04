@@ -7,6 +7,8 @@
   "tags": ["Single column", "ATS-friendly", "Classic"],
   "preview_asset": "template-faangpath.webp",
   "supports_flexible_sections": true,
+  "supports_style_spec": true,
+  "ats_tier": "standard",
   "sections": {
     "projects": {
       "fields": ["name", "description", "link"]

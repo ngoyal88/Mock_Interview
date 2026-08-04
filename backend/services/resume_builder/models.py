@@ -6,6 +6,7 @@ from typing import Any, Literal, Optional, Sequence
 from pydantic import BaseModel, Field, model_validator
 
 from models.resume import ResumeProfile
+from services.resume_builder.style_spec import StyleSpec, default_style_spec, hydrate_style_spec
 
 TemplateStatus = Literal["live", "coming_soon"]
 DraftSourceKind = Literal["blank", "vault_fork", "linkedin_import"]
@@ -35,6 +36,8 @@ class TemplateMetadata(BaseModel):
     tags: list[str] = Field(default_factory=list)
     preview_asset: str = ""
     supports_flexible_sections: bool = True
+    supports_style_spec: bool = True
+    ats_tier: str = "standard"
     sections: dict[str, TemplateSectionConfig] = Field(default_factory=dict)
 
 
@@ -80,6 +83,7 @@ class ResumeBuilderDraft(BaseModel):
     source_version_id: Optional[str] = None
     source_kind: Optional[DraftSourceKind] = None
     source_linkedin_url: Optional[str] = None
+    style_spec: StyleSpec = Field(default_factory=default_style_spec)
     status: Literal["draft"] = "draft"
 
     @model_validator(mode="after")
@@ -119,6 +123,7 @@ class DraftUpdateRequest(BaseModel):
     section_layout: list[BuilderSection]
     custom_sections: list[BuilderCustomSection] = Field(default_factory=list)
     target_resume_id: Optional[str] = None
+    style_spec: Optional[StyleSpec] = None
 
 
 class DraftPatchRequest(BaseModel):
@@ -128,6 +133,7 @@ class DraftPatchRequest(BaseModel):
     custom_sections: Optional[list[BuilderCustomSection]] = None
     target_resume_id: Optional[str] = None
     template_id: Optional[str] = None
+    style_spec: Optional[StyleSpec] = None
 
 
 class DraftResponse(BaseModel):
@@ -140,10 +146,6 @@ class DraftListResponse(BaseModel):
 
 class TemplateListResponse(BaseModel):
     templates: list[TemplateMetadata]
-
-
-class LatexResponse(BaseModel):
-    tex: str
 
 
 class HealthResponse(BaseModel):
@@ -179,14 +181,11 @@ class LinkedInImportResponse(BaseModel):
     warnings: list[str] = Field(default_factory=list)
 
 
-class BuilderValidationError(ValueError):
-    def __init__(self, code: str, message: str):
-        super().__init__(message)
-        self.code = code
-        self.message = message
+from utils.domain_errors import DomainError
 
-    def as_detail(self) -> dict[str, str]:
-        return {"code": self.code, "message": self.message}
+
+class BuilderValidationError(DomainError):
+    pass
 
 
 def default_resume_name(profile: ResumeProfile) -> str:

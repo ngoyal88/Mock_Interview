@@ -95,6 +95,15 @@ async def get_snapshot_for_user(uid: str, snapshot_id: str) -> Optional[Dict[str
     return await get_snapshot(uid, snapshot_id)
 
 
+_HISTORY_LIST_FIELDS = (
+    "application_fit_score",
+    "prepared_fit_score",
+    "bottleneck_stage",
+    "computed_at",
+    "created_at",
+)
+
+
 def _list_history_sync(
     uid: str,
     target_role: str,
@@ -104,7 +113,11 @@ def _list_history_sync(
     q = _collection(uid).where(filter=firestore.FieldFilter("target_role", "==", target_role.strip()))
     if jd_digest:
         q = q.where(filter=firestore.FieldFilter("jd_hash", "==", jd_digest))
-    q = q.order_by("created_at", direction=firestore.Query.DESCENDING).limit(max(1, min(limit, 50)))
+    q = (
+        q.select(list(_HISTORY_LIST_FIELDS))
+        .order_by("created_at", direction=firestore.Query.DESCENDING)
+        .limit(max(1, min(limit, 50)))
+    )
     rows: List[Dict[str, Any]] = []
     for doc in q.stream():
         data = doc.to_dict() or {}

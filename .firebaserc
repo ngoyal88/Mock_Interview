@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "mock-interview-5259f",
+    "staging": "mock-interview-5259f"
+  },
+  "targets": {},
+  "etags": {}
+}

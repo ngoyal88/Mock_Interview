@@ -166,6 +166,56 @@ class LLMEngine:
                 return result
         return empty_fallback
 
+    async def _call_json_completion_with_fallback(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        llm: Optional[Any] = None,
+        fallback_llm: Optional[Any] = None,
+        empty_fallback: str = "{}",
+    ) -> str:
+        llm = llm if llm is not None else self.eval_llm
+        fallback_llm = fallback_llm if fallback_llm is not None else self.fallback
+
+        async def _try_one(provider_llm: Any) -> Optional[str]:
+            try:
+                if hasattr(provider_llm, "json_completion"):
+                    raw = await asyncio.wait_for(
+                        provider_llm.json_completion(system_prompt, user_prompt),
+                        15.0,
+                    )
+                else:
+                    raw = await asyncio.wait_for(
+                        provider_llm.generate_text(
+                            f"{system_prompt}\n\n{user_prompt}",
+                            temperature=0.0,
+                        ),
+                        15.0,
+                    )
+                if self._looks_like_provider_error_text(raw or ""):
+                    logger.warning("LLM returned provider error-like text; trying fallback")
+                    return None
+                return (raw or "").strip() or None
+            except asyncio.TimeoutError:
+                logger.warning("LLM json_completion timed out after 15s")
+                return None
+            except Exception as e:
+                if self._is_retryable_error(e):
+                    logger.warning("LLM retryable error: %s", e)
+                else:
+                    logger.error("LLM error: %s", e, exc_info=True)
+                return None
+
+        result = await _try_one(llm)
+        if result:
+            return result
+        if fallback_llm and fallback_llm is not llm:
+            logger.info("Trying fallback LLM provider for json_completion")
+            result = await _try_one(fallback_llm)
+            if result:
+                return result
+        return empty_fallback
+
     async def generate(self, prompt: str, temperature: float = 0.7) -> str:
         return await self._call_llm_with_fallback(prompt, temperature)
 
@@ -191,11 +241,9 @@ class LLMEngine:
         yield (text or "").strip()
 
     async def json_completion(self, system_prompt: str, user_prompt: str) -> str:
-        if hasattr(self.eval_llm, "json_completion"):
-            return await self.eval_llm.json_completion(system_prompt, user_prompt)
-        return await self._call_llm_raw_with_fallback(
-            f"{system_prompt}\n\n{user_prompt}",
-            0.0,
+        return await self._call_json_completion_with_fallback(
+            system_prompt,
+            user_prompt,
             llm=self.eval_llm,
             fallback_llm=self.fallback,
             empty_fallback="{}",

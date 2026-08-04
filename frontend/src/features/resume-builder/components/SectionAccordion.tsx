@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ClipboardCheck, GripVertical, Layers, LayoutTemplate, Plus, Trash2 } from 'lucide-react';
+import { ChevronDown, ClipboardCheck, GripVertical, Layers, LayoutTemplate, Palette, Plus, Trash2 } from 'lucide-react';
 
 import type { useResumeBuilder } from '../hooks/useResumeBuilder';
 import { getSectionIcon } from '../utils/sectionIcons';
 
 import BuilderReadinessCard from './BuilderReadinessCard';
 import { SectionFormContent } from './SectionFormContent';
+import StyleSpecPanel from './style-panel/StyleSpecPanel';
 import TemplateGallery from './TemplateGallery';
 
-export type EditorTab = 'sections' | 'readiness' | 'template';
+export type EditorTab = 'sections' | 'style' | 'readiness' | 'template';
 
 type SectionAccordionProps = {
   builder: ReturnType<typeof useResumeBuilder>;
@@ -61,8 +62,10 @@ export default function SectionAccordion({
   const editorSubtitle =
     editorTab === 'sections'
       ? `${visibleSections.length} active${hiddenSections.length ? ` · ${hiddenSections.length} hidden` : ''} · Click a name to rename`
+      : editorTab === 'style'
+        ? 'Page setup, formats, layout, color, and typography — preview refreshes automatically'
       : editorTab === 'template'
-        ? 'Compare layouts with your content — refresh preview after switching'
+        ? 'Compare layouts — preview updates automatically when you switch'
       : readiness.status === 'blocked'
         ? `${readiness.blocking.length} blocking issue${readiness.blocking.length === 1 ? '' : 's'} before publish`
         : reviewCount > 0
@@ -102,6 +105,16 @@ export default function SectionAccordion({
           >
             <Layers className="h-3.5 w-3.5" aria-hidden />
             Sections
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={editorTab === 'style'}
+            onClick={() => setEditorTab('style')}
+            className={['rb-segmented__btn', editorTab === 'style' ? 'rb-segmented__btn--active' : ''].join(' ')}
+          >
+            <Palette className="h-3.5 w-3.5" aria-hidden />
+            Style
           </button>
           <button
             type="button"
@@ -183,6 +196,17 @@ export default function SectionAccordion({
 
       {editorTab === 'readiness' ? (
         <BuilderReadinessCard readiness={readiness} embedded />
+      ) : editorTab === 'style' ? (
+        <div className="rb-panel__body px-3 pb-4 pt-1">
+          <StyleSpecPanel
+            styleSpec={draft.style_spec}
+            disabled={builder.previewing}
+            onChange={(patch) => {
+              void builder.patchStyleSpec(patch);
+            }}
+            onReset={() => builder.resetStyleSpec()}
+          />
+        </div>
       ) : editorTab === 'template' ? (
         <div className="rb-panel__body px-3 pb-4 pt-1">
           <TemplateGallery

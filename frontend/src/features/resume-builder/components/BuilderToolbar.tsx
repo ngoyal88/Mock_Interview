@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, FileCode2, LayoutTemplate, Redo2, Save, Trash2, Undo2, UploadCloud } from 'lucide-react';
+import { ArrowLeft, Eye, LayoutTemplate, Redo2, Save, Trash2, Undo2, UploadCloud } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import type { SaveState } from '../hooks/draftAutosave';
@@ -18,13 +18,13 @@ interface BuilderToolbarProps {
   readinessStrengthCount: number;
   pageCount: number;
   busy?: boolean;
+  compileUnavailable?: boolean;
   canUndo: boolean;
   canRedo: boolean;
   onUndo: () => void | Promise<void>;
   onRedo: () => void | Promise<void>;
   onSaveDraft: () => void | Promise<void>;
   onRefreshPreview: () => void | Promise<void>;
-  onRefreshLatex: () => void | Promise<void>;
   onOpenPublish: () => void | Promise<void>;
   onDeleteDraft: () => void | Promise<void>;
   onOpenTemplateTab?: () => void;
@@ -96,13 +96,13 @@ export default function BuilderToolbar({
   readinessStrengthCount,
   pageCount,
   busy = false,
+  compileUnavailable = false,
   canUndo,
   canRedo,
   onUndo,
   onRedo,
   onSaveDraft,
   onRefreshPreview,
-  onRefreshLatex,
   onOpenPublish,
   onDeleteDraft,
   onOpenTemplateTab,
@@ -191,20 +191,21 @@ export default function BuilderToolbar({
               {isSaving ? 'Saving…' : 'Save'}
             </button>
 
-            <button type="button" onClick={() => void onRefreshPreview()} disabled={busy || previewing} className={actionButtonClass}>
+            <button
+              type="button"
+              onClick={() => void onRefreshPreview()}
+              disabled={busy || previewing || compileUnavailable}
+              className={actionButtonClass}
+              title="Refresh preview (Ctrl+Enter)"
+            >
               <Eye className="h-4 w-4" aria-hidden />
               {previewing ? 'Generating…' : 'Preview PDF'}
-            </button>
-
-            <button type="button" onClick={() => void onRefreshLatex()} disabled={busy} className={actionButtonClass}>
-              <FileCode2 className="h-4 w-4" aria-hidden />
-              LaTeX
             </button>
 
             <button
               type="button"
               onClick={() => void onOpenPublish()}
-              disabled={busy || publishing}
+              disabled={busy || publishing || compileUnavailable}
               className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-primary)] px-3.5 py-2 text-sm font-semibold text-[var(--color-on-primary)] transition-opacity hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60"
             >
               <UploadCloud className="h-4 w-4" aria-hidden />

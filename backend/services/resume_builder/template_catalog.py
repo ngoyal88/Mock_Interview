@@ -58,4 +58,7 @@ def template_preview_file(template_id: str) -> Path | None:
 
 def clear_template_cache() -> None:
     list_templates.cache_clear()
+    from services.resume_builder.typst_renderer import clear_template_fingerprint_cache
+
+    clear_template_fingerprint_cache()
 

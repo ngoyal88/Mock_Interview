@@ -13,6 +13,7 @@ from services.livekit.token_service import (
     resolve_owned_session,
 )
 from utils.auth import verify_firebase_token
+from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error
 from utils.logger import get_logger
 from utils.rate_limit import check_rate_limit
@@ -96,7 +97,7 @@ async def create_livekit_token(
                 )
             )
         jwt = token.to_jwt()
-    except HTTPException:
+    except DomainError:
         raise
     except Exception as exc:
         raise_internal_error(log, exc, message="Failed to create LiveKit token")

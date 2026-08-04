@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
-from fastapi import HTTPException
 from models.interview import InterviewType
 from services.interview.modes.base import InterviewModeStrategy, ModeStartResult
+from utils.domain_errors import DomainError
 from services.interview.modes.start_configs import ModeStartConfig, PairProgrammingStartConfig
 from services.interview.modes.tracks.dsa import (
     is_live_pair_track,
@@ -30,8 +30,8 @@ class PairProgrammingModeStrategy(InterviewModeStrategy):
 
         track_id = normalize_pair_track(config.track)
         if not is_live_pair_track(track_id):
-            raise HTTPException(
-                400,
+            raise DomainError(
+                "pair_track_unavailable",
                 f"Pair Programming track '{track_id}' is not available yet. Use track 'dsa'.",
             )
 

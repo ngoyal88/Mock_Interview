@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 
 from services.interview.code_submission_service import submit_code
 from utils.auth import verify_firebase_token
+from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error
 from utils.rate_limit import check_rate_limit
 from utils.redis_client import get_session
@@ -42,9 +43,10 @@ async def submit_code_route(
             uid=uid,
             code_service=code_service,
             session_ttl=SESSION_TTL,
+            session_data=session_data,
         )
 
-    except HTTPException:
+    except DomainError:
         raise
     except Exception as e:
         raise_internal_error(logger, e, message="Failed to execute code")

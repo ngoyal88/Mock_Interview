@@ -4,9 +4,9 @@ from dataclasses import dataclass
 from typing import Any, Dict, FrozenSet, Optional, Union
 
 from config import get_settings
-from fastapi import HTTPException
 from models.interview import InterviewType
 from services.interview.modes.base import InterviewModeStrategy
+from utils.domain_errors import DomainError
 from services.interview.modes.resume_deep_dive import ResumeDeepDiveModeStrategy
 from services.interview.modes.role_targeted import RoleTargetedModeStrategy
 
@@ -138,12 +138,12 @@ def is_coding_interview_type(
 
 
 def require_coding_session(session_data: Optional[Dict[str, Any]]) -> None:
-    """Raise HTTP 403 unless the session interview type supports coding."""
+    """Raise DomainError unless the session interview type supports coding."""
     if not session_data or not isinstance(session_data, dict):
-        raise HTTPException(404, "Session not found")
+        raise DomainError("session_not_found", "Session not found")
     if not is_coding_interview_type(session_data.get("interview_type")):
-        raise HTTPException(
-            403,
+        raise DomainError(
+            "coding_mode_required",
             "Code execution is only available in coding interview modes.",
         )
 

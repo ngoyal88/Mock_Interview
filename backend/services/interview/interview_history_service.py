@@ -2,9 +2,12 @@
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from fastapi import HTTPException
-from firebase_config import db
+from firebase_admin import firestore
 
+from firebase_config import db
+from utils.domain_errors import DomainError
+
+from utils.async_io import run_in_thread
 from utils.logger import get_logger
 from utils.redis_client import delete_session, get_session
 from utils.session_access import require_session_owner
@@ -28,24 +31,29 @@ def serialize_timestamp(ts: Any) -> Any:
     return ts
 
 
-def list_interview_history(uid: str, limit: int = 20) -> dict[str, list[dict[str, Any]]]:
-    safe_limit = max(1, min(limit, 50))
-    docs = db.collection("interviews").where("user_id", "==", uid).limit(safe_limit).stream()
-    history: list[dict[str, Any]] = []
-    for doc in docs:
-        data = doc.to_dict() or {}
-        data["id"] = doc.id
-        for key in ("started_at", "completed_at", "created_at", "last_updated"):
-            if key in data:
-                data[key] = serialize_timestamp(data[key])
-        history.append(data)
+async def list_interview_history(uid: str, limit: int = 20) -> dict[str, list[dict[str, Any]]]:
+    def _read() -> dict[str, list[dict[str, Any]]]:
+        safe_limit = max(1, min(limit, 50))
+        # Composite index required: interviews — user_id ASC, started_at DESC.
+        # All persisted interviews set started_at at start/complete; docs missing it are excluded.
+        docs = (
+            db.collection("interviews")
+            .where("user_id", "==", uid)
+            .order_by("started_at", direction=firestore.Query.DESCENDING)
+            .limit(safe_limit)
+            .stream()
+        )
+        history: list[dict[str, Any]] = []
+        for doc in docs:
+            data = doc.to_dict() or {}
+            data["id"] = doc.id
+            for key in ("started_at", "completed_at", "created_at", "last_updated"):
+                if key in data:
+                    data[key] = serialize_timestamp(data[key])
+            history.append(data)
+        return {"history": history}
 
-    def _sort_key(item: dict[str, Any]) -> str:
-        ts = item.get("started_at") or item.get("created_at") or item.get("completed_at") or ""
-        return ts.isoformat() if isinstance(ts, datetime) else str(ts)
-
-    history.sort(key=_sort_key, reverse=True)
-    return {"history": history}
+    return await run_in_thread(_read)
 
 
 async def get_redis_session_details(session_id: str, uid: str) -> dict[str, Any]:
@@ -55,16 +63,19 @@ async def get_redis_session_details(session_id: str, uid: str) -> dict[str, Any]
 
 
 async def delete_interview_history(session_id: str, uid: str) -> dict[str, str]:
-    doc_ref = db.collection("interviews").document(session_id)
-    snapshot = doc_ref.get()
-    if not snapshot.exists:
-        raise HTTPException(404, "Interview not found")
+    def _delete() -> None:
+        doc_ref = db.collection("interviews").document(session_id)
+        snapshot = doc_ref.get()
+        if not snapshot.exists:
+            raise DomainError("interview_not_found", "Interview not found")
 
-    data = snapshot.to_dict() or {}
-    if data.get("user_id") != uid:
-        raise HTTPException(403, "Not authorized to delete this interview")
+        data = snapshot.to_dict() or {}
+        if data.get("user_id") != uid:
+            raise DomainError("interview_forbidden", "Not authorized to delete this interview")
 
-    doc_ref.delete()
+        doc_ref.delete()
+
+    await run_in_thread(_delete)
 
     try:
         await delete_session(f"interview:{session_id}")

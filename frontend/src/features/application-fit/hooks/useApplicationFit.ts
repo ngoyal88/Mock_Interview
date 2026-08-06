@@ -8,6 +8,8 @@ import {
   applyJdTargetHints,
   extractJdTargetHints,
 } from 'shared/utils/jdInputUtils';
+import { useCareerPreferencesQuery } from 'features/user/queries/useCareerPreferencesQuery';
+import { resolveRolePrefill } from 'features/user/utils/careerPrefill';
 
 import { useApplicationFitSnapshotQuery } from '../queries/useApplicationFitQueries';
 import { applicationFitApi } from '../services/applicationFitApi';
@@ -24,6 +26,7 @@ export function useApplicationFit() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { entry, version, loading: resumeLoading } = useActiveVaultResume();
+  const { preferences: careerPreferences, loading: careerPrefsLoading } = useCareerPreferencesQuery();
 
   const [view, setView] = useState<ApplicationFitView>('input');
   const [targetRole, setTargetRole] = useState('');
@@ -59,6 +62,18 @@ export function useApplicationFit() {
     if (state.jobDescription) setJobDescription(state.jobDescription.slice(0, JD_MAX_CHARS));
     if (state.targetCompany) setTargetCompany(state.targetCompany);
   }, [location.state]);
+
+  useEffect(() => {
+    if (careerPrefsLoading || !careerPreferences) return;
+    setTargetRole((current) => {
+      if (current.trim()) return current;
+      const state = (location.state as LocationState | null) ?? {};
+      if (state.role?.trim()) return state.role;
+      const urlRole = searchParams.get('role')?.trim();
+      if (urlRole) return urlRole;
+      return resolveRolePrefill(careerPreferences.target_titles);
+    });
+  }, [careerPrefsLoading, careerPreferences, location.state, searchParams]);
 
   const snapshotId = searchParams.get('snapshot_id');
   const { snapshot, loading: snapshotLoading, error: snapshotError } = useApplicationFitSnapshotQuery(snapshotId);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, type MotionProps } from 'framer-motion';
 import { BriefcaseBusiness, Building2, Target } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { RoleTargetedCombobox } from './RoleTargetedCombobox';
 import { COMPANY_OPTIONS, ROLE_OPTIONS } from '../constants/roleTargetedOptions';
@@ -70,6 +71,13 @@ export function TargetRoleSection({
           emptyHint="Common engineering roles"
         />
       </div>
+      <p className="relative z-10 mt-3 text-sm text-[var(--color-on-surface-variant)]">
+        Prefilled from{' '}
+        <Link to="/profile/preferences" className="text-[var(--teal-2)] hover:underline">
+          career preferences
+        </Link>
+        . URL parameters override defaults.
+      </p>
     </motion.section>
   );
 }

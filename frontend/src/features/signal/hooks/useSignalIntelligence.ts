@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -9,6 +9,8 @@ import {
   type ReadinessSnapshot,
 } from 'shared/services/api';
 import { invalidateProfileCaches } from 'shared/query/invalidateCaches';
+import { useCareerPreferencesQuery } from 'features/user/queries/useCareerPreferencesQuery';
+import { resolveRolePrefill } from 'features/user/utils/careerPrefill';
 
 import type { SectionFilter } from '../components/ClaimsInbox';
 import {
@@ -21,6 +23,8 @@ export type { ProfileMemoryState };
 
 export function useSignalIntelligence() {
   const queryClient = useQueryClient();
+  const { preferences: careerPreferences, loading: careerPrefsLoading } = useCareerPreferencesQuery();
+  const careerPrefsApplied = useRef(false);
   const [sectionFilter, setSectionFilter] = useState<SectionFilter>('pending');
   const [selected, setSelected] = useState<Record<string, boolean>>({});
   const [actingId, setActingId] = useState<string | null>(null);
@@ -38,6 +42,12 @@ export function useSignalIntelligence() {
     error: claimsError,
   } = useProfileClaimsQuery(sectionFilter);
   const { memory } = useProfileMemoryQuery(120);
+
+  useEffect(() => {
+    if (careerPrefsApplied.current || careerPrefsLoading || !careerPreferences) return;
+    setTargetRole((current) => current.trim() || resolveRolePrefill(careerPreferences.target_titles));
+    careerPrefsApplied.current = true;
+  }, [careerPrefsLoading, careerPreferences]);
 
   const invalidateProfile = useCallback(async () => {
     await invalidateProfileCaches(queryClient);

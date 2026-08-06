@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from config import get_settings
-from routes import contact, jd_fit, livekit, resume_builder, vault
+from routes import career_preferences, contact, jd_fit, livekit, resume_builder, user_account, vault
 from routes.websocket_routes import router as websocket_fallback_router
 from routes.interview import router as interview_router
 from services.interview import InterviewService
@@ -210,6 +210,8 @@ async def access_log(request: Request, call_next):
 
 app.include_router(vault.router)
 app.include_router(jd_fit.router)
+app.include_router(career_preferences.router)
+app.include_router(user_account.router)
 app.include_router(livekit.router)
 app.include_router(resume_builder.router)
 app.include_router(contact.router)

@@ -21,6 +21,7 @@ export const queryKeys = {
   },
   user: {
     settings: (uid: string) => ['user', 'settings', uid] as const,
+    careerPreferences: (uid: string) => ['user', 'career-preferences', uid] as const,
   },
   applicationFit: {
     history: (role: string, jd: string) => ['application-fit', 'history', { role, jd }] as const,

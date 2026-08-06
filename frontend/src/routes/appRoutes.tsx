@@ -8,7 +8,9 @@ import PageLoadingState from 'shared/components/PageLoadingState';
 import PrivateRoute from 'shared/components/PrivateRoute';
 
 const Dashboard = lazy(() => import('features/dashboard/pages/Dashboard'));
-const SettingsPage = lazy(() => import('features/dashboard/pages/SettingsPage'));
+const ProfileHubPage = lazy(() => import('features/user/pages/ProfileHubPage'));
+const CareerPreferencesPage = lazy(() => import('features/user/pages/CareerPreferencesPage'));
+const AccountPage = lazy(() => import('features/user/pages/AccountPage'));
 const AnalyticsPage = lazy(() => import('features/dashboard/pages/AnalyticsPage'));
 const HistoryPage = lazy(() => import('features/dashboard/pages/HistoryPage'));
 const ApplicationFitPage = lazy(() => import('features/application-fit/pages/ApplicationFitPage'));
@@ -78,7 +80,11 @@ export const appRoutes = (
         <Route path="r/:resumeId" element={<LazyPage><VaultVersionsPage /></LazyPage>} />
         <Route path="r/:resumeId/:versionId" element={<LazyPage><VaultVersionDetailPage /></LazyPage>} />
       </Route>
-      <Route path="/profile" element={<LazyPage><SettingsPage /></LazyPage>} />
+      <Route path="/profile" element={<LazyPage><ProfileHubPage /></LazyPage>}>
+        <Route index element={<Navigate to="preferences" replace />} />
+        <Route path="preferences" element={<LazyPage><CareerPreferencesPage /></LazyPage>} />
+        <Route path="account" element={<LazyPage><AccountPage /></LazyPage>} />
+      </Route>
       <Route path="/application-fit" element={<LazyPage><ApplicationFitPage /></LazyPage>} />
       <Route path="/application-fit/history" element={<LazyPage><ApplicationFitHistoryPage /></LazyPage>} />
       <Route path="/signal-intelligence" element={<LazyPage><SignalIntelligencePage /></LazyPage>} />

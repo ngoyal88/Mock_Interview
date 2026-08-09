@@ -49,6 +49,10 @@ ERROR_REGISTRY: dict[str, ErrorSpec] = {
     "profile_insufficient": ErrorSpec(422, structured=True),
     "snapshot_not_found": ErrorSpec(404, structured=True),
     "extract_failed": ErrorSpec(400),
+    # Job Discovery
+    "job_discovery_disabled": ErrorSpec(503),
+    "job_discovery.search_unavailable": ErrorSpec(503, structured=True),
+    "job_not_found": ErrorSpec(404),
     # Interview / session
     "session_not_found": ErrorSpec(404),
     "session_owner_missing": ErrorSpec(403),
@@ -72,6 +76,8 @@ ERROR_REGISTRY: dict[str, ErrorSpec] = {
     "scrape_failed": ErrorSpec(502, structured=True),
     "provider_auth_failed": ErrorSpec(503, structured=True),
     "profile_not_found": ErrorSpec(404, structured=True),
+    # Career preferences
+    "career_preferences_invalid_value": ErrorSpec(400, structured=True),
 }
 
 

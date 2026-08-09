@@ -83,7 +83,7 @@ Do **not** create `backend/helpers.py` or dump cross-domain logic into `utils/` 
 | **Job Discovery** | [`routes/job_discovery.py`](routes/job_discovery.py) | [`services/job_discovery/`](services/job_discovery/) | Domain-local [`models.py`](services/job_discovery/models.py); Firestore `jobs/{id}` SSOT + Meilisearch active-only index |
 | **Resume builder** | [`routes/resume_builder.py`](routes/resume_builder.py) | [`services/resume_builder/`](services/resume_builder/) | compile worker separate from public API; LinkedIn import at `linkedin_import/` + `POST /resume-builder/import/linkedin` |
 | **Career preferences** | [`routes/career_preferences.py`](routes/career_preferences.py) | [`services/user/career_preferences/`](services/user/career_preferences/) | `users/{uid}.career_preferences` via Admin SDK; cross-domain reads via `loader.py` |
-| **User account** | [`routes/user_account.py`](routes/user_account.py) | [`services/user/account/`](services/user/account/) | `DELETE /user/account` purge; legacy shim at `/interview/account/purge` |
+| **User account** | [`routes/user_account.py`](routes/user_account.py) | [`services/user/account/`](services/user/account/) | `DELETE /user/account` purge |
 | **Profile memory (VPM)** | via interview routes | [`services/profile_memory/`](services/profile_memory/) | LiveKit-only pipeline |
 | **Platform** | — | [`services/platform/llm/`](services/platform/llm/) | `get_platform_llm()` |
 | **LiveKit tokens** | [`routes/livekit.py`](routes/livekit.py) | [`services/livekit/token_service.py`](services/livekit/token_service.py) | — |

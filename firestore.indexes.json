@@ -9,6 +9,14 @@
       ]
     },
     {
+      "collectionGroup": "jobs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "last_seen_at", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "profile_claims",
       "queryScope": "COLLECTION_GROUP",
       "fields": [

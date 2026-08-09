@@ -88,7 +88,17 @@ class Settings(BaseSettings):
 
     vpm_enabled: bool = True
     jd_fit_enabled: bool = True
+    job_discovery_enabled: bool = False
     resume_builder_enabled: bool = False
+    fantastic_jobs_api_key: str = ""
+    fantastic_jobs_base_url: str = "https://data.fantastic.jobs"
+    # auto | direct | apify — auto uses Apify when only APIFY_API_TOKEN is set
+    job_discovery_ingest_provider: str = "auto"
+    meilisearch_url: str = "http://127.0.0.1:7700"
+    meilisearch_master_key: str = ""
+    job_discovery_credit_budget: int = 5000
+    job_discovery_stale_unseen_days: int = 7
+    job_discovery_description_max_chars: int = 32000
     vpm_max_accepted_claims: int = 50
     vpm_max_raw_extract: int = 8
     vpm_pipeline_lease_seconds: int = 600
@@ -133,6 +143,8 @@ class Settings(BaseSettings):
     apify_api_token: str = ""
     apify_linkedin_actor_id: str = "VhxlqQXRwhW8H5hNV"
     apify_linkedin_timeout_s: int = 180
+    apify_fantastic_jobs_actor_id: str = "fantastic-jobs~career-site-job-listing-api"
+    apify_fantastic_jobs_timeout_s: int = 600
 
     model_config = SettingsConfigDict(
         env_file=".env",

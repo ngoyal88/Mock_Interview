@@ -65,11 +65,14 @@ Mirror the service domain. Characterization tests lock behavior before refactors
 ### Shared kernel (2+ domains)
 
 ```
-services/platform/     # LLM today; other cross-domain kernels later
-services/jd/extract.py # shared JD text normalize (see docs/JD_EXTRACT_BOUNDARY.md)
+services/platform/llm/         # LLM engine
+services/platform/reference/   # Cross-domain closed enums + supported role labels (FE mirror: shared/reference/)
+services/jd/extract.py         # shared JD text normalize (see docs/JD_EXTRACT_BOUNDARY.md)
 ```
 
 Do **not** create `backend/helpers.py` or dump cross-domain logic into `utils/` unless it is truly infrastructure (auth, redis, rate limit).
+
+Closed vocabularies (`EXPERIENCE_LEVELS`, `WORK_ARRANGEMENTS`, `EMPLOYMENT_TYPES`, `SUPPORTED_COUNTRIES`, picker `SUPPORTED_ROLES` / `SUPPORTED_COMPANIES`, `DEFAULT_TAXONOMIES_PRIMARY`, `DEFAULT_EMPLOYMENT_TYPE`, country ISO maps) live in [`services/platform/reference/`](services/platform/reference/). Career preferences re-exports enums/defaults from there for validation; Job Discovery `INGEST_DEFAULTS` / Apify inventory filters must derive from those constants — do not hardcode `Technology,Software` or `FULL_TIME` in the Apify client. Fantastic.jobs ingest title terms stay in `job_discovery/ingest/role_family_taxonomy.py` (provider adapter, not product catalog). Resume/vault `employment_type` snake_case (`full_time`, …) remains vault-local and is not merged with Fantastic `FULL_TIME`. Company `id` is the stable slug for prefs `target_company_slugs` / future JD target-company filters; `label` is UI display.
 
 ---
 
@@ -85,7 +88,7 @@ Do **not** create `backend/helpers.py` or dump cross-domain logic into `utils/` 
 | **Career preferences** | [`routes/career_preferences.py`](routes/career_preferences.py) | [`services/user/career_preferences/`](services/user/career_preferences/) | `users/{uid}.career_preferences` via Admin SDK; cross-domain reads via `loader.py` |
 | **User account** | [`routes/user_account.py`](routes/user_account.py) | [`services/user/account/`](services/user/account/) | `DELETE /user/account` purge |
 | **Profile memory (VPM)** | via interview routes | [`services/profile_memory/`](services/profile_memory/) | LiveKit-only pipeline |
-| **Platform** | — | [`services/platform/llm/`](services/platform/llm/) | `get_platform_llm()` |
+| **Platform** | — | [`services/platform/llm/`](services/platform/llm/), [`services/platform/reference/`](services/platform/reference/) | `get_platform_llm()`; reference enums + role labels (FE: `shared/reference/`) |
 | **LiveKit tokens** | [`routes/livekit.py`](routes/livekit.py) | [`services/livekit/token_service.py`](services/livekit/token_service.py) | — |
 
 Cross-stack mode contract: [`docs/INTERVIEW_MODE_CONTRACT.md`](../docs/INTERVIEW_MODE_CONTRACT.md) + FE [`modeContract.ts`](../frontend/src/features/interview/domain/modeContract.ts).

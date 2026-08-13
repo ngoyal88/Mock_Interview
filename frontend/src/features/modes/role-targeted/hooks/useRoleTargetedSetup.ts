@@ -23,7 +23,6 @@ export function useRoleTargetedSetup() {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const jdFitSnapshotId = searchParams.get('jd_fit_snapshot_id')?.trim() || null;
 
   const { profile: parsedResume, loading: loadingResume } = useActiveVaultResume();
   const { preferences: careerPreferences, loading: careerPrefsLoading } = useCareerPreferencesQuery();
@@ -47,9 +46,13 @@ export function useRoleTargetedSetup() {
         company?: string;
         targetCompany?: string;
         jobDescription?: string;
+        jdFitSnapshotId?: string;
       } | null) ?? {}),
     [location.state],
   );
+
+  const jdFitSnapshotId =
+    searchParams.get('jd_fit_snapshot_id')?.trim() || locationState.jdFitSnapshotId?.trim() || null;
 
   useEffect(() => {
     const presetRole =

@@ -13,7 +13,7 @@ type LocationPreferencesSectionProps = {
 };
 
 function emptyLocation(): LocationRecord {
-  return { country: 'United States', city: '', region: '' };
+  return { country: 'India', city: '', region: '' };
 }
 
 export function LocationPreferencesSection({ form, onChange }: LocationPreferencesSectionProps) {

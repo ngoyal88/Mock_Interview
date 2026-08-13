@@ -10,6 +10,7 @@ from services.user.career_preferences.constants import (
     DEFAULT_SALARY_CURRENCY,
     DEFAULT_TAXONOMIES_PRIMARY,
     SCHEMA_VERSION,
+    SUPPORTED_COUNTRIES,
 )
 from services.user.career_preferences.models import CareerPreferencesDoc
 
@@ -32,4 +33,15 @@ def normalize_doc(raw: dict[str, Any] | None) -> CareerPreferencesDoc:
         payload["exclude_staffing_agencies"] = DEFAULT_EXCLUDE_STAFFING_AGENCIES
     if not payload.get("salary_currency"):
         payload["salary_currency"] = DEFAULT_SALARY_CURRENCY
+
+    # Drop legacy US/UK rows after India-only scope change (do not raise on read).
+    for key in ("locations", "exclude_locations"):
+        rows = payload.get(key)
+        if isinstance(rows, list):
+            payload[key] = [
+                row
+                for row in rows
+                if isinstance(row, dict) and str(row.get("country") or "").strip() in SUPPORTED_COUNTRIES
+            ]
+
     return CareerPreferencesDoc.model_validate(payload)

@@ -1,6 +1,7 @@
 import type { CareerPreferencesDoc } from '../types/careerPreferencesTypes';
+import { REMOTE_ONLY_ARRANGEMENTS } from 'shared/reference/enums';
 
-const REMOTE_ONLY = new Set(['Remote OK', 'Remote Solely']);
+const REMOTE_ONLY = new Set<string>(REMOTE_ONLY_ARRANGEMENTS);
 
 export type PreferenceSectionId =
   | 'profile-section-role'

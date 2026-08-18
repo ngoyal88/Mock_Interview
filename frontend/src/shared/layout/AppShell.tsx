@@ -11,6 +11,7 @@ import {
   Sparkles,
   User,
   Rocket,
+  BriefcaseBusiness,
   X,
 } from 'lucide-react';
 
@@ -30,6 +31,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'AI Interview', href: '/ai-interview', icon: Rocket },
   { label: 'Resume Vault', href: '/resume-vault', icon: Folder },
   { label: 'Application Fit', href: '/application-fit', icon: BarChart3 },
+  ...(import.meta.env.VITE_JOB_DISCOVERY_ENABLED === 'true'
+    ? [{ label: 'Jobs', href: '/jobs', icon: BriefcaseBusiness }]
+    : []),
   { label: 'Signal', href: '/signal-intelligence', icon: Sparkles },
 ];
 

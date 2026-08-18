@@ -25,6 +25,18 @@ export async function prefetchInterviewHistory(limit = 20): Promise<void> {
   });
 }
 
+export async function prefetchJobDiscovery(): Promise<void> {
+  const [{ jobDiscoveryApi }, { DEFAULT_JOB_SEARCH_FILTERS }] = await Promise.all([
+    import('features/job-discovery/services/jobDiscoveryApi'),
+    import('features/job-discovery/types/jobDiscoveryTypes'),
+  ]);
+  await getQueryClient().prefetchQuery({
+    queryKey: queryKeys.jobDiscovery.search(DEFAULT_JOB_SEARCH_FILTERS, 0),
+    queryFn: () => jobDiscoveryApi.search(DEFAULT_JOB_SEARCH_FILTERS, 0),
+    ...queryPolicies.list,
+  });
+}
+
 export function prefetchForNavPath(path: string): void {
   if (path.startsWith('/resume-vault')) {
     void prefetchVaultEntries();
@@ -32,6 +44,10 @@ export function prefetchForNavPath(path: string): void {
   }
   if (path.startsWith('/ai-interview/history')) {
     void prefetchInterviewHistory(20);
+    return;
+  }
+  if (path === '/jobs') {
+    void prefetchJobDiscovery();
     return;
   }
   if (path === '/dashboard') {

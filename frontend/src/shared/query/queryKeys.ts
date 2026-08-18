@@ -27,4 +27,12 @@ export const queryKeys = {
     history: (role: string, jd: string) => ['application-fit', 'history', { role, jd }] as const,
     snapshot: (id: string) => ['application-fit', 'snapshot', id] as const,
   },
+  jobDiscovery: {
+    all: ['job-discovery'] as const,
+    search: (filters: unknown, page: number) =>
+      [...queryKeys.jobDiscovery.all, 'search', { filters, page }] as const,
+    detail: (jobId: string) => [...queryKeys.jobDiscovery.all, 'detail', jobId] as const,
+    saved: () => [...queryKeys.jobDiscovery.all, 'saved'] as const,
+    settings: () => [...queryKeys.jobDiscovery.all, 'settings'] as const,
+  },
 };

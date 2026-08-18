@@ -7,7 +7,7 @@ Vetta.ai's React app splits **public marketing** from the **authenticated produc
 | Area | Path | Purpose |
 |------|------|---------|
 | Public site | `src/features/website/` | Home, pricing, contact, 404 — `WebsiteLayout`, no `AppShell` |
-| App features | `src/features/<domain>/` | Dashboard, vault, modes, interview, signal, auth |
+| App features | `src/features/<domain>/` | Dashboard, vault, modes, interview, signal, user (profile hub), auth |
 | Cross-cutting | `src/shared/` | Auth, HTTP client, guards, `AppShell`, `ui/` primitives |
 | Route registry | `src/routes/` + `App.tsx` | Composed route modules |
 
@@ -25,9 +25,22 @@ Is it sign-in / sign-up?
 Is it behind login?
   → features/<domain>/pages/
      Wrap with PrivateRoute + AppShell in routes/appRoutes.tsx.
+
+Profile hub (career preferences + account)?
+  → features/user/
+     Routes: /profile/preferences, /profile/account.
+     Career prefs: GET/PATCH /career-preferences via careerPreferencesApi.
+     Account identity: client Firestore via accountSettingsService + useAccountSettingsQuery.
+     Account delete: DELETE /user/account via features/user/services/accountApi.ts.
 ```
 
 Do **not** add marketing pages under `shared/pages/`.
+
+## Profile hub (`features/user/`)
+
+- **Career preferences tab:** backend SSOT at `users/{uid}.career_preferences`; explicit Save (not autosave); incomplete banner from API `completeness`.
+- **Account tab:** identity, interview behavior (skip precheck), plan, data links, delete account — migrated from legacy dashboard settings.
+- **Consumers:** Role-Targeted + Application Fit + Signal Intelligence prefill via `useCareerPreferencesQuery` + `careerPrefill.ts`; Resume Builder identity via `useAccountSettingsQuery`.
 
 ## Routing
 

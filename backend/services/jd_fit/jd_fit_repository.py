@@ -95,6 +95,46 @@ async def get_snapshot_for_user(uid: str, snapshot_id: str) -> Optional[Dict[str
     return await get_snapshot(uid, snapshot_id)
 
 
+def _annotate_snapshot_source_sync(
+    uid: str,
+    snapshot_id: str,
+    *,
+    source: str,
+    source_job_id: Optional[str] = None,
+    source_job_title: Optional[str] = None,
+    source_company: Optional[str] = None,
+) -> None:
+    _collection(uid).document(snapshot_id).set(
+        {
+            "source": source,
+            "source_job_id": source_job_id,
+            "source_job_title": source_job_title,
+            "source_company": source_company,
+        },
+        merge=True,
+    )
+
+
+async def annotate_snapshot_source(
+    uid: str,
+    snapshot_id: str,
+    *,
+    source: str,
+    source_job_id: Optional[str] = None,
+    source_job_title: Optional[str] = None,
+    source_company: Optional[str] = None,
+) -> None:
+    await asyncio.to_thread(
+        _annotate_snapshot_source_sync,
+        uid,
+        snapshot_id,
+        source=source,
+        source_job_id=source_job_id,
+        source_job_title=source_job_title,
+        source_company=source_company,
+    )
+
+
 _HISTORY_LIST_FIELDS = (
     "application_fit_score",
     "prepared_fit_score",

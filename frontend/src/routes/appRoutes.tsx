@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { Outlet, Route } from 'react-router-dom';
+import { Navigate, Outlet, Route } from 'react-router-dom';
 
 import VaultLayout from 'features/vault/layout/VaultLayout';
 import AppShell from 'shared/layout/AppShell';
@@ -8,11 +8,15 @@ import PageLoadingState from 'shared/components/PageLoadingState';
 import PrivateRoute from 'shared/components/PrivateRoute';
 
 const Dashboard = lazy(() => import('features/dashboard/pages/Dashboard'));
-const SettingsPage = lazy(() => import('features/dashboard/pages/SettingsPage'));
+const ProfileHubPage = lazy(() => import('features/user/pages/ProfileHubPage'));
+const CareerPreferencesPage = lazy(() => import('features/user/pages/CareerPreferencesPage'));
+const AccountPage = lazy(() => import('features/user/pages/AccountPage'));
 const AnalyticsPage = lazy(() => import('features/dashboard/pages/AnalyticsPage'));
 const HistoryPage = lazy(() => import('features/dashboard/pages/HistoryPage'));
 const ApplicationFitPage = lazy(() => import('features/application-fit/pages/ApplicationFitPage'));
 const ApplicationFitHistoryPage = lazy(() => import('features/application-fit/pages/ApplicationFitHistoryPage'));
+const JobDiscoveryPage = lazy(() => import('features/job-discovery/pages/JobDiscoveryPage'));
+const SavedJobsPage = lazy(() => import('features/job-discovery/pages/SavedJobsPage'));
 const SignalIntelligencePage = lazy(() => import('features/signal/pages/SignalIntelligencePage'));
 const AiInterviewPage = lazy(() => import('features/modes/pages/AiInterviewPage'));
 const RoleTargetedPage = lazy(() => import('features/modes/role-targeted/pages/RoleTargetedPage'));
@@ -59,6 +63,7 @@ function PrivateAppShell() {
 }
 
 const resumeBuilderEnabled = import.meta.env.VITE_RESUME_BUILDER_ENABLED === 'true';
+const jobDiscoveryEnabled = import.meta.env.VITE_JOB_DISCOVERY_ENABLED === 'true';
 
 export const appRoutes = (
   <>
@@ -78,9 +83,19 @@ export const appRoutes = (
         <Route path="r/:resumeId" element={<LazyPage><VaultVersionsPage /></LazyPage>} />
         <Route path="r/:resumeId/:versionId" element={<LazyPage><VaultVersionDetailPage /></LazyPage>} />
       </Route>
-      <Route path="/profile" element={<LazyPage><SettingsPage /></LazyPage>} />
+      <Route path="/profile" element={<LazyPage><ProfileHubPage /></LazyPage>}>
+        <Route index element={<Navigate to="preferences" replace />} />
+        <Route path="preferences" element={<LazyPage><CareerPreferencesPage /></LazyPage>} />
+        <Route path="account" element={<LazyPage><AccountPage /></LazyPage>} />
+      </Route>
       <Route path="/application-fit" element={<LazyPage><ApplicationFitPage /></LazyPage>} />
       <Route path="/application-fit/history" element={<LazyPage><ApplicationFitHistoryPage /></LazyPage>} />
+      {jobDiscoveryEnabled ? (
+        <>
+          <Route path="/jobs" element={<LazyPage><JobDiscoveryPage /></LazyPage>} />
+          <Route path="/jobs/saved" element={<LazyPage><SavedJobsPage /></LazyPage>} />
+        </>
+      ) : null}
       <Route path="/signal-intelligence" element={<LazyPage><SignalIntelligencePage /></LazyPage>} />
       <Route path="/ai-interview/analytics" element={<LazyPage><AnalyticsPage /></LazyPage>} />
       <Route path="/ai-interview/history" element={<LazyPage><HistoryPage /></LazyPage>} />

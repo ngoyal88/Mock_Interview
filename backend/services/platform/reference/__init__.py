@@ -1,0 +1,56 @@
+"""Platform reference catalogs — closed enums, roles, and companies."""
+
+from services.platform.reference.companies import (
+    COMPANY_LABELS,
+    COMPANY_LABEL_SET,
+    COMPANY_SLUGS,
+    COMPANY_SLUG_SET,
+    SUPPORTED_COMPANIES,
+    SupportedCompany,
+)
+from services.platform.reference.enums import (
+    COMPANY_SIZE_BUCKETS,
+    COUNTRY_NAME_TO_CODE,
+    DEFAULT_EMPLOYMENT_TYPE,
+    DEFAULT_LANGUAGE,
+    DEFAULT_SALARY_CURRENCY,
+    DEFAULT_TAXONOMIES_PRIMARY,
+    EMPLOYMENT_TYPES,
+    EXPERIENCE_LEVELS,
+    REMOTE_ONLY_ARRANGEMENTS,
+    SUPPORTED_COUNTRIES,
+    SUPPORTED_COUNTRY_CODES,
+    VISA_FILTER_REQUIRED,
+    WORK_ARRANGEMENTS,
+    country_code_for_name,
+    primary_supported_country,
+)
+from services.platform.reference.roles import ROLE_LABELS, ROLE_LABEL_SET, SUPPORTED_ROLES, SupportedRole
+
+__all__ = [
+    "COMPANY_LABELS",
+    "COMPANY_LABEL_SET",
+    "COMPANY_SIZE_BUCKETS",
+    "COMPANY_SLUGS",
+    "COMPANY_SLUG_SET",
+    "COUNTRY_NAME_TO_CODE",
+    "DEFAULT_EMPLOYMENT_TYPE",
+    "DEFAULT_LANGUAGE",
+    "DEFAULT_SALARY_CURRENCY",
+    "DEFAULT_TAXONOMIES_PRIMARY",
+    "EMPLOYMENT_TYPES",
+    "EXPERIENCE_LEVELS",
+    "REMOTE_ONLY_ARRANGEMENTS",
+    "ROLE_LABELS",
+    "ROLE_LABEL_SET",
+    "SUPPORTED_COMPANIES",
+    "SUPPORTED_COUNTRIES",
+    "SUPPORTED_COUNTRY_CODES",
+    "SUPPORTED_ROLES",
+    "SupportedCompany",
+    "SupportedRole",
+    "VISA_FILTER_REQUIRED",
+    "WORK_ARRANGEMENTS",
+    "country_code_for_name",
+    "primary_supported_country",
+]

@@ -98,14 +98,14 @@ const UserAccountMenu = ({ user, onLogout, onNavigate }: UserAccountMenuProps) =
         >
           <Link
             role="menuitem"
-            to="/profile"
+            to="/profile/preferences"
             className="block px-3 py-2 text-sm font-medium text-[var(--cream-0)] transition-colors duration-[120ms] ease-out hover:bg-[var(--bg-2)]"
             onClick={() => {
               close();
               onNavigate?.();
             }}
           >
-            Settings
+            Profile
           </Link>
           <button
             type="button"

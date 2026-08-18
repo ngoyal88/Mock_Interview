@@ -1,0 +1,59 @@
+"""Career preferences limits and defaults; closed enums re-exported from platform reference."""
+from __future__ import annotations
+
+from typing import Final
+
+from services.platform.reference.enums import (
+    COMPANY_SIZE_BUCKETS,
+    DEFAULT_EMPLOYMENT_TYPE,
+    DEFAULT_LANGUAGE,
+    DEFAULT_SALARY_CURRENCY,
+    DEFAULT_TAXONOMIES_PRIMARY as PLATFORM_DEFAULT_TAXONOMIES_PRIMARY,
+    EMPLOYMENT_TYPES,
+    EXPERIENCE_LEVELS,
+    REMOTE_ONLY_ARRANGEMENTS,
+    SUPPORTED_COUNTRIES,
+    WORK_ARRANGEMENTS,
+)
+
+SCHEMA_VERSION: Final[int] = 1
+
+DEFAULT_TAXONOMIES_PRIMARY: Final[list[str]] = list(PLATFORM_DEFAULT_TAXONOMIES_PRIMARY)
+DEFAULT_EMPLOYMENT_TYPES: Final[list[str]] = [DEFAULT_EMPLOYMENT_TYPE]
+DEFAULT_EXCLUDE_STAFFING_AGENCIES: Final[bool] = True
+
+MAX_TARGET_TITLES: Final[int] = 5
+MAX_EXCLUDE_TITLES: Final[int] = 10
+MAX_LOCATIONS: Final[int] = 10
+MAX_EXCLUDE_LOCATIONS: Final[int] = 10
+MAX_COMPANY_SLUGS: Final[int] = 20
+MAX_INDUSTRIES: Final[int] = 20
+MAX_YEARS_EXPERIENCE: Final[int] = 50
+
+INCOMPLETE_MESSAGE: Final[str] = (
+    "Your career preferences are incomplete. Jobs and suggestions may not match "
+    "what you want until you finish updating them."
+)
+
+__all__ = [
+    "COMPANY_SIZE_BUCKETS",
+    "DEFAULT_EMPLOYMENT_TYPES",
+    "DEFAULT_EXCLUDE_STAFFING_AGENCIES",
+    "DEFAULT_LANGUAGE",
+    "DEFAULT_SALARY_CURRENCY",
+    "DEFAULT_TAXONOMIES_PRIMARY",
+    "EMPLOYMENT_TYPES",
+    "EXPERIENCE_LEVELS",
+    "INCOMPLETE_MESSAGE",
+    "MAX_COMPANY_SLUGS",
+    "MAX_EXCLUDE_LOCATIONS",
+    "MAX_EXCLUDE_TITLES",
+    "MAX_INDUSTRIES",
+    "MAX_LOCATIONS",
+    "MAX_TARGET_TITLES",
+    "MAX_YEARS_EXPERIENCE",
+    "REMOTE_ONLY_ARRANGEMENTS",
+    "SCHEMA_VERSION",
+    "SUPPORTED_COUNTRIES",
+    "WORK_ARRANGEMENTS",
+]

@@ -1,0 +1,7776 @@
+[
+  {
+    "location_id": "in_state_andaman_and_nicobar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andaman and Nicobar",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Andaman and Nicobar, India"
+  },
+  {
+    "location_id": "in_state_andhra_pradesh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_state_arunachal_pradesh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Arunachal Pradesh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Arunachal Pradesh, India"
+  },
+  {
+    "location_id": "in_state_assam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Assam",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Assam, India"
+  },
+  {
+    "location_id": "in_state_bihar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bihar, India"
+  },
+  {
+    "location_id": "in_state_chandigarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chandigarh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Chandigarh, India"
+  },
+  {
+    "location_id": "in_state_chhattisgarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_state_dadra_and_nagar_haveli_and_daman_and_diu",
+    "country": "India",
+    "country_code": "in",
+    "region": "Dadra and Nagar Haveli and Daman and Diu",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Dadra and Nagar Haveli and Daman and Diu, India"
+  },
+  {
+    "location_id": "in_state_delhi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Delhi, India"
+  },
+  {
+    "location_id": "in_state_goa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Goa",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Goa, India"
+  },
+  {
+    "location_id": "in_state_gujarat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gujarat, India"
+  },
+  {
+    "location_id": "in_state_haryana",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Haryana, India"
+  },
+  {
+    "location_id": "in_state_himachal_pradesh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Himachal Pradesh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Himachal Pradesh, India"
+  },
+  {
+    "location_id": "in_state_jammu_and_kashmir",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jammu and Kashmir",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jammu and Kashmir, India"
+  },
+  {
+    "location_id": "in_state_jharkhand",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jharkhand, India"
+  },
+  {
+    "location_id": "in_state_karnataka",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Karnataka, India"
+  },
+  {
+    "location_id": "in_state_kerala",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kerala, India"
+  },
+  {
+    "location_id": "in_state_ladakh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Ladakh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Ladakh, India"
+  },
+  {
+    "location_id": "in_state_lakshadweep",
+    "country": "India",
+    "country_code": "in",
+    "region": "Lakshadweep",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Lakshadweep, India"
+  },
+  {
+    "location_id": "in_state_madhya_pradesh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_state_maharashtra",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Maharashtra, India"
+  },
+  {
+    "location_id": "in_state_manipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Manipur",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Manipur, India"
+  },
+  {
+    "location_id": "in_state_meghalaya",
+    "country": "India",
+    "country_code": "in",
+    "region": "Meghalaya",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Meghalaya, India"
+  },
+  {
+    "location_id": "in_state_mizoram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Mizoram",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Mizoram, India"
+  },
+  {
+    "location_id": "in_state_nagaland",
+    "country": "India",
+    "country_code": "in",
+    "region": "Nagaland",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Nagaland, India"
+  },
+  {
+    "location_id": "in_state_odisha",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Odisha, India"
+  },
+  {
+    "location_id": "in_state_puducherry",
+    "country": "India",
+    "country_code": "in",
+    "region": "Puducherry",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Puducherry, India"
+  },
+  {
+    "location_id": "in_state_punjab",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Punjab, India"
+  },
+  {
+    "location_id": "in_state_rajasthan",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Rajasthan, India"
+  },
+  {
+    "location_id": "in_state_sikkim",
+    "country": "India",
+    "country_code": "in",
+    "region": "Sikkim",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sikkim, India"
+  },
+  {
+    "location_id": "in_state_tamil_nadu",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_state_telangana",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Telangana, India"
+  },
+  {
+    "location_id": "in_state_tripura",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tripura",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Tripura, India"
+  },
+  {
+    "location_id": "in_state_uttar_pradesh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_state_uttarakhand",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttarakhand",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Uttarakhand, India"
+  },
+  {
+    "location_id": "in_state_west_bengal",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": null,
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "West Bengal, India"
+  },
+  {
+    "location_id": "in_mumbai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Mumbai",
+    "catch_all": false,
+    "aliases": [
+      "bombay",
+      "Asumumbay",
+      "bamba'i",
+      "bmbyy",
+      "Bombai",
+      "Bombaim",
+      "Bombaj"
+    ],
+    "fantastic_jobs_query": "Mumbai, Maharashtra, India"
+  },
+  {
+    "location_id": "in_delhi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Delhi",
+    "catch_all": false,
+    "aliases": [
+      "Daehli",
+      "dehali",
+      "Dehli",
+      "Delchi",
+      "Delhio",
+      "deli"
+    ],
+    "fantastic_jobs_query": "Delhi, Delhi, India"
+  },
+  {
+    "location_id": "in_bengaluru",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Bengaluru",
+    "catch_all": false,
+    "aliases": [
+      "bangalore",
+      "baeng-geollo",
+      "bagalaura",
+      "Ban'nkalor",
+      "bang-galloleu",
+      "bangalaura",
+      "Bangalor"
+    ],
+    "fantastic_jobs_query": "Bengaluru, Karnataka, India"
+  },
+  {
+    "location_id": "in_hyderabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Hyderabad",
+    "catch_all": false,
+    "aliases": [
+      "Bhaganagar",
+      "haidarabada",
+      "Haidarabadas",
+      "haidarabadu",
+      "Haiderabad",
+      "haiderabado"
+    ],
+    "fantastic_jobs_query": "Hyderabad, Telangana, India"
+  },
+  {
+    "location_id": "in_ahmedabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Ahmedabad",
+    "catch_all": false,
+    "aliases": [
+      "Achmentampant",
+      "afumadabado",
+      "aham'madabad",
+      "ahamadabad",
+      "ahamadabada",
+      "ahamedabada"
+    ],
+    "fantastic_jobs_query": "Ahmedabad, Gujarat, India"
+  },
+  {
+    "location_id": "in_chennai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Chennai",
+    "catch_all": false,
+    "aliases": [
+      "madras",
+      "cena'i",
+      "Cenaj",
+      "Cenajo",
+      "Cenajus",
+      "Cenay",
+      "cenna'i"
+    ],
+    "fantastic_jobs_query": "Chennai, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_kolkata",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Kolkata",
+    "catch_all": false,
+    "aliases": [
+      "Calcuta",
+      "Calcutta",
+      "Caligardamana",
+      "Kaelkuettae",
+      "Kal'kuta",
+      "Kal'kutta"
+    ],
+    "fantastic_jobs_query": "Kolkata, West Bengal, India"
+  },
+  {
+    "location_id": "in_surat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Surat",
+    "catch_all": false,
+    "aliases": [
+      "curat",
+      "surata",
+      "Suratas",
+      "Surate",
+      "surato",
+      "Surato"
+    ],
+    "fantastic_jobs_query": "Surat, Gujarat, India"
+  },
+  {
+    "location_id": "in_pune",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Pune",
+    "catch_all": false,
+    "aliases": [
+      "bwnh",
+      "Poona",
+      "poona",
+      "Poune",
+      "Puna",
+      "puna"
+    ],
+    "fantastic_jobs_query": "Pune, Maharashtra, India"
+  },
+  {
+    "location_id": "in_jaipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Jaipur",
+    "catch_all": false,
+    "aliases": [
+      "Caypur",
+      "ceyppur",
+      "Dzaipur",
+      "Dzaipuras",
+      "Dzajpur",
+      "Dzajpura"
+    ],
+    "fantastic_jobs_query": "Jaipur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_kanpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Kanpur",
+    "catch_all": false,
+    "aliases": [
+      "Cawnpore",
+      "Cawnporne",
+      "kanapura",
+      "Kanpour",
+      "Kanpuras",
+      "Kanpuro"
+    ],
+    "fantastic_jobs_query": "Kanpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_navi_mumbai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Navi Mumbai",
+    "catch_all": false,
+    "aliases": [
+      "nabimumbai",
+      "nabimunbai",
+      "navamumba'i",
+      "Navi-Mumbaj",
+      "Novmumbajo"
+    ],
+    "fantastic_jobs_query": "Navi Mumbai, Maharashtra, India"
+  },
+  {
+    "location_id": "in_lucknow",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Lucknow",
+    "catch_all": false,
+    "aliases": [
+      "ilakno",
+      "lakhana'u",
+      "lakhanau",
+      "Lakhnau",
+      "Lakkhnau",
+      "Laknaou"
+    ],
+    "fantastic_jobs_query": "Lucknow, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_nagpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Nagpur",
+    "catch_all": false,
+    "aliases": [
+      "Ajni",
+      "nagapur",
+      "nagapura",
+      "nagapuram",
+      "nageupuleu",
+      "naghbwr"
+    ],
+    "fantastic_jobs_query": "Nagpur, Maharashtra, India"
+  },
+  {
+    "location_id": "in_coimbatore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Coimbatore",
+    "catch_all": false,
+    "aliases": [
+      "ko'ibatura",
+      "ko'imabatore",
+      "ko'imbatora",
+      "ko'imbatura",
+      "koimbatoleu",
+      "Koimbator"
+    ],
+    "fantastic_jobs_query": "Coimbatore, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_indore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Indore",
+    "catch_all": false,
+    "aliases": [
+      "andwr",
+      "ayndwr",
+      "idaura",
+      "Indaur",
+      "indaura",
+      "Indhur"
+    ],
+    "fantastic_jobs_query": "Indore, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_thane",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Thāne",
+    "catch_all": false,
+    "aliases": [
+      "Tane",
+      "tanh",
+      "Tanna",
+      "tany",
+      "Thana",
+      "thyn"
+    ],
+    "fantastic_jobs_query": "Thāne, Maharashtra, India"
+  },
+  {
+    "location_id": "in_vadodara",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Vadodara",
+    "catch_all": false,
+    "aliases": [
+      "badodala",
+      "Baroda",
+      "barodara",
+      "bhadodara",
+      "fadwdara",
+      "radodara"
+    ],
+    "fantastic_jobs_query": "Vadodara, Gujarat, India"
+  },
+  {
+    "location_id": "in_bhopal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Bhopal",
+    "catch_all": false,
+    "aliases": [
+      "Bhojpal",
+      "bhopala",
+      "Bhopala",
+      "Bhopalas",
+      "Bhopalo",
+      "Bkhapal"
+    ],
+    "fantastic_jobs_query": "Bhopal, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_rasapudipalem",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Rasapūdipalem",
+    "catch_all": false,
+    "aliases": [
+      "Visakhapatnam"
+    ],
+    "fantastic_jobs_query": "Rasapūdipalem, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_pimpri_chinchwad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Pimpri-Chinchwad",
+    "catch_all": false,
+    "aliases": [
+      "pimpari-cincavada",
+      "pimpeulichinchiwadeu",
+      "pimpiri-cincvatu",
+      "Pimpri-Chinchvad",
+      "Pimpri-Cincvad",
+      "Pimpri-Csincsvad"
+    ],
+    "fantastic_jobs_query": "Pimpri-Chinchwad, Maharashtra, India"
+  },
+  {
+    "location_id": "in_patna",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Patna",
+    "catch_all": false,
+    "aliases": [
+      "batna",
+      "patana",
+      "pateuna",
+      "Patnao",
+      "patona",
+      "ptnh"
+    ],
+    "fantastic_jobs_query": "Patna, Bihar, India"
+  },
+  {
+    "location_id": "in_kallakurichi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Kallakurichi",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kallakurichi, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_ludhiana",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Ludhiana",
+    "catch_all": false,
+    "aliases": [
+      "ludhi'ana",
+      "Ludhijana",
+      "ludhiyana",
+      "Ludijana",
+      "Ludkhiana",
+      "Ludkhijana"
+    ],
+    "fantastic_jobs_query": "Ludhiana, Punjab, India"
+  },
+  {
+    "location_id": "in_nashik",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Nashik",
+    "catch_all": false,
+    "aliases": [
+      "nacik",
+      "nashiku",
+      "nashk",
+      "Nasik",
+      "nasik",
+      "nasika"
+    ],
+    "fantastic_jobs_query": "Nashik, Maharashtra, India"
+  },
+  {
+    "location_id": "in_madurai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Madurai",
+    "catch_all": false,
+    "aliases": [
+      "madhura",
+      "madhurai",
+      "madourai",
+      "madulai",
+      "Madura",
+      "madura'i"
+    ],
+    "fantastic_jobs_query": "Madurai, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_tirunelveli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Tirunelveli",
+    "catch_all": false,
+    "aliases": [
+      "Nellai",
+      "tilunelbelli",
+      "Tinnevelli",
+      "Tinnevelly",
+      "tirunalaveli",
+      "tirunelabeli"
+    ],
+    "fantastic_jobs_query": "Tirunelveli, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_agra",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Agra",
+    "catch_all": false,
+    "aliases": [
+      "agara",
+      "ageula",
+      "Agro",
+      "agura",
+      "akra",
+      "Aqra"
+    ],
+    "fantastic_jobs_query": "Agra, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_faridabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Faridabad",
+    "catch_all": false,
+    "aliases": [
+      "Faridabadas",
+      "Faridabado",
+      "faridabado",
+      "Farydabad",
+      "frydabad",
+      "pharidabada"
+    ],
+    "fantastic_jobs_query": "Faridabad, Haryana, India"
+  },
+  {
+    "location_id": "in_rajkot",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Rājkot",
+    "catch_all": false,
+    "aliases": [
+      "Radzhkot",
+      "Radzkot",
+      "Radzkotas",
+      "rajikotto"
+    ],
+    "fantastic_jobs_query": "Rājkot, Gujarat, India"
+  },
+  {
+    "location_id": "in_najafgarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Najafgarh",
+    "catch_all": false,
+    "aliases": [
+      "Najafgarli",
+      "najafugaru",
+      "najaphagara",
+      "najaphagarha",
+      "najapkar",
+      "Najfargharh"
+    ],
+    "fantastic_jobs_query": "Najafgarh, Delhi, India"
+  },
+  {
+    "location_id": "in_jamshedpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Jamshedpur",
+    "catch_all": false,
+    "aliases": [
+      "Cemsidpur",
+      "Dzamsedpur",
+      "Dzamsedpura",
+      "Dzamsedpuras",
+      "Dzamshedpur",
+      "Dzhamshedpur"
+    ],
+    "fantastic_jobs_query": "Jamshedpur, Jharkhand, India"
+  },
+  {
+    "location_id": "in_gorakhpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Gorakhpur",
+    "catch_all": false,
+    "aliases": [
+      "Gorakpura"
+    ],
+    "fantastic_jobs_query": "Gorakhpur, Haryana, India"
+  },
+  {
+    "location_id": "in_pimpri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Pimpri",
+    "catch_all": false,
+    "aliases": [
+      "pimpari",
+      "pimpiri",
+      "pmpry"
+    ],
+    "fantastic_jobs_query": "Pimpri, Maharashtra, India"
+  },
+  {
+    "location_id": "in_kalyan",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Kalyān",
+    "catch_all": false,
+    "aliases": [
+      "Kal'jan"
+    ],
+    "fantastic_jobs_query": "Kalyān, Maharashtra, India"
+  },
+  {
+    "location_id": "in_dombivali",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Dombivali",
+    "catch_all": false,
+    "aliases": [
+      "dombibali",
+      "Dombivli",
+      "dwmbywly",
+      "Kalyan-Dombivli",
+      "tompivali"
+    ],
+    "fantastic_jobs_query": "Dombivali, Maharashtra, India"
+  },
+  {
+    "location_id": "in_meerut",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Meerut",
+    "catch_all": false,
+    "aliases": [
+      "meluteu",
+      "Merath",
+      "meratha",
+      "Meratkh",
+      "merato",
+      "mirarr"
+    ],
+    "fantastic_jobs_query": "Meerut, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_virar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Virār",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Virār, Maharashtra, India"
+  },
+  {
+    "location_id": "in_nowrangapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Nowrangapur",
+    "catch_all": false,
+    "aliases": [
+      "Nabarangapur",
+      "Nabarangpur",
+      "Nowrangpur"
+    ],
+    "fantastic_jobs_query": "Nowrangapur, Odisha, India"
+  },
+  {
+    "location_id": "in_srinagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jammu and Kashmir",
+    "city": "Srinagar",
+    "catch_all": false,
+    "aliases": [
+      "Caspira",
+      "cirinakar",
+      "seulinagaleu",
+      "Shrinagar",
+      "shurinagaru",
+      "sirinagara"
+    ],
+    "fantastic_jobs_query": "Srinagar, Jammu and Kashmir, India"
+  },
+  {
+    "location_id": "in_ghaziabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Ghāziābād",
+    "catch_all": false,
+    "aliases": [
+      "gajhiyabad",
+      "gajhiyabada",
+      "gajiabadeu",
+      "gajiyabada",
+      "gasiyabad",
+      "gazi'abada"
+    ],
+    "fantastic_jobs_query": "Ghāziābād, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_dhanbad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Dhanbad",
+    "catch_all": false,
+    "aliases": [
+      "danbad",
+      "danbado",
+      "Dhanabad",
+      "dhanabada",
+      "Dhanbaid",
+      "Dkhanbad"
+    ],
+    "fantastic_jobs_query": "Dhanbad, Jharkhand, India"
+  },
+  {
+    "location_id": "in_aurangabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Aurangabad",
+    "catch_all": false,
+    "aliases": [
+      "a'orangabada",
+      "a'urangabada",
+      "aurangabada",
+      "Aurangabadas",
+      "Aurangabado",
+      "aurangabado"
+    ],
+    "fantastic_jobs_query": "Aurangabad, Maharashtra, India"
+  },
+  {
+    "location_id": "in_varanasi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Varanasi",
+    "catch_all": false,
+    "aliases": [
+      "balanasi",
+      "Banaras",
+      "Banares",
+      "baranasi",
+      "Benares",
+      "bnars"
+    ],
+    "fantastic_jobs_query": "Varanasi, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_amritsar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Amritsar",
+    "catch_all": false,
+    "aliases": [
+      "aamritsar",
+      "ambrsr",
+      "amirtacaras",
+      "amlichaleu",
+      "Amricar",
+      "amritasara"
+    ],
+    "fantastic_jobs_query": "Amritsar, Punjab, India"
+  },
+  {
+    "location_id": "in_vijayawada",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Vijayawada",
+    "catch_all": false,
+    "aliases": [
+      "bejavada",
+      "Bejawada",
+      "Bezawada",
+      "Bezwada",
+      "bijayabada",
+      "bijayarada"
+    ],
+    "fantastic_jobs_query": "Vijayawada, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_ranchi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Ranchi",
+    "catch_all": false,
+    "aliases": [
+      "lanchi",
+      "raci",
+      "ramci",
+      "ranchy",
+      "ranci",
+      "Ranci"
+    ],
+    "fantastic_jobs_query": "Ranchi, Jharkhand, India"
+  },
+  {
+    "location_id": "in_jabalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Jabalpur",
+    "catch_all": false,
+    "aliases": [
+      "Dzabalpur",
+      "Dzabalpuras",
+      "Dzhabalpur",
+      "Dzsabalpur",
+      "Gabalpuro",
+      "jabalapura"
+    ],
+    "fantastic_jobs_query": "Jabalpur, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_prayagraj",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Prayagraj",
+    "catch_all": false,
+    "aliases": [
+      "Alahabadas",
+      "alakapat",
+      "Allahabad",
+      "Allakhabad",
+      "arahabado",
+      "elahabada"
+    ],
+    "fantastic_jobs_query": "Prayagraj, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_visakhapatnam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Visakhapatnam",
+    "catch_all": false,
+    "aliases": [
+      "bisakhapatana",
+      "bisakhapattama",
+      "bisyakapateunam",
+      "fshakabatnm",
+      "fysakhabatnam",
+      "fyshakhabatnam"
+    ],
+    "fantastic_jobs_query": "Visakhapatnam, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_jodhpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Jodhpur",
+    "catch_all": false,
+    "aliases": [
+      "Codpur",
+      "cotpur",
+      "Dzhodkhpur",
+      "Dzodhpur",
+      "Dzodhpura",
+      "Dzodhpuras"
+    ],
+    "fantastic_jobs_query": "Jodhpur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_gwalior",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Gwalior",
+    "catch_all": false,
+    "aliases": [
+      "Gvalior"
+    ],
+    "fantastic_jobs_query": "Gwalior, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_teni",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Teni",
+    "catch_all": false,
+    "aliases": [
+      "Theni",
+      "Tkheni"
+    ],
+    "fantastic_jobs_query": "Teni, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_howrah",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Howrah",
+    "catch_all": false,
+    "aliases": [
+      "ha'ora",
+      "Haora",
+      "haura",
+      "Haura",
+      "Hawrah"
+    ],
+    "fantastic_jobs_query": "Howrah, West Bengal, India"
+  },
+  {
+    "location_id": "in_raipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Raipur",
+    "catch_all": false,
+    "aliases": [
+      "laipuleu",
+      "ra'ipura",
+      "Raipura",
+      "Raipuras",
+      "raipuru",
+      "Rajpur"
+    ],
+    "fantastic_jobs_query": "Raipur, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_tiruchirappalli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Tiruchirappalli",
+    "catch_all": false,
+    "aliases": [
+      "tiluchilapalli",
+      "tiruccirappalli",
+      "Tiruccirappalli",
+      "Tiruccsirapalli",
+      "Tiruchchinappalli",
+      "Tiruchchirappalli"
+    ],
+    "fantastic_jobs_query": "Tiruchirappalli, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_kota",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Kota",
+    "catch_all": false,
+    "aliases": [
+      "Kotah",
+      "kotta",
+      "kwta",
+      "qwth"
+    ],
+    "fantastic_jobs_query": "Kota, Rajasthan, India"
+  },
+  {
+    "location_id": "in_shivaji_nagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Shivaji Nagar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Shivaji Nagar, Maharashtra, India"
+  },
+  {
+    "location_id": "in_sholapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Sholapur",
+    "catch_all": false,
+    "aliases": [
+      "Solapur",
+      "solapura",
+      "sollapura",
+      "sorapuru"
+    ],
+    "fantastic_jobs_query": "Sholapur, Maharashtra, India"
+  },
+  {
+    "location_id": "in_chandigarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chandigarh",
+    "city": "Chandigarh",
+    "catch_all": false,
+    "aliases": [
+      "cadigarha",
+      "candhigad",
+      "candigadh",
+      "candigadha",
+      "candigara",
+      "Candigarchas"
+    ],
+    "fantastic_jobs_query": "Chandigarh, Chandigarh, India"
+  },
+  {
+    "location_id": "in_tiruppur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Tiruppur",
+    "catch_all": false,
+    "aliases": [
+      "tiruppura",
+      "tiruppuru",
+      "Tirupur",
+      "tirupura",
+      "tyrwpwr"
+    ],
+    "fantastic_jobs_query": "Tiruppur, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_guwahati",
+    "country": "India",
+    "country_code": "in",
+    "region": "Assam",
+    "city": "Guwahati",
+    "catch_all": false,
+    "aliases": [
+      "gauhati",
+      "Gauhati",
+      "Gaukhati",
+      "gu'ahati",
+      "guhati",
+      "guraahati"
+    ],
+    "fantastic_jobs_query": "Guwahati, Assam, India"
+  },
+  {
+    "location_id": "in_hubballi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Hubballi",
+    "catch_all": false,
+    "aliases": [
+      "Hubli",
+      "Khubli-Dkharvad"
+    ],
+    "fantastic_jobs_query": "Hubballi, Karnataka, India"
+  },
+  {
+    "location_id": "in_mysuru",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Mysuru",
+    "catch_all": false,
+    "aliases": [
+      "ma'isora",
+      "Mahisur",
+      "mahisura",
+      "maicur",
+      "maisoleu",
+      "maisoru"
+    ],
+    "fantastic_jobs_query": "Mysuru, Karnataka, India"
+  },
+  {
+    "location_id": "in_salem",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Salem",
+    "catch_all": false,
+    "aliases": [
+      "celam",
+      "salema",
+      "sallem",
+      "salm",
+      "selam",
+      "Selam"
+    ],
+    "fantastic_jobs_query": "Salem, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_gurugram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Gurugram",
+    "catch_all": false,
+    "aliases": [
+      "gurgaon",
+      "gudaganva",
+      "guleugaon",
+      "guragamo",
+      "guragamva",
+      "guraganv",
+      "guraganva"
+    ],
+    "fantastic_jobs_query": "Gurugram, Haryana, India"
+  },
+  {
+    "location_id": "in_bhubaneswar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Bhubaneswar",
+    "catch_all": false,
+    "aliases": [
+      "BBSR",
+      "bhubanesbara",
+      "Bhubaneshwar",
+      "bhuvanesvara",
+      "Bkhubaneshvar",
+      "bubaneshuwaru"
+    ],
+    "fantastic_jobs_query": "Bhubaneswar, Odisha, India"
+  },
+  {
+    "location_id": "in_bhiwandi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Bhiwandi",
+    "catch_all": false,
+    "aliases": [
+      "bhi'oyadi",
+      "bhivandi",
+      "Bhivandi",
+      "Bhiwndi",
+      "Bivandi",
+      "biwandi"
+    ],
+    "fantastic_jobs_query": "Bhiwandi, Maharashtra, India"
+  },
+  {
+    "location_id": "in_jalandhar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Jalandhar",
+    "catch_all": false,
+    "aliases": [
+      "Calandhar",
+      "Dzalandar",
+      "Dzalandhar",
+      "Dzalandhara",
+      "Dzalandharas",
+      "Dzhalandkhar"
+    ],
+    "fantastic_jobs_query": "Jalandhar, Punjab, India"
+  },
+  {
+    "location_id": "in_rohini",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Rohini",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Rohini, Delhi, India"
+  },
+  {
+    "location_id": "in_kanayannur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Kanayannur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kanayannur, Kerala, India"
+  },
+  {
+    "location_id": "in_bhayandar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Bhayandar",
+    "catch_all": false,
+    "aliases": [
+      "bha'indara",
+      "Bhayander",
+      "bhayandr",
+      "Bhayndar",
+      "Bhayundar",
+      "Bkhajandar"
+    ],
+    "fantastic_jobs_query": "Bhayandar, Maharashtra, India"
+  },
+  {
+    "location_id": "in_narela",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Narela",
+    "catch_all": false,
+    "aliases": [
+      "nyrla"
+    ],
+    "fantastic_jobs_query": "Narela, Delhi, India"
+  },
+  {
+    "location_id": "in_thiruvananthapuram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Thiruvananthapuram",
+    "catch_all": false,
+    "aliases": [
+      "trivandrum",
+      "thyrwfananthabwram",
+      "tilubanantapulam",
+      "tiru'anantapuram",
+      "tirubanantapurama",
+      "Tiruvananantapuram",
+      "Tiruvanantapuram"
+    ],
+    "fantastic_jobs_query": "Thiruvananthapuram, Kerala, India"
+  },
+  {
+    "location_id": "in_aligarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Alīgarh",
+    "catch_all": false,
+    "aliases": [
+      "aligara",
+      "aligarha",
+      "Aligarkh",
+      "Koil"
+    ],
+    "fantastic_jobs_query": "Alīgarh, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_bareilly",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Bareilly",
+    "catch_all": false,
+    "aliases": [
+      "baleilli",
+      "baraili",
+      "Barejli",
+      "Bareli",
+      "bareli",
+      "bareri"
+    ],
+    "fantastic_jobs_query": "Bareilly, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_moradabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Morādābād",
+    "catch_all": false,
+    "aliases": [
+      "Muradabad"
+    ],
+    "fantastic_jobs_query": "Morādābād, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_warangal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Warangal",
+    "catch_all": false,
+    "aliases": [
+      "Orugallu",
+      "raarangala",
+      "varangal",
+      "Varangal",
+      "varangala",
+      "varangala-nagaram"
+    ],
+    "fantastic_jobs_query": "Warangal, Telangana, India"
+  },
+  {
+    "location_id": "in_dharavi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Dhārāvi",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Dhārāvi, Maharashtra, India"
+  },
+  {
+    "location_id": "in_gorakhpur_uttar_pradesh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Gorakhpur",
+    "catch_all": false,
+    "aliases": [
+      "ghwrakhbwr",
+      "golakeupuleu",
+      "gorakhapura",
+      "gorakhapuram",
+      "Gorakhpuras",
+      "Gorakkhpur"
+    ],
+    "fantastic_jobs_query": "Gorakhpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_guntur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Guntur",
+    "catch_all": false,
+    "aliases": [
+      "ghntwr",
+      "gntwr",
+      "guntouru",
+      "guntuleu",
+      "guntura",
+      "Guntura"
+    ],
+    "fantastic_jobs_query": "Guntur, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_puducherry",
+    "country": "India",
+    "country_code": "in",
+    "region": "Puducherry",
+    "city": "Puducherry",
+    "catch_all": false,
+    "aliases": [
+      "pondicherry",
+      "pandiceri",
+      "panticceri",
+      "pondiceri",
+      "Pondicero",
+      "Pondicheri",
+      "Pondicherri"
+    ],
+    "fantastic_jobs_query": "Puducherry, Puducherry, India"
+  },
+  {
+    "location_id": "in_jajmau",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Jājmau",
+    "catch_all": false,
+    "aliases": [
+      "jajama'u",
+      "Jajesmow"
+    ],
+    "fantastic_jobs_query": "Jājmau, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_amravati",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Amravati",
+    "catch_all": false,
+    "aliases": [
+      "amaravati"
+    ],
+    "fantastic_jobs_query": "Amravati, Maharashtra, India"
+  },
+  {
+    "location_id": "in_bikaner",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Bikaner",
+    "catch_all": false,
+    "aliases": [
+      "bikanera"
+    ],
+    "fantastic_jobs_query": "Bikaner, Rajasthan, India"
+  },
+  {
+    "location_id": "in_kochi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Kochi",
+    "catch_all": false,
+    "aliases": [
+      "Cochim",
+      "Cochin",
+      "Ernakulam",
+      "keacci",
+      "kocci",
+      "Kochin"
+    ],
+    "fantastic_jobs_query": "Kochi, Kerala, India"
+  },
+  {
+    "location_id": "in_bhilai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Bhilai",
+    "catch_all": false,
+    "aliases": [
+      "balay",
+      "bhila'i",
+      "Bhilajus",
+      "Bilaj",
+      "billai",
+      "birai"
+    ],
+    "fantastic_jobs_query": "Bhilai, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_cuttack",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Cuttack",
+    "catch_all": false,
+    "aliases": [
+      "katak",
+      "Katak",
+      "kataka",
+      "Kataka",
+      "katakam",
+      "katakku"
+    ],
+    "fantastic_jobs_query": "Cuttack, Odisha, India"
+  },
+  {
+    "location_id": "in_borivli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Borivli",
+    "catch_all": false,
+    "aliases": [
+      "boribali",
+      "borivali",
+      "Borivali",
+      "porivali"
+    ],
+    "fantastic_jobs_query": "Borivli, Maharashtra, India"
+  },
+  {
+    "location_id": "in_bhavnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Bhavnagar",
+    "catch_all": false,
+    "aliases": [
+      "babeunagaleu",
+      "Baunagar",
+      "bavunagaru",
+      "bawngr",
+      "Bharnagar",
+      "Bhaunagar"
+    ],
+    "fantastic_jobs_query": "Bhavnagar, Gujarat, India"
+  },
+  {
+    "location_id": "in_sangli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Sāngli",
+    "catch_all": false,
+    "aliases": [
+      "Sangla"
+    ],
+    "fantastic_jobs_query": "Sāngli, Maharashtra, India"
+  },
+  {
+    "location_id": "in_jamnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Jamnagar",
+    "catch_all": false,
+    "aliases": [
+      "Camnaqar",
+      "Dzamnagar",
+      "Dzamnagara",
+      "Dzamnagaras",
+      "Dzhamnagar",
+      "Dzhamnagarom"
+    ],
+    "fantastic_jobs_query": "Jamnagar, Gujarat, India"
+  },
+  {
+    "location_id": "in_jammu",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jammu and Kashmir",
+    "city": "Jammu",
+    "catch_all": false,
+    "aliases": [
+      "cam'mu",
+      "Dzammu",
+      "Dzamu",
+      "Dzhammu",
+      "Dzhamu",
+      "Gamu"
+    ],
+    "fantastic_jobs_query": "Jammu, Jammu and Kashmir, India"
+  },
+  {
+    "location_id": "in_bokaro",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Bokāro",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bokāro, Jharkhand, India"
+  },
+  {
+    "location_id": "in_nanded",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Nanded",
+    "catch_all": false,
+    "aliases": [
+      "nadera",
+      "Nandair",
+      "nandd",
+      "nandeda",
+      "nandedeu",
+      "nandedo"
+    ],
+    "fantastic_jobs_query": "Nanded, Maharashtra, India"
+  },
+  {
+    "location_id": "in_kozhikode",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Kozhikode",
+    "catch_all": false,
+    "aliases": [
+      "Calecute",
+      "Calicut",
+      "Calicutium",
+      "kajahikode",
+      "kajhikada",
+      "Kal'kutta"
+    ],
+    "fantastic_jobs_query": "Kozhikode, Kerala, India"
+  },
+  {
+    "location_id": "in_kolhapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Kolhāpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kolhāpur, Maharashtra, India"
+  },
+  {
+    "location_id": "in_nellore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Nellore",
+    "catch_all": false,
+    "aliases": [
+      "nellare",
+      "nellaura",
+      "nellora",
+      "Nellur",
+      "nellur",
+      "nelluru"
+    ],
+    "fantastic_jobs_query": "Nellore, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_kalaburagi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Kalaburagi",
+    "catch_all": false,
+    "aliases": [
+      "glbrgh",
+      "Gul'barga",
+      "gulabarga",
+      "gulbaleuga",
+      "gulbarga",
+      "Gulbarga"
+    ],
+    "fantastic_jobs_query": "Kalaburagi, Karnataka, India"
+  },
+  {
+    "location_id": "in_ajmer",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Ajmer",
+    "catch_all": false,
+    "aliases": [
+      "Acmer",
+      "Adzhmer",
+      "Adzmer",
+      "Adzmera",
+      "Adzmeras",
+      "Adzsmir"
+    ],
+    "fantastic_jobs_query": "Ajmer, Rajasthan, India"
+  },
+  {
+    "location_id": "in_dehradun",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttarakhand",
+    "city": "Dehradun",
+    "catch_all": false,
+    "aliases": [
+      "d'ehradun",
+      "Degradun",
+      "deharaduna",
+      "Deharaduna",
+      "deheradoun",
+      "Dehra"
+    ],
+    "fantastic_jobs_query": "Dehradun, Uttarakhand, India"
+  },
+  {
+    "location_id": "in_erode",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Erode",
+    "catch_all": false,
+    "aliases": [
+      "Brod",
+      "elodeu",
+      "eroda",
+      "iread",
+      "iroda",
+      "irodou"
+    ],
+    "fantastic_jobs_query": "Erode, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_durgapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Durgapur",
+    "catch_all": false,
+    "aliases": [
+      "dourugapuru",
+      "drgapwr",
+      "duleugapuleu",
+      "durgapura",
+      "dwrgapwr",
+      "turkapur"
+    ],
+    "fantastic_jobs_query": "Durgapur, West Bengal, India"
+  },
+  {
+    "location_id": "in_ulhasnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Ulhasnagar",
+    "catch_all": false,
+    "aliases": [
+      "awlasnagr",
+      "awlasnaqr",
+      "awlhasnghr",
+      "awlhasnjr",
+      "awlhsngr",
+      "Oulasnankar"
+    ],
+    "fantastic_jobs_query": "Ulhasnagar, Maharashtra, India"
+  },
+  {
+    "location_id": "in_loni",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Loni",
+    "catch_all": false,
+    "aliases": [
+      "Lone"
+    ],
+    "fantastic_jobs_query": "Loni, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_siliguri",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Siliguri",
+    "catch_all": false,
+    "aliases": [
+      "Shiliguri",
+      "Silguri",
+      "Siligun"
+    ],
+    "fantastic_jobs_query": "Siliguri, West Bengal, India"
+  },
+  {
+    "location_id": "in_ujjain",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Ujjain",
+    "catch_all": false,
+    "aliases": [
+      "ajyn",
+      "awjayn",
+      "awjayyn",
+      "awjyn",
+      "Outzen",
+      "Uddzhajn"
+    ],
+    "fantastic_jobs_query": "Ujjain, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_bilimora",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Bilimora",
+    "catch_all": false,
+    "aliases": [
+      "Bilimor",
+      "Mora"
+    ],
+    "fantastic_jobs_query": "Bilimora, Gujarat, India"
+  },
+  {
+    "location_id": "in_karol_bagh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Karol Bāgh",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Karol Bāgh, Delhi, India"
+  },
+  {
+    "location_id": "in_asansol",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Āsansol",
+    "catch_all": false,
+    "aliases": [
+      "asanasola",
+      "Asanol",
+      "asansoru"
+    ],
+    "fantastic_jobs_query": "Āsansol, West Bengal, India"
+  },
+  {
+    "location_id": "in_mangaluru",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Mangaluru",
+    "catch_all": false,
+    "aliases": [
+      "Kodial",
+      "kodiyal",
+      "Kudla",
+      "Maikala",
+      "maingalura",
+      "mang-galloleu"
+    ],
+    "fantastic_jobs_query": "Mangaluru, Karnataka, India"
+  },
+  {
+    "location_id": "in_belagavi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Belagavi",
+    "catch_all": false,
+    "aliases": [
+      "belaga'uma",
+      "Belagaavi",
+      "belagam",
+      "belagamva",
+      "belaganva",
+      "Belagoavi"
+    ],
+    "fantastic_jobs_query": "Belagavi, Karnataka, India"
+  },
+  {
+    "location_id": "in_saharanpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Sahāranpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sahāranpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_vellore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Vellore",
+    "catch_all": false,
+    "aliases": [
+      "belloleu",
+      "bellore",
+      "bhellora",
+      "vellor",
+      "Vellor",
+      "vellora"
+    ],
+    "fantastic_jobs_query": "Vellore, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_bhatpara",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bhātpāra",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bhātpāra, West Bengal, India"
+  },
+  {
+    "location_id": "in_malegaon",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Malegaon",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Malegaon, Maharashtra, India"
+  },
+  {
+    "location_id": "in_modinagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Modīnagar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Modīnagar, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_gaya",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Gaya",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gaya, Bihar, India"
+  },
+  {
+    "location_id": "in_ambattur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Ambattur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Ambattur, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_jalgaon",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Jalgaon",
+    "catch_all": false,
+    "aliases": [
+      "Dzalgaon",
+      "Dzhalgaon",
+      "Dzhalgaone",
+      "Galgaon",
+      "jalagamo",
+      "jalagamva"
+    ],
+    "fantastic_jobs_query": "Jalgaon, Maharashtra, India"
+  },
+  {
+    "location_id": "in_kurnool",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Kurnool",
+    "catch_all": false,
+    "aliases": [
+      "Kandenavolu",
+      "karnul",
+      "Karnul",
+      "karnula",
+      "Karnulis",
+      "Karnulu"
+    ],
+    "fantastic_jobs_query": "Kurnool, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_ramgundam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Rāmgundam",
+    "catch_all": false,
+    "aliases": [
+      "ramagundam",
+      "Ramagundam"
+    ],
+    "fantastic_jobs_query": "Rāmgundam, Telangana, India"
+  },
+  {
+    "location_id": "in_udaipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Udaipur",
+    "catch_all": false,
+    "aliases": [
+      "Oodeypore",
+      "udaipuleu",
+      "udaipura",
+      "udaipuru",
+      "Udajpur",
+      "udayapur"
+    ],
+    "fantastic_jobs_query": "Udaipur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_maheshtala",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Maheshtala",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Maheshtala, West Bengal, India"
+  },
+  {
+    "location_id": "in_patiala",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Patiāla",
+    "catch_all": false,
+    "aliases": [
+      "Pat'jala"
+    ],
+    "fantastic_jobs_query": "Patiāla, Punjab, India"
+  },
+  {
+    "location_id": "in_shyamnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Shyamnagar",
+    "catch_all": false,
+    "aliases": [
+      "Shamnagar",
+      "Shamnagore",
+      "Syamnagar"
+    ],
+    "fantastic_jobs_query": "Shyamnagar, West Bengal, India"
+  },
+  {
+    "location_id": "in_davangere",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Davangere",
+    "catch_all": false,
+    "aliases": [
+      "Davanagiri",
+      "Davangeri",
+      "Devangere"
+    ],
+    "fantastic_jobs_query": "Davangere, Karnataka, India"
+  },
+  {
+    "location_id": "in_akola",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Akola",
+    "catch_all": false,
+    "aliases": [
+      "akolla",
+      "Akula",
+      "akwla"
+    ],
+    "fantastic_jobs_query": "Akola, Maharashtra, India"
+  },
+  {
+    "location_id": "in_rajpur_sonarpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Rajpur Sonarpur",
+    "catch_all": false,
+    "aliases": [
+      "Rajpur",
+      "Sonarpur"
+    ],
+    "fantastic_jobs_query": "Rajpur Sonarpur, West Bengal, India"
+  },
+  {
+    "location_id": "in_korba",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Korba",
+    "catch_all": false,
+    "aliases": [
+      "korpa"
+    ],
+    "fantastic_jobs_query": "Korba, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_jhansi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Jhānsi",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jhānsi, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_thoothukudi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Thoothukudi",
+    "catch_all": false,
+    "aliases": [
+      "Thoothukkudi",
+      "thothukkuri",
+      "touttoukkudi",
+      "Tuticorin",
+      "Tutikorin",
+      "tutikorina"
+    ],
+    "fantastic_jobs_query": "Thoothukudi, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_ballari",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Ballari",
+    "catch_all": false,
+    "aliases": [
+      "Belari",
+      "Belaris",
+      "bellari",
+      "Bellari",
+      "Bellary",
+      "blary"
+    ],
+    "fantastic_jobs_query": "Ballari, Karnataka, India"
+  },
+  {
+    "location_id": "in_bhagalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Bhāgalpur",
+    "catch_all": false,
+    "aliases": [
+      "pakalpur"
+    ],
+    "fantastic_jobs_query": "Bhāgalpur, Bihar, India"
+  },
+  {
+    "location_id": "in_agartala",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tripura",
+    "city": "Agartala",
+    "catch_all": false,
+    "aliases": [
+      "agaleutalla",
+      "agaratala",
+      "agarutara",
+      "Agratala",
+      "agrtla",
+      "Ajarthala"
+    ],
+    "fantastic_jobs_query": "Agartala, Tripura, India"
+  },
+  {
+    "location_id": "in_kakinada",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Kākināda",
+    "catch_all": false,
+    "aliases": [
+      "Cocanada",
+      "Coconada",
+      "Godavari"
+    ],
+    "fantastic_jobs_query": "Kākināda, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_latur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Latur",
+    "catch_all": false,
+    "aliases": [
+      "latr",
+      "latura",
+      "latwr",
+      "ratouru"
+    ],
+    "fantastic_jobs_query": "Latur, Maharashtra, India"
+  },
+  {
+    "location_id": "in_panihati",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Pānihāti",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Pānihāti, West Bengal, India"
+  },
+  {
+    "location_id": "in_rajamahendravaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Rajamahendravaram",
+    "catch_all": false,
+    "aliases": [
+      "Radzhamandri",
+      "Rajahmondry",
+      "Rajahmundri",
+      "Rajahmundry",
+      "Rajamahendri",
+      "Rajamandri"
+    ],
+    "fantastic_jobs_query": "Rajamahendravaram, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_dhule",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Dhule",
+    "catch_all": false,
+    "aliases": [
+      "Dhulia",
+      "Dkhule",
+      "Dule",
+      "dwlh"
+    ],
+    "fantastic_jobs_query": "Dhule, Maharashtra, India"
+  },
+  {
+    "location_id": "in_rohtak",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Rohtak",
+    "catch_all": false,
+    "aliases": [
+      "rohataka",
+      "Rokhtak",
+      "rwhtak",
+      "rwtk"
+    ],
+    "fantastic_jobs_query": "Rohtak, Haryana, India"
+  },
+  {
+    "location_id": "in_ahilyanagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Ahilyanagar",
+    "catch_all": false,
+    "aliases": [
+      "ahamedanagara",
+      "ahilyanagara",
+      "ahmdnajar",
+      "ahmdngr",
+      "ahmdnqr",
+      "Ahmednagar"
+    ],
+    "fantastic_jobs_query": "Ahilyanagar, Maharashtra, India"
+  },
+  {
+    "location_id": "in_kollam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Kollam",
+    "catch_all": false,
+    "aliases": [
+      "Coilum",
+      "Coulao",
+      "Desinganadu",
+      "keallam",
+      "Kolam",
+      "Kolamo"
+    ],
+    "fantastic_jobs_query": "Kollam, Kerala, India"
+  },
+  {
+    "location_id": "in_bilaspur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Bilāspur",
+    "catch_all": false,
+    "aliases": [
+      "Bilaspura"
+    ],
+    "fantastic_jobs_query": "Bilāspur, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_bhilwara",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Bhilwara",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bhilwara, Rajasthan, India"
+  },
+  {
+    "location_id": "in_brahmapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Brahmapur",
+    "catch_all": false,
+    "aliases": [
+      "barampuram",
+      "Berhampore",
+      "Berhampur",
+      "Berkhampur",
+      "brahmapura",
+      "brahmapuram"
+    ],
+    "fantastic_jobs_query": "Brahmapur, Odisha, India"
+  },
+  {
+    "location_id": "in_muzaffarpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Muzaffarpur",
+    "catch_all": false,
+    "aliases": [
+      "majahpharapura",
+      "Mouzafarpour",
+      "mucaparpur",
+      "mucapparpur",
+      "mujapaleupuleu",
+      "mujapharpur"
+    ],
+    "fantastic_jobs_query": "Muzaffarpur, Bihar, India"
+  },
+  {
+    "location_id": "in_punasa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Punāsa",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Punāsa, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_muzaffarnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Muzaffarnagar",
+    "catch_all": false,
+    "aliases": [
+      "mujapharanagara",
+      "mujaphpharanagara",
+      "mujaphpharanagaram",
+      "mujhaphpharanagara",
+      "Muzafarnagar",
+      "muzaffarunagaru"
+    ],
+    "fantastic_jobs_query": "Muzaffarnagar, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_avadi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Avadi",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Avadi, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_kadapa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Kadapa",
+    "catch_all": false,
+    "aliases": [
+      "Cuddapah",
+      "katappa",
+      "Kurpah"
+    ],
+    "fantastic_jobs_query": "Kadapa, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_kukatpally",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Kukatpally",
+    "catch_all": false,
+    "aliases": [
+      "kukatapalle",
+      "kukatapalli",
+      "Kukatpalle",
+      "Kukatpalli",
+      "kukkatapalli",
+      "kukkatpalli"
+    ],
+    "fantastic_jobs_query": "Kukatpally, Telangana, India"
+  },
+  {
+    "location_id": "in_kamarhati",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Kāmārhāti",
+    "catch_all": false,
+    "aliases": [
+      "Kamarhatty"
+    ],
+    "fantastic_jobs_query": "Kāmārhāti, West Bengal, India"
+  },
+  {
+    "location_id": "in_mathura",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Mathura",
+    "catch_all": false,
+    "aliases": [
+      "Madhura",
+      "Mandura",
+      "Matkhura",
+      "matoura",
+      "matula",
+      "Matura"
+    ],
+    "fantastic_jobs_query": "Mathura, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_chanda",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Chānda",
+    "catch_all": false,
+    "aliases": [
+      "candrapur",
+      "Candrapur",
+      "candrapura",
+      "Candrapura",
+      "candrapuram",
+      "Candrapuras"
+    ],
+    "fantastic_jobs_query": "Chānda, Maharashtra, India"
+  },
+  {
+    "location_id": "in_vijayapura",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Vijayapura",
+    "catch_all": false,
+    "aliases": [
+      "Bidzapur",
+      "Bidzapuras",
+      "Bidzhapur",
+      "Bidzsapur",
+      "bijapuleu",
+      "Bijapur"
+    ],
+    "fantastic_jobs_query": "Vijayapura, Karnataka, India"
+  },
+  {
+    "location_id": "in_shivamogga",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Shivamogga",
+    "catch_all": false,
+    "aliases": [
+      "cimakka",
+      "Shimoga",
+      "Shimogga",
+      "Shivamoggi",
+      "shymwga",
+      "shywamwga"
+    ],
+    "fantastic_jobs_query": "Shivamogga, Karnataka, India"
+  },
+  {
+    "location_id": "in_alwar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Alwar",
+    "catch_all": false,
+    "aliases": [
+      "al-wa",
+      "alaraara",
+      "alavara",
+      "aloyara",
+      "Aluaro",
+      "Alvar"
+    ],
+    "fantastic_jobs_query": "Alwar, Rajasthan, India"
+  },
+  {
+    "location_id": "in_shahjanpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Shāhjānpur",
+    "catch_all": false,
+    "aliases": [
+      "Shahjahanpur"
+    ],
+    "fantastic_jobs_query": "Shāhjānpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_junagadh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Jūnāgadh",
+    "catch_all": false,
+    "aliases": [
+      "Junagad",
+      "Junagarh",
+      "Junaghur"
+    ],
+    "fantastic_jobs_query": "Jūnāgadh, Gujarat, India"
+  },
+  {
+    "location_id": "in_new_delhi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "New Delhi",
+    "catch_all": false,
+    "aliases": [
+      "Dilli",
+      "N'ju-Deli",
+      "Neu-Delhi",
+      "niu-deli",
+      "Nov-Delhio",
+      "Nova-Delhi"
+    ],
+    "fantastic_jobs_query": "New Delhi, Delhi, India"
+  },
+  {
+    "location_id": "in_thrissur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Thrissur",
+    "catch_all": false,
+    "aliases": [
+      "tiruccur",
+      "Trichur",
+      "Trichura"
+    ],
+    "fantastic_jobs_query": "Thrissur, Kerala, India"
+  },
+  {
+    "location_id": "in_nizamabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Nizāmābād",
+    "catch_all": false,
+    "aliases": [
+      "nijamabad"
+    ],
+    "fantastic_jobs_query": "Nizāmābād, Telangana, India"
+  },
+  {
+    "location_id": "in_tumkur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Tumkūr",
+    "catch_all": false,
+    "aliases": [
+      "Tumakooru",
+      "tumakuru",
+      "Tumakuru"
+    ],
+    "fantastic_jobs_query": "Tumkūr, Karnataka, India"
+  },
+  {
+    "location_id": "in_parbhani",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Parbhani",
+    "catch_all": false,
+    "aliases": [
+      "parabhani",
+      "Parbaini",
+      "Parbani",
+      "Parbkhani",
+      "prbany"
+    ],
+    "fantastic_jobs_query": "Parbhani, Maharashtra, India"
+  },
+  {
+    "location_id": "in_hisar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Hisar",
+    "catch_all": false,
+    "aliases": [
+      "hisara",
+      "Hissar",
+      "hsar",
+      "Khisar"
+    ],
+    "fantastic_jobs_query": "Hisar, Haryana, India"
+  },
+  {
+    "location_id": "in_firozabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Fīrozābād",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Fīrozābād, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_kulti",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Kulti",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kulti, West Bengal, India"
+  },
+  {
+    "location_id": "in_karnal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Karnāl",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Karnāl, Haryana, India"
+  },
+  {
+    "location_id": "in_barddhaman",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Barddhamān",
+    "catch_all": false,
+    "aliases": [
+      "Bardhaman",
+      "bardhamana",
+      "Bordhoman",
+      "Burdwan"
+    ],
+    "fantastic_jobs_query": "Barddhamān, West Bengal, India"
+  },
+  {
+    "location_id": "in_gundupalaiyam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Puducherry",
+    "city": "Gundupālaiyam",
+    "catch_all": false,
+    "aliases": [
+      "Ozhukarai",
+      "Uzhavarkarai"
+    ],
+    "fantastic_jobs_query": "Gundupālaiyam, Puducherry, India"
+  },
+  {
+    "location_id": "in_barasat",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bārāsat",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bārāsat, West Bengal, India"
+  },
+  {
+    "location_id": "in_mulugu",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Mulugu",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Mulugu, Telangana, India"
+  },
+  {
+    "location_id": "in_bihar_sharif",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Bihār Sharīf",
+    "catch_all": false,
+    "aliases": [
+      "Behar",
+      "Bihar"
+    ],
+    "fantastic_jobs_query": "Bihār Sharīf, Bihar, India"
+  },
+  {
+    "location_id": "in_bali",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bāli",
+    "catch_all": false,
+    "aliases": [
+      "Bally"
+    ],
+    "fantastic_jobs_query": "Bāli, West Bengal, India"
+  },
+  {
+    "location_id": "in_rampur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Rāmpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Rāmpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_darbhanga",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Darbhanga",
+    "catch_all": false,
+    "aliases": [
+      "dalabhang-ga",
+      "darabhaga",
+      "darabhanga",
+      "darbanga",
+      "Darbanga",
+      "Darbkhanga"
+    ],
+    "fantastic_jobs_query": "Darbhanga, Bihar, India"
+  },
+  {
+    "location_id": "in_panipat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Panipat",
+    "catch_all": false,
+    "aliases": [
+      "Panipata"
+    ],
+    "fantastic_jobs_query": "Panipat, Haryana, India"
+  },
+  {
+    "location_id": "in_tirupati",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Tirupati",
+    "catch_all": false,
+    "aliases": [
+      "tirumala",
+      "Tirumalai",
+      "Tirupathi",
+      "tirupatih",
+      "tiruppati",
+      "trwpty"
+    ],
+    "fantastic_jobs_query": "Tirupati, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_greater_noida",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Greater Noida",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Greater Noida, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_noida",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Noida",
+    "catch_all": false,
+    "aliases": [
+      "Naveen",
+      "neayda",
+      "no'eda",
+      "no'era",
+      "no'ida",
+      "Nojda"
+    ],
+    "fantastic_jobs_query": "Noida, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_aizawl",
+    "country": "India",
+    "country_code": "in",
+    "region": "Mizoram",
+    "city": "Aizawl",
+    "catch_all": false,
+    "aliases": [
+      "a'ijala",
+      "a'ijola",
+      "a'izola",
+      "Aidzhal",
+      "Aijal",
+      "aijali"
+    ],
+    "fantastic_jobs_query": "Aizawl, Mizoram, India"
+  },
+  {
+    "location_id": "in_gandhinagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Gandhinagar",
+    "catch_all": false,
+    "aliases": [
+      "gandhinagara",
+      "gandhinagaram",
+      "Gandinagar",
+      "gandinagaru",
+      "ganjinagaru",
+      "Ghandhinagar"
+    ],
+    "fantastic_jobs_query": "Gandhinagar, Gujarat, India"
+  },
+  {
+    "location_id": "in_dindigul",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Dindigul",
+    "catch_all": false,
+    "aliases": [
+      "Dhundgal",
+      "dindigula",
+      "Dindukkal",
+      "dindukkala",
+      "Dundigal",
+      "dyndygwl"
+    ],
+    "fantastic_jobs_query": "Dindigul, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_thanjavur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Thanjavur",
+    "catch_all": false,
+    "aliases": [
+      "tajavura",
+      "Tancavur",
+      "tancavur",
+      "Tandzavur",
+      "Tandzavura",
+      "Tandzavuras"
+    ],
+    "fantastic_jobs_query": "Thanjavur, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_karimnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Karīmnagar",
+    "catch_all": false,
+    "aliases": [
+      "karinnagar"
+    ],
+    "fantastic_jobs_query": "Karīmnagar, Telangana, India"
+  },
+  {
+    "location_id": "in_dewas",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Dewas",
+    "catch_all": false,
+    "aliases": [
+      "de'oyasa",
+      "deraasa",
+      "Devas",
+      "devasa",
+      "dewasu",
+      "dwas"
+    ],
+    "fantastic_jobs_query": "Dewas, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_sonipat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Sonīpat",
+    "catch_all": false,
+    "aliases": [
+      "Sonepat"
+    ],
+    "fantastic_jobs_query": "Sonīpat, Haryana, India"
+  },
+  {
+    "location_id": "in_ichalkaranji",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Ichalkaranji",
+    "catch_all": false,
+    "aliases": [
+      "aychalkaranjy",
+      "aychlkyrnjy",
+      "icalakaranaji",
+      "icalakaranji",
+      "Icalkarandzi",
+      "icalkaranji"
+    ],
+    "fantastic_jobs_query": "Ichalkaranji, Maharashtra, India"
+  },
+  {
+    "location_id": "in_bathinda",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Bathinda",
+    "catch_all": false,
+    "aliases": [
+      "bathida",
+      "batynda",
+      "bhatinda",
+      "Bkhatinda",
+      "pattinta"
+    ],
+    "fantastic_jobs_query": "Bathinda, Punjab, India"
+  },
+  {
+    "location_id": "in_jalna",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Jālna",
+    "catch_all": false,
+    "aliases": [
+      "jlna"
+    ],
+    "fantastic_jobs_query": "Jālna, Maharashtra, India"
+  },
+  {
+    "location_id": "in_kirari_sulemannagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Kirāri Sulemānnagar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kirāri Sulemānnagar, Delhi, India"
+  },
+  {
+    "location_id": "in_satna",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Satna",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Satna, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_purnia",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Purnia",
+    "catch_all": false,
+    "aliases": [
+      "bwrnya",
+      "Pournia",
+      "pulina",
+      "puraniya",
+      "Purnea",
+      "purni'a"
+    ],
+    "fantastic_jobs_query": "Purnia, Bihar, India"
+  },
+  {
+    "location_id": "in_imphal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Manipur",
+    "city": "Imphal",
+    "catch_all": false,
+    "aliases": [
+      "impal",
+      "imphala",
+      "Impkhal",
+      "inparu"
+    ],
+    "fantastic_jobs_query": "Imphal, Manipur, India"
+  },
+  {
+    "location_id": "in_saugor",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Saugor",
+    "catch_all": false,
+    "aliases": [
+      "Sagar",
+      "sagara"
+    ],
+    "fantastic_jobs_query": "Saugor, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_kushinagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Kushinagar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kushinagar, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_rourkela",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Rourkela",
+    "catch_all": false,
+    "aliases": [
+      "ra'urakela",
+      "Raurkella",
+      "ravurkela",
+      "Roukela",
+      "Rourella",
+      "Rourkera"
+    ],
+    "fantastic_jobs_query": "Rourkela, Odisha, India"
+  },
+  {
+    "location_id": "in_durg",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Durg",
+    "catch_all": false,
+    "aliases": [
+      "deogeuleu",
+      "dourugu",
+      "Drug",
+      "durga",
+      "Durga",
+      "Durgas"
+    ],
+    "fantastic_jobs_query": "Durg, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_anantapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Anantapur",
+    "catch_all": false,
+    "aliases": [
+      "Anantapour",
+      "anantapura",
+      "anantapuram",
+      "Anantapuramu",
+      "Anantapure",
+      "anantapwr"
+    ],
+    "fantastic_jobs_query": "Anantapur, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_ratlam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Ratlām",
+    "catch_all": false,
+    "aliases": [
+      "Hatlam"
+    ],
+    "fantastic_jobs_query": "Ratlām, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_ranipet",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Rānipet",
+    "catch_all": false,
+    "aliases": [
+      "Ranippettai"
+    ],
+    "fantastic_jobs_query": "Rānipet, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_lal_bahadur_nagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Lal Bahadur Nagar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Lal Bahadur Nagar, Telangana, India"
+  },
+  {
+    "location_id": "in_arrah",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Arrah",
+    "catch_all": false,
+    "aliases": [
+      "araraha",
+      "Arrakh",
+      "Shahabad"
+    ],
+    "fantastic_jobs_query": "Arrah, Bihar, India"
+  },
+  {
+    "location_id": "in_baranagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Baranagar",
+    "catch_all": false,
+    "aliases": [
+      "barahanagara",
+      "Barahanagore",
+      "baranagara",
+      "Baranagaras",
+      "Baranagore",
+      "barangr"
+    ],
+    "fantastic_jobs_query": "Baranagar, West Bengal, India"
+  },
+  {
+    "location_id": "in_gajuwaka",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Gajuwaka",
+    "catch_all": false,
+    "aliases": [
+      "gajuraaka",
+      "gajuvaka",
+      "gajwwaka",
+      "kajuvaka"
+    ],
+    "fantastic_jobs_query": "Gajuwaka, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_etawah",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Etāwah",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Etāwah, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_ambarnath",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Ambarnath",
+    "catch_all": false,
+    "aliases": [
+      "Amarnath",
+      "Amarnatkh"
+    ],
+    "fantastic_jobs_query": "Ambarnath, Maharashtra, India"
+  },
+  {
+    "location_id": "in_naihati",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Naihāti",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Naihāti, West Bengal, India"
+  },
+  {
+    "location_id": "in_bharatpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Bharatpur",
+    "catch_all": false,
+    "aliases": [
+      "bahalatupuleu",
+      "baratopuru",
+      "Baratpuras",
+      "Batarpur",
+      "Bcharatpour",
+      "bharatapura"
+    ],
+    "fantastic_jobs_query": "Bharatpur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_begusarai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Begusarai",
+    "catch_all": false,
+    "aliases": [
+      "begusalai",
+      "begusara'i",
+      "Begusaraj",
+      "Begusarajus",
+      "begusaray",
+      "begusaraya"
+    ],
+    "fantastic_jobs_query": "Begusarai, Bihar, India"
+  },
+  {
+    "location_id": "in_tiruvottiyur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Tiruvottiyūr",
+    "catch_all": false,
+    "aliases": [
+      "Tiruvattiyur"
+    ],
+    "fantastic_jobs_query": "Tiruvottiyūr, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_gandhidham",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Gāndhīdhām",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gāndhīdhām, Gujarat, India"
+  },
+  {
+    "location_id": "in_mau",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Mau",
+    "catch_all": false,
+    "aliases": [
+      "ma'u",
+      "mavu"
+    ],
+    "fantastic_jobs_query": "Mau, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_sikar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Sīkar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sīkar, Rajasthan, India"
+  },
+  {
+    "location_id": "in_ramagundam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Ramagundam",
+    "catch_all": false,
+    "aliases": [
+      "ramagndm",
+      "ramagundama",
+      "ramagwndam",
+      "ramakuntam"
+    ],
+    "fantastic_jobs_query": "Ramagundam, Telangana, India"
+  },
+  {
+    "location_id": "in_hapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Hāpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Hāpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_farrukhabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Farrukhābād",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Farrukhābād, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_alappuzha",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Alappuzha",
+    "catch_all": false,
+    "aliases": [
+      "Alapalli",
+      "Alapolai",
+      "Alappula",
+      "alappula",
+      "Alapulai",
+      "Aleppi"
+    ],
+    "fantastic_jobs_query": "Alappuzha, Kerala, India"
+  },
+  {
+    "location_id": "in_katihar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Katihar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Katihar, Bihar, India"
+  },
+  {
+    "location_id": "in_sri_ganganagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Sri Ganganagar",
+    "catch_all": false,
+    "aliases": [
+      "Ganganagar",
+      "Sriganganagar"
+    ],
+    "fantastic_jobs_query": "Sri Ganganagar, Rajasthan, India"
+  },
+  {
+    "location_id": "in_rewa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Rewa",
+    "catch_all": false,
+    "aliases": [
+      "Reva",
+      "Rewah",
+      "riva",
+      "riwa",
+      "rywa"
+    ],
+    "fantastic_jobs_query": "Rewa, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_uluberiya",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Uluberiya",
+    "catch_all": false,
+    "aliases": [
+      "Ulubaria",
+      "Uluberia"
+    ],
+    "fantastic_jobs_query": "Uluberiya, West Bengal, India"
+  },
+  {
+    "location_id": "in_sivakasi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Sivakasi",
+    "catch_all": false,
+    "aliases": [
+      "civakaci",
+      "sibakasi"
+    ],
+    "fantastic_jobs_query": "Sivakasi, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_karur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Karur",
+    "catch_all": false,
+    "aliases": [
+      "kaluleu",
+      "karura",
+      "karuru",
+      "karwr",
+      "krwr"
+    ],
+    "fantastic_jobs_query": "Karur, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_raichur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Rāichūr",
+    "catch_all": false,
+    "aliases": [
+      "Rajchur"
+    ],
+    "fantastic_jobs_query": "Rāichūr, Karnataka, India"
+  },
+  {
+    "location_id": "in_pallavaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Pallāvaram",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Pallāvaram, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_ooty",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Ooty",
+    "catch_all": false,
+    "aliases": [
+      "Ootacamund",
+      "Udagamandalam",
+      "udagamandalama",
+      "Udakamandalam",
+      "udakamandaramu",
+      "Udhagai"
+    ],
+    "fantastic_jobs_query": "Ooty, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_pali",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Pāli",
+    "catch_all": false,
+    "aliases": [
+      "Pali-Marwar"
+    ],
+    "fantastic_jobs_query": "Pāli, Rajasthan, India"
+  },
+  {
+    "location_id": "in_hosur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Hosūr",
+    "catch_all": false,
+    "aliases": [
+      "Oossoor"
+    ],
+    "fantastic_jobs_query": "Hosūr, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_vizianagaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Vizianagaram",
+    "catch_all": false,
+    "aliases": [
+      "bijayanagarama",
+      "bijianagalam",
+      "bijiyanagarama",
+      "fyzynjarm",
+      "Viguyanagram",
+      "vijayanagara"
+    ],
+    "fantastic_jobs_query": "Vizianagaram, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_shrirampur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Shrīrāmpur",
+    "catch_all": false,
+    "aliases": [
+      "Serampore",
+      "Serampur"
+    ],
+    "fantastic_jobs_query": "Shrīrāmpur, West Bengal, India"
+  },
+  {
+    "location_id": "in_quthbullapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Quthbullapur",
+    "catch_all": false,
+    "aliases": [
+      "kutaba'ullapura",
+      "Qutubullapur"
+    ],
+    "fantastic_jobs_query": "Quthbullapur, Telangana, India"
+  },
+  {
+    "location_id": "in_nadiad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Nadiād",
+    "catch_all": false,
+    "aliases": [
+      "Hadiad",
+      "Nadiyad",
+      "Naidad"
+    ],
+    "fantastic_jobs_query": "Nadiād, Gujarat, India"
+  },
+  {
+    "location_id": "in_nagercoil",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Nāgercoil",
+    "catch_all": false,
+    "aliases": [
+      "Nagarkoil",
+      "Nagarkovil",
+      "nakarkovil"
+    ],
+    "fantastic_jobs_query": "Nāgercoil, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_karawalnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Karāwalnagar",
+    "catch_all": false,
+    "aliases": [
+      "Dehroti"
+    ],
+    "fantastic_jobs_query": "Karāwalnagar, Delhi, India"
+  },
+  {
+    "location_id": "in_mango",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Mango",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Mango, Jharkhand, India"
+  },
+  {
+    "location_id": "in_murwara",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Murwāra",
+    "catch_all": false,
+    "aliases": [
+      "Katni"
+    ],
+    "fantastic_jobs_query": "Murwāra, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_kanchipuram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Kanchipuram",
+    "catch_all": false,
+    "aliases": [
+      "Conjeeveram",
+      "Conjevaram",
+      "Conjeveram",
+      "Kancheepuram",
+      "Kanchi",
+      "kanchipulam"
+    ],
+    "fantastic_jobs_query": "Kanchipuram, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_singrauli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Singrauli",
+    "catch_all": false,
+    "aliases": [
+      "singara'uli",
+      "singarauli",
+      "sinra'uli",
+      "sngrawly",
+      "syngrawly"
+    ],
+    "fantastic_jobs_query": "Singrauli, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_mirzapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Mirzāpur",
+    "catch_all": false,
+    "aliases": [
+      "Mirzapur-cum-Vindhyachal",
+      "Mirzapuro",
+      "Mirzarpur"
+    ],
+    "fantastic_jobs_query": "Mirzāpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_kharagpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Kharagpur",
+    "catch_all": false,
+    "aliases": [
+      "karakpur",
+      "kharagapura",
+      "khargapura",
+      "Khargpur",
+      "khragpwr"
+    ],
+    "fantastic_jobs_query": "Kharagpur, West Bengal, India"
+  },
+  {
+    "location_id": "in_eluru",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Eluru",
+    "catch_all": false,
+    "aliases": [
+      "aylwrw",
+      "Ehluru",
+      "Ellore",
+      "Elourou",
+      "elura",
+      "Eluras"
+    ],
+    "fantastic_jobs_query": "Eluru, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_raniganj",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Rāniganj",
+    "catch_all": false,
+    "aliases": [
+      "Secunderabad"
+    ],
+    "fantastic_jobs_query": "Rāniganj, Telangana, India"
+  },
+  {
+    "location_id": "in_yamuna_nagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Yamuna Nagar",
+    "catch_all": false,
+    "aliases": [
+      "Abdullahpur",
+      "Abdullapur",
+      "Yamunanagar"
+    ],
+    "fantastic_jobs_query": "Yamuna Nagar, Haryana, India"
+  },
+  {
+    "location_id": "in_raurkela_industrial_township",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Raurkela Industrial Township",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Raurkela Industrial Township, Odisha, India"
+  },
+  {
+    "location_id": "in_bidar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Bidar",
+    "catch_all": false,
+    "aliases": [
+      "bidara",
+      "bidaru",
+      "bydr"
+    ],
+    "fantastic_jobs_query": "Bidar, Karnataka, India"
+  },
+  {
+    "location_id": "in_munger",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Munger",
+    "catch_all": false,
+    "aliases": [
+      "Manger",
+      "Monghyr"
+    ],
+    "fantastic_jobs_query": "Munger, Bihar, India"
+  },
+  {
+    "location_id": "in_nandyal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Nandyāl",
+    "catch_all": false,
+    "aliases": [
+      "Nandial",
+      "Nandyala",
+      "nandyala"
+    ],
+    "fantastic_jobs_query": "Nandyāl, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_panchkula",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Panchkula",
+    "catch_all": false,
+    "aliases": [
+      "bantshkwla",
+      "pancakula"
+    ],
+    "fantastic_jobs_query": "Panchkula, Haryana, India"
+  },
+  {
+    "location_id": "in_burhanpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Burhānpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Burhānpur, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_morvi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Morvi",
+    "catch_all": false,
+    "aliases": [
+      "Morbi"
+    ],
+    "fantastic_jobs_query": "Morvi, Gujarat, India"
+  },
+  {
+    "location_id": "in_anand",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Anand",
+    "catch_all": false,
+    "aliases": [
+      "Aimand",
+      "anada",
+      "ananda",
+      "anandeu",
+      "anandi",
+      "anando"
+    ],
+    "fantastic_jobs_query": "Anand, Gujarat, India"
+  },
+  {
+    "location_id": "in_ongole",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Ongole",
+    "catch_all": false,
+    "aliases": [
+      "anagole",
+      "awngl",
+      "awngwl",
+      "ong-gol",
+      "ongol",
+      "ongola"
+    ],
+    "fantastic_jobs_query": "Ongole, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_hosapete",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Hosapete",
+    "catch_all": false,
+    "aliases": [
+      "hosapeta",
+      "Hospet",
+      "hospeta",
+      "hospete",
+      "Hoszpet",
+      "hwspt"
+    ],
+    "fantastic_jobs_query": "Hosapete, Karnataka, India"
+  },
+  {
+    "location_id": "in_nangloi_jat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Nāngloi Jāt",
+    "catch_all": false,
+    "aliases": [
+      "Nangloi"
+    ],
+    "fantastic_jobs_query": "Nāngloi Jāt, Delhi, India"
+  },
+  {
+    "location_id": "in_secunderabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Secunderabad",
+    "catch_all": false,
+    "aliases": [
+      "cikkantarapat",
+      "sekkandrabad",
+      "sekundarabada",
+      "sekundelabadeu",
+      "Sekunderabad",
+      "shikandarabado"
+    ],
+    "fantastic_jobs_query": "Secunderabad, Telangana, India"
+  },
+  {
+    "location_id": "in_deoghar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Deoghar",
+    "catch_all": false,
+    "aliases": [
+      "de'ogara",
+      "de'oghara",
+      "Deogar",
+      "Deogarh",
+      "Deogarkh",
+      "devaghara"
+    ],
+    "fantastic_jobs_query": "Deoghar, Jharkhand, India"
+  },
+  {
+    "location_id": "in_chapra",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Chāpra",
+    "catch_all": false,
+    "aliases": [
+      "capara",
+      "capra",
+      "chapara",
+      "Chhapra",
+      "Chkhapra",
+      "Chupra"
+    ],
+    "fantastic_jobs_query": "Chāpra, Bihar, India"
+  },
+  {
+    "location_id": "in_khandwa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Khandwa",
+    "catch_all": false,
+    "aliases": [
+      "Kandva",
+      "khandava",
+      "khando'oya",
+      "khandoraa",
+      "khandva"
+    ],
+    "fantastic_jobs_query": "Khandwa, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_puri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Puri",
+    "catch_all": false,
+    "aliases": [
+      "Jagannath",
+      "Jagannathpur",
+      "pwry"
+    ],
+    "fantastic_jobs_query": "Puri, Odisha, India"
+  },
+  {
+    "location_id": "in_morena",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Morena",
+    "catch_all": false,
+    "aliases": [
+      "molena",
+      "morina",
+      "muraina",
+      "mwryna"
+    ],
+    "fantastic_jobs_query": "Morena, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_gyanpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Gyānpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gyānpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_bulandshahr",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Bulandshahr",
+    "catch_all": false,
+    "aliases": [
+      "blndshhr",
+      "Boulantsachr",
+      "Buelendsehr",
+      "buladasahira",
+      "bulandasahara",
+      "bulandsahar"
+    ],
+    "fantastic_jobs_query": "Bulandshahr, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_bhind",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Bhind",
+    "catch_all": false,
+    "aliases": [
+      "bhinda",
+      "pintu"
+    ],
+    "fantastic_jobs_query": "Bhind, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_bhalswa_jahangirpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Bhālswa Jahangirpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bhālswa Jahangirpur, Delhi, India"
+  },
+  {
+    "location_id": "in_khammam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Khammam",
+    "catch_all": false,
+    "aliases": [
+      "kam'mam",
+      "kham'mam",
+      "kham'mama",
+      "khamam",
+      "Khammamett",
+      "Khammamette"
+    ],
+    "fantastic_jobs_query": "Khammam, Telangana, India"
+  },
+  {
+    "location_id": "in_sambhal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Sambhal",
+    "catch_all": false,
+    "aliases": [
+      "sambal",
+      "Sambal",
+      "sambhala"
+    ],
+    "fantastic_jobs_query": "Sambhal, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_bhiwani",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Bhiwāni",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bhiwāni, Haryana, India"
+  },
+  {
+    "location_id": "in_panvel",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Panvel",
+    "catch_all": false,
+    "aliases": [
+      "pana'oyela",
+      "panabela",
+      "panaraela",
+      "panavela",
+      "Panwel",
+      "panwl"
+    ],
+    "fantastic_jobs_query": "Panvel, Maharashtra, India"
+  },
+  {
+    "location_id": "in_ambala",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Ambāla",
+    "catch_all": false,
+    "aliases": [
+      "Ambata"
+    ],
+    "fantastic_jobs_query": "Ambāla, Haryana, India"
+  },
+  {
+    "location_id": "in_kumarapalayam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Kumarapalayam",
+    "catch_all": false,
+    "aliases": [
+      "Komarapalayam"
+    ],
+    "fantastic_jobs_query": "Kumarapalayam, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_machilipatnam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Machilīpatnam",
+    "catch_all": false,
+    "aliases": [
+      "Bandar",
+      "Kistna",
+      "Krishna",
+      "macilipatnam",
+      "Masulipatam",
+      "Masulipatao"
+    ],
+    "fantastic_jobs_query": "Machilīpatnam, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_mahesana",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Mahesāna",
+    "catch_all": false,
+    "aliases": [
+      "Mehsana",
+      "Meusana"
+    ],
+    "fantastic_jobs_query": "Mahesāna, Gujarat, India"
+  },
+  {
+    "location_id": "in_mahbubnagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Mahbūbnagar",
+    "catch_all": false,
+    "aliases": [
+      "Mahboobnagar"
+    ],
+    "fantastic_jobs_query": "Mahbūbnagar, Telangana, India"
+  },
+  {
+    "location_id": "in_sambalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Sambalpur",
+    "catch_all": false,
+    "aliases": [
+      "sambalapura",
+      "Sambalpore",
+      "sambalpuleu",
+      "sanbarupuru",
+      "smblpwr"
+    ],
+    "fantastic_jobs_query": "Sambalpur, Odisha, India"
+  },
+  {
+    "location_id": "in_bhusawal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Bhusawal",
+    "catch_all": false,
+    "aliases": [
+      "Bhusaval"
+    ],
+    "fantastic_jobs_query": "Bhusawal, Maharashtra, India"
+  },
+  {
+    "location_id": "in_raebareli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Raebareli",
+    "catch_all": false,
+    "aliases": [
+      "la-ebalelli",
+      "ra'ebareli",
+      "rabarly",
+      "raebareri",
+      "Raj-Bareli",
+      "Rajbareli"
+    ],
+    "fantastic_jobs_query": "Raebareli, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_haridwar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttarakhand",
+    "city": "Haridwar",
+    "catch_all": false,
+    "aliases": [
+      "arittuvar",
+      "haraduraara",
+      "haradvara",
+      "Hardwar",
+      "haridowaru",
+      "haridu'ara"
+    ],
+    "fantastic_jobs_query": "Haridwar, Uttarakhand, India"
+  },
+  {
+    "location_id": "in_phusro",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Phusro",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Phusro, Jharkhand, India"
+  },
+  {
+    "location_id": "in_adoni",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Adoni",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Adoni, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_sujangarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Sūjāngarh",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sūjāngarh, Rajasthan, India"
+  },
+  {
+    "location_id": "in_sirsa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Sirsa",
+    "catch_all": false,
+    "aliases": [
+      "sirasa",
+      "syrsa"
+    ],
+    "fantastic_jobs_query": "Sirsa, Haryana, India"
+  },
+  {
+    "location_id": "in_dinapur_nizamat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Dinapur Nizamat",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Dinapur Nizamat, Bihar, India"
+  },
+  {
+    "location_id": "in_bahraigh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Bahraigh",
+    "catch_all": false,
+    "aliases": [
+      "Baharaich",
+      "Bahraich"
+    ],
+    "fantastic_jobs_query": "Bahraigh, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_karaikkudi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Kāraikkudi",
+    "catch_all": false,
+    "aliases": [
+      "Karaikudi"
+    ],
+    "fantastic_jobs_query": "Kāraikkudi, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_sultan_pur_majra",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Sultan Pur Majra",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sultan Pur Majra, Delhi, India"
+  },
+  {
+    "location_id": "in_guna",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Guna",
+    "catch_all": false,
+    "aliases": [
+      "gana",
+      "kuna"
+    ],
+    "fantastic_jobs_query": "Guna, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_chandannagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Chandannagar",
+    "catch_all": false,
+    "aliases": [
+      "Candanagar",
+      "candanagara",
+      "Candanagaro",
+      "candananagara",
+      "Candarnagar",
+      "cantannakar"
+    ],
+    "fantastic_jobs_query": "Chandannagar, West Bengal, India"
+  },
+  {
+    "location_id": "in_baharampur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Baharampur",
+    "catch_all": false,
+    "aliases": [
+      "baharamapura",
+      "Bahrampur",
+      "Bakharampur",
+      "Berhampore"
+    ],
+    "fantastic_jobs_query": "Baharampur, West Bengal, India"
+  },
+  {
+    "location_id": "in_shahuwadi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Shahuwadi",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Shahuwadi, Maharashtra, India"
+  },
+  {
+    "location_id": "in_madanapalle",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Madanapalle",
+    "catch_all": false,
+    "aliases": [
+      "madanapalli",
+      "matanappalli",
+      "mdnply"
+    ],
+    "fantastic_jobs_query": "Madanapalle, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_shivpuri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Shivpuri",
+    "catch_all": false,
+    "aliases": [
+      "sibapuri",
+      "sivapuri"
+    ],
+    "fantastic_jobs_query": "Shivpuri, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_surendranagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Surendranagar",
+    "catch_all": false,
+    "aliases": [
+      "Wadhwan"
+    ],
+    "fantastic_jobs_query": "Surendranagar, Gujarat, India"
+  },
+  {
+    "location_id": "in_neyveli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Neyveli",
+    "catch_all": false,
+    "aliases": [
+      "naiveli",
+      "nebheli",
+      "Neiveli",
+      "neyabeli",
+      "nywaly"
+    ],
+    "fantastic_jobs_query": "Neyveli, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_silchar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Assam",
+    "city": "Silchar",
+    "catch_all": false,
+    "aliases": [
+      "cilcar",
+      "silacara",
+      "silacara-nagaram"
+    ],
+    "fantastic_jobs_query": "Silchar, Assam, India"
+  },
+  {
+    "location_id": "in_proddatur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Proddatūr",
+    "catch_all": false,
+    "aliases": [
+      "prodduturu"
+    ],
+    "fantastic_jobs_query": "Proddatūr, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_hugli",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Hugli",
+    "catch_all": false,
+    "aliases": [
+      "Hooghly",
+      "Hooghly-Chinsura",
+      "Hooghly-Chinsurah",
+      "Khugli"
+    ],
+    "fantastic_jobs_query": "Hugli, West Bengal, India"
+  },
+  {
+    "location_id": "in_hashtsal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Hashtsāl",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Hashtsāl, Delhi, India"
+  },
+  {
+    "location_id": "in_amroha",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Amroha",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Amroha, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_chhindwara",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Chhindwāra",
+    "catch_all": false,
+    "aliases": [
+      "Chindwara",
+      "Sindwara"
+    ],
+    "fantastic_jobs_query": "Chhindwāra, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_tambaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Tambaram",
+    "catch_all": false,
+    "aliases": [
+      "tambarama",
+      "tamparam"
+    ],
+    "fantastic_jobs_query": "Tambaram, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_bhetia",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Bhetia",
+    "catch_all": false,
+    "aliases": [
+      "Adityapur"
+    ],
+    "fantastic_jobs_query": "Bhetia, Jharkhand, India"
+  },
+  {
+    "location_id": "in_pathankot",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Pathānkot",
+    "catch_all": false,
+    "aliases": [
+      "bathankwt",
+      "papankoteu",
+      "pasankotou",
+      "patankwt",
+      "pathanakota",
+      "Patkhankot"
+    ],
+    "fantastic_jobs_query": "Pathānkot, Punjab, India"
+  },
+  {
+    "location_id": "in_badlapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Badlapur",
+    "catch_all": false,
+    "aliases": [
+      "badalapura",
+      "bdlapwr"
+    ],
+    "fantastic_jobs_query": "Badlapur, Maharashtra, India"
+  },
+  {
+    "location_id": "in_cuddalore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Cuddalore",
+    "catch_all": false,
+    "aliases": [
+      "Gondelour",
+      "Gudalur",
+      "kadalura",
+      "kadaluru",
+      "kadaruru",
+      "kaddalora"
+    ],
+    "fantastic_jobs_query": "Cuddalore, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_shimla",
+    "country": "India",
+    "country_code": "in",
+    "region": "Himachal Pradesh",
+    "city": "Shimla",
+    "catch_all": false,
+    "aliases": [
+      "cimla",
+      "shimura",
+      "shymla",
+      "simala",
+      "simla",
+      "Simla"
+    ],
+    "fantastic_jobs_query": "Shimla, Himachal Pradesh, India"
+  },
+  {
+    "location_id": "in_gadag_betageri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Gadag-Betageri",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gadag-Betageri, Karnataka, India"
+  },
+  {
+    "location_id": "in_gadag",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Gadag",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gadag, Karnataka, India"
+  },
+  {
+    "location_id": "in_veraval",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Verāval",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Verāval, Gujarat, India"
+  },
+  {
+    "location_id": "in_navsari",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Navsari",
+    "catch_all": false,
+    "aliases": [
+      "Nausari",
+      "Navasari",
+      "Nosari"
+    ],
+    "fantastic_jobs_query": "Navsari, Gujarat, India"
+  },
+  {
+    "location_id": "in_bahadurgarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Bahadurgarh",
+    "catch_all": false,
+    "aliases": [
+      "bahaddurgad",
+      "bahadouga",
+      "bahaduleugaleu",
+      "bahaduragadha",
+      "bahaduragara",
+      "bahaduragarha"
+    ],
+    "fantastic_jobs_query": "Bahadurgarh, Haryana, India"
+  },
+  {
+    "location_id": "in_haldia",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Haldia",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Haldia, West Bengal, India"
+  },
+  {
+    "location_id": "in_raiganj",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Rāiganj",
+    "catch_all": false,
+    "aliases": [
+      "Rayganj"
+    ],
+    "fantastic_jobs_query": "Rāiganj, West Bengal, India"
+  },
+  {
+    "location_id": "in_malda",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Malda",
+    "catch_all": false,
+    "aliases": [
+      "malada"
+    ],
+    "fantastic_jobs_query": "Malda, West Bengal, India"
+  },
+  {
+    "location_id": "in_jaunpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Jaunpur",
+    "catch_all": false,
+    "aliases": [
+      "Caunpur",
+      "Dzhaunpur",
+      "jaunapura",
+      "jaunapuram",
+      "jaunpuru",
+      "jauyanapura"
+    ],
+    "fantastic_jobs_query": "Jaunpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_deoli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Deoli",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Deoli, Delhi, India"
+  },
+  {
+    "location_id": "in_bharuch",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Bharūch",
+    "catch_all": false,
+    "aliases": [
+      "Baroach",
+      "Bharoch",
+      "Broach"
+    ],
+    "fantastic_jobs_query": "Bharūch, Gujarat, India"
+  },
+  {
+    "location_id": "in_hoshiarpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Hoshiārpur",
+    "catch_all": false,
+    "aliases": [
+      "Hushiarpur"
+    ],
+    "fantastic_jobs_query": "Hoshiārpur, Punjab, India"
+  },
+  {
+    "location_id": "in_jind",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Jīnd",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jīnd, Haryana, India"
+  },
+  {
+    "location_id": "in_kumbakonam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Kumbakonam",
+    "catch_all": false,
+    "aliases": [
+      "Kudanthai",
+      "kumbakonama",
+      "kumbhakeanam",
+      "kumbhakonam",
+      "kumbhakonama",
+      "kumpakonam"
+    ],
+    "fantastic_jobs_query": "Kumbakonam, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_mohali",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Mohali",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Mohali, Punjab, India"
+  },
+  {
+    "location_id": "in_fatehpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Fatehpur",
+    "catch_all": false,
+    "aliases": [
+      "Fatekhpur"
+    ],
+    "fantastic_jobs_query": "Fatehpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_tonk",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Tonk",
+    "catch_all": false,
+    "aliases": [
+      "tank",
+      "tanka",
+      "Ton'k",
+      "tongkeu",
+      "tonka",
+      "tonku"
+    ],
+    "fantastic_jobs_query": "Tonk, Rajasthan, India"
+  },
+  {
+    "location_id": "in_udupi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Udupi",
+    "catch_all": false,
+    "aliases": [
+      "awdwby",
+      "awdwpy",
+      "brahmavar",
+      "Ountoupi",
+      "uddapi",
+      "udipi"
+    ],
+    "fantastic_jobs_query": "Udupi, Karnataka, India"
+  },
+  {
+    "location_id": "in_thenali",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Thenali",
+    "catch_all": false,
+    "aliases": [
+      "Tenali"
+    ],
+    "fantastic_jobs_query": "Thenali, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_sitapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Sītāpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sītāpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_alandur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Alandur",
+    "catch_all": false,
+    "aliases": [
+      "Alandoor"
+    ],
+    "fantastic_jobs_query": "Alandur, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_bhadravati",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Bhadrāvati",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bhadrāvati, Karnataka, India"
+  },
+  {
+    "location_id": "in_vapi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Vapi",
+    "catch_all": false,
+    "aliases": [
+      "bapi",
+      "vappi",
+      "Wapi",
+      "wapy"
+    ],
+    "fantastic_jobs_query": "Vapi, Gujarat, India"
+  },
+  {
+    "location_id": "in_moga",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Moga",
+    "catch_all": false,
+    "aliases": [
+      "Mogu",
+      "moka",
+      "mwga"
+    ],
+    "fantastic_jobs_query": "Moga, Punjab, India"
+  },
+  {
+    "location_id": "in_raj_nandgaon",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Rāj-Nāndgaon",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Rāj-Nāndgaon, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_robertsonpet",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Robertsonpet",
+    "catch_all": false,
+    "aliases": [
+      "rabartasanapeta",
+      "rapartcanpettai",
+      "robartasanapeta",
+      "Roberconpet"
+    ],
+    "fantastic_jobs_query": "Robertsonpet, Karnataka, India"
+  },
+  {
+    "location_id": "in_unnao",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Unnāo",
+    "catch_all": false,
+    "aliases": [
+      "Unao"
+    ],
+    "fantastic_jobs_query": "Unnāo, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_budaun",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Budaun",
+    "catch_all": false,
+    "aliases": [
+      "Badajun",
+      "badanyu",
+      "Badaun",
+      "badauna",
+      "badayum",
+      "budauna"
+    ],
+    "fantastic_jobs_query": "Budaun, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_madhyamgram",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Madhyamgram",
+    "catch_all": false,
+    "aliases": [
+      "madhyagrama",
+      "madhyamagrama"
+    ],
+    "fantastic_jobs_query": "Madhyamgram, West Bengal, India"
+  },
+  {
+    "location_id": "in_chittoor",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Chittoor",
+    "catch_all": false,
+    "aliases": [
+      "Chittor",
+      "Chittur",
+      "Chitturu",
+      "chtwr",
+      "cittara",
+      "cittur"
+    ],
+    "fantastic_jobs_query": "Chittoor, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_jamuria",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Jāmuria",
+    "catch_all": false,
+    "aliases": [
+      "Jaykayanagar",
+      "Jaykaynagar"
+    ],
+    "fantastic_jobs_query": "Jāmuria, West Bengal, India"
+  },
+  {
+    "location_id": "in_jaigaon",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Jaigaon",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jaigaon, West Bengal, India"
+  },
+  {
+    "location_id": "in_batala",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Batāla",
+    "catch_all": false,
+    "aliases": [
+      "Butala"
+    ],
+    "fantastic_jobs_query": "Batāla, Punjab, India"
+  },
+  {
+    "location_id": "in_orai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Orai",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Orai, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_saharsa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Saharsa",
+    "catch_all": false,
+    "aliases": [
+      "cakarca",
+      "sahaleusa",
+      "saharasa",
+      "saharusa",
+      "Sakharsa",
+      "sharsa"
+    ],
+    "fantastic_jobs_query": "Saharsa, Bihar, India"
+  },
+  {
+    "location_id": "in_vidisha",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Vidisha",
+    "catch_all": false,
+    "aliases": [
+      "Bhilsa",
+      "bidisa",
+      "bidisya",
+      "fydysha",
+      "Vidisa",
+      "vidisa"
+    ],
+    "fantastic_jobs_query": "Vidisha, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_hanumangarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Hanumāngarh",
+    "catch_all": false,
+    "aliases": [
+      "Sadulgarh"
+    ],
+    "fantastic_jobs_query": "Hanumāngarh, Rajasthan, India"
+  },
+  {
+    "location_id": "in_thanesar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Thānesar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Thānesar, Haryana, India"
+  },
+  {
+    "location_id": "in_hassan",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Hassan",
+    "catch_all": false,
+    "aliases": [
+      "Gasan",
+      "hacan",
+      "has'sana",
+      "hasan",
+      "hasana",
+      "hasanam"
+    ],
+    "fantastic_jobs_query": "Hassan, Karnataka, India"
+  },
+  {
+    "location_id": "in_kishangarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Kishangarh",
+    "catch_all": false,
+    "aliases": [
+      "kisanagadha",
+      "kisanagara",
+      "kisanagarha",
+      "Kishangarkh"
+    ],
+    "fantastic_jobs_query": "Kishangarh, Rajasthan, India"
+  },
+  {
+    "location_id": "in_dalupura",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Dalūpura",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Dalūpura, Delhi, India"
+  },
+  {
+    "location_id": "in_rudrapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttarakhand",
+    "city": "Rudrapur",
+    "catch_all": false,
+    "aliases": [
+      "rudrapura",
+      "rudrapuram",
+      "rwdarpwr"
+    ],
+    "fantastic_jobs_query": "Rudrapur, Uttarakhand, India"
+  },
+  {
+    "location_id": "in_nalgonda",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Nalgonda",
+    "catch_all": false,
+    "aliases": [
+      "nalaganada",
+      "nalagonda",
+      "nalgonda-nagaram",
+      "naljwnda",
+      "nalkonta"
+    ],
+    "fantastic_jobs_query": "Nalgonda, Telangana, India"
+  },
+  {
+    "location_id": "in_hazaribagh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Hazāribāgh",
+    "catch_all": false,
+    "aliases": [
+      "hajaribaga",
+      "Hazaribag",
+      "Hazarybaugh",
+      "Khazaribag"
+    ],
+    "fantastic_jobs_query": "Hazāribāgh, Jharkhand, India"
+  },
+  {
+    "location_id": "in_medinipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Medinīpur",
+    "catch_all": false,
+    "aliases": [
+      "Midnapor",
+      "Midnapore",
+      "Midnapur"
+    ],
+    "fantastic_jobs_query": "Medinīpur, West Bengal, India"
+  },
+  {
+    "location_id": "in_balurghat",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bālurghāt",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bālurghāt, West Bengal, India"
+  },
+  {
+    "location_id": "in_fyzabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Fyzābād",
+    "catch_all": false,
+    "aliases": [
+      "Faizabad",
+      "Fajzabad"
+    ],
+    "fantastic_jobs_query": "Fyzābād, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_dinapore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Dinapore",
+    "catch_all": false,
+    "aliases": [
+      "Danapur"
+    ],
+    "fantastic_jobs_query": "Dinapore, Bihar, India"
+  },
+  {
+    "location_id": "in_porbandar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Porbandar",
+    "catch_all": false,
+    "aliases": [
+      "bwrbndr",
+      "poleubandaleu",
+      "Poorbunder",
+      "porabandara",
+      "Porbandarom",
+      "porpantar"
+    ],
+    "fantastic_jobs_query": "Porbandar, Gujarat, India"
+  },
+  {
+    "location_id": "in_banda",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Bānda",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bānda, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_hindupur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Hindupur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Hindupur, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_beawar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Beāwar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Beāwar, Rajasthan, India"
+  },
+  {
+    "location_id": "in_anantnag",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jammu and Kashmir",
+    "city": "Anantnag",
+    "catch_all": false,
+    "aliases": [
+      "anantanag",
+      "anantanaga",
+      "anantanak",
+      "ananteulageu",
+      "Anantnagas",
+      "anantnaj"
+    ],
+    "fantastic_jobs_query": "Anantnag, Jammu and Kashmir, India"
+  },
+  {
+    "location_id": "in_serilingampalle",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Serilingampalle",
+    "catch_all": false,
+    "aliases": [
+      "Serilingampally"
+    ],
+    "fantastic_jobs_query": "Serilingampalle, Telangana, India"
+  },
+  {
+    "location_id": "in_raigarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Raigarh",
+    "catch_all": false,
+    "aliases": [
+      "laigaleu",
+      "raigaru",
+      "Rajgarh",
+      "Rajgarkh",
+      "rayagadha",
+      "rayagara"
+    ],
+    "fantastic_jobs_query": "Raigarh, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_malkajgiri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Malkajgiri",
+    "catch_all": false,
+    "aliases": [
+      "makajgyry",
+      "malakajagiri",
+      "malkajaganja",
+      "malkajkiri",
+      "mlkajgyry"
+    ],
+    "fantastic_jobs_query": "Malkajgiri, Telangana, India"
+  },
+  {
+    "location_id": "in_shantipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Shāntipur",
+    "catch_all": false,
+    "aliases": [
+      "Santipur"
+    ],
+    "fantastic_jobs_query": "Shāntipur, West Bengal, India"
+  },
+  {
+    "location_id": "in_bhuj",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Bhuj",
+    "catch_all": false,
+    "aliases": [
+      "bhoja",
+      "Bhooj",
+      "Bhug",
+      "bhuja",
+      "bhuji",
+      "bhwy"
+    ],
+    "fantastic_jobs_query": "Bhuj, Gujarat, India"
+  },
+  {
+    "location_id": "in_barakpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bārākpur",
+    "catch_all": false,
+    "aliases": [
+      "Barrackpore",
+      "Chanak"
+    ],
+    "fantastic_jobs_query": "Bārākpur, West Bengal, India"
+  },
+  {
+    "location_id": "in_hajipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Hājīpur",
+    "catch_all": false,
+    "aliases": [
+      "Khadzhipur"
+    ],
+    "fantastic_jobs_query": "Hājīpur, Bihar, India"
+  },
+  {
+    "location_id": "in_sasaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Sasarām",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sasarām, Bihar, India"
+  },
+  {
+    "location_id": "in_bhimavaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Bhimavaram",
+    "catch_all": false,
+    "aliases": [
+      "Bheemavaram"
+    ],
+    "fantastic_jobs_query": "Bhimavaram, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_beed",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Beed",
+    "catch_all": false,
+    "aliases": [
+      "Bhir",
+      "bida",
+      "Bidh",
+      "bira",
+      "Mahboobganj",
+      "Mahbubganj"
+    ],
+    "fantastic_jobs_query": "Beed, Maharashtra, India"
+  },
+  {
+    "location_id": "in_burari",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Burāri",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Burāri, Delhi, India"
+  },
+  {
+    "location_id": "in_krishnanagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Krishnanagar",
+    "catch_all": false,
+    "aliases": [
+      "kirusnanakar",
+      "Krishnagar",
+      "Krishnagiri",
+      "Krishnigar",
+      "krsnanagara"
+    ],
+    "fantastic_jobs_query": "Krishnanagar, West Bengal, India"
+  },
+  {
+    "location_id": "in_chitradurga",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Chitradurga",
+    "catch_all": false,
+    "aliases": [
+      "Chitaldroog",
+      "Chitaldrug",
+      "Chitaldurg",
+      "Chitradurg",
+      "Chitrakaldurga",
+      "Chitteldrug"
+    ],
+    "fantastic_jobs_query": "Chitradurga, Karnataka, India"
+  },
+  {
+    "location_id": "in_dibrugarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Assam",
+    "city": "Dibrugarh",
+    "catch_all": false,
+    "aliases": [
+      "dibraugara",
+      "dibrgara",
+      "dibrugadh",
+      "dibrugadha",
+      "dibrugara",
+      "dibrugara-nagaram"
+    ],
+    "fantastic_jobs_query": "Dibrugarh, Assam, India"
+  },
+  {
+    "location_id": "in_abohar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Abohar",
+    "catch_all": false,
+    "aliases": [
+      "abohara",
+      "abwhar",
+      "apohar"
+    ],
+    "fantastic_jobs_query": "Abohar, Punjab, India"
+  },
+  {
+    "location_id": "in_tiruvannamalai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Tiruvannamalai",
+    "catch_all": false,
+    "aliases": [
+      "Tirruvannamalai",
+      "Tiruvannamalaj",
+      "tiruvuan'namarai"
+    ],
+    "fantastic_jobs_query": "Tiruvannamalai, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_kaithal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Kaithal",
+    "catch_all": false,
+    "aliases": [
+      "ka'ithala",
+      "kaisaru",
+      "kaital",
+      "kaithala",
+      "kaittal",
+      "Kajtkhal"
+    ],
+    "fantastic_jobs_query": "Kaithal, Haryana, India"
+  },
+  {
+    "location_id": "in_balasore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Balasore",
+    "catch_all": false,
+    "aliases": [
+      "Balasor",
+      "balasor",
+      "balaswr",
+      "balesbara",
+      "Baleshwar",
+      "balesvara"
+    ],
+    "fantastic_jobs_query": "Balasore, Odisha, India"
+  },
+  {
+    "location_id": "in_godhra",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Godhra",
+    "catch_all": false,
+    "aliases": [
+      "gadhara",
+      "goddora",
+      "godeula",
+      "godhara",
+      "Godhr",
+      "Godkhra"
+    ],
+    "fantastic_jobs_query": "Godhra, Gujarat, India"
+  },
+  {
+    "location_id": "in_shillong",
+    "country": "India",
+    "country_code": "in",
+    "region": "Meghalaya",
+    "city": "Shillong",
+    "catch_all": false,
+    "aliases": [
+      "cillan",
+      "Shilong",
+      "shilongi",
+      "shiron",
+      "shylang",
+      "shylwngh"
+    ],
+    "fantastic_jobs_query": "Shillong, Meghalaya, India"
+  },
+  {
+    "location_id": "in_rewari",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Rewāri",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Rewāri, Haryana, India"
+  },
+  {
+    "location_id": "in_basirhat_city",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Basirhat City",
+    "catch_all": false,
+    "aliases": [
+      "Basirhat"
+    ],
+    "fantastic_jobs_query": "Basirhat City, West Bengal, India"
+  },
+  {
+    "location_id": "in_chhatarpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Chhatarpur",
+    "catch_all": false,
+    "aliases": [
+      "Catarpur",
+      "catarpur",
+      "cattarpur",
+      "Chantarpur",
+      "chataleupuleu",
+      "chatarapura"
+    ],
+    "fantastic_jobs_query": "Chhatarpur, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_mandsaur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Mandsaur",
+    "catch_all": false,
+    "aliases": [
+      "mandasaura",
+      "Mandasor",
+      "mandosauru",
+      "mandsa'ur",
+      "mndswr"
+    ],
+    "fantastic_jobs_query": "Mandsaur, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_chas",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Chas",
+    "catch_all": false,
+    "aliases": [
+      "casa"
+    ],
+    "fantastic_jobs_query": "Chas, Jharkhand, India"
+  },
+  {
+    "location_id": "in_palanpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Pālanpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Pālanpur, Gujarat, India"
+  },
+  {
+    "location_id": "in_lakhimpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Lakhīmpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Lakhīmpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_valsad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Valsād",
+    "catch_all": false,
+    "aliases": [
+      "Bulsar",
+      "Walsad"
+    ],
+    "fantastic_jobs_query": "Valsād, Gujarat, India"
+  },
+  {
+    "location_id": "in_damoh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Damoh",
+    "catch_all": false,
+    "aliases": [
+      "dameah",
+      "damoha"
+    ],
+    "fantastic_jobs_query": "Damoh, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_haldwani",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttarakhand",
+    "city": "Haldwani",
+    "catch_all": false,
+    "aliases": [
+      "Chalntvani",
+      "haladavani",
+      "haladuraani-tilakara-kathagodama",
+      "haladwani",
+      "haldavani",
+      "haldeuwani"
+    ],
+    "fantastic_jobs_query": "Haldwani, Uttarakhand, India"
+  },
+  {
+    "location_id": "in_habra",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Hābra",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Hābra, West Bengal, India"
+  },
+  {
+    "location_id": "in_kolar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Kolār",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kolār, Karnataka, India"
+  },
+  {
+    "location_id": "in_srikakulam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Srikakulam",
+    "catch_all": false,
+    "aliases": [
+      "Chicacole",
+      "seulikakullam",
+      "Shrikakulam",
+      "Srikakoulam",
+      "srikakulama",
+      "Srikakulama"
+    ],
+    "fantastic_jobs_query": "Srikakulam, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_mandya",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Mandya",
+    "catch_all": false,
+    "aliases": [
+      "Mand'ja",
+      "mandaya",
+      "mandia",
+      "mandiya",
+      "Mandja",
+      "mantiya"
+    ],
+    "fantastic_jobs_query": "Mandya, Karnataka, India"
+  },
+  {
+    "location_id": "in_madhurampur_dehri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Madhurampur Dehri",
+    "catch_all": false,
+    "aliases": [
+      "Dehri"
+    ],
+    "fantastic_jobs_query": "Madhurampur Dehri, Bihar, India"
+  },
+  {
+    "location_id": "in_kanchrapara",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Kānchrāpāra",
+    "catch_all": false,
+    "aliases": [
+      "Kachrapara",
+      "Kancharapara",
+      "Kanchrapura"
+    ],
+    "fantastic_jobs_query": "Kānchrāpāra, West Bengal, India"
+  },
+  {
+    "location_id": "in_dimapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Nagaland",
+    "city": "Dimāpur",
+    "catch_all": false,
+    "aliases": [
+      "Dampur"
+    ],
+    "fantastic_jobs_query": "Dimāpur, Nagaland, India"
+  },
+  {
+    "location_id": "in_maler_kotla",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Māler Kotla",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Māler Kotla, Punjab, India"
+  },
+  {
+    "location_id": "in_siwan",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Siwān",
+    "catch_all": false,
+    "aliases": [
+      "Savan",
+      "Sivan"
+    ],
+    "fantastic_jobs_query": "Siwān, Bihar, India"
+  },
+  {
+    "location_id": "in_kalol",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Kalol",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kalol, Gujarat, India"
+  },
+  {
+    "location_id": "in_bankura",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bānkura",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bānkura, West Bengal, India"
+  },
+  {
+    "location_id": "in_patan",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Pātan",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Pātan, Gujarat, India"
+  },
+  {
+    "location_id": "in_gonda_city",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Gondā City",
+    "catch_all": false,
+    "aliases": [
+      "Gonda"
+    ],
+    "fantastic_jobs_query": "Gondā City, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_dhaulpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Dhaulpur",
+    "catch_all": false,
+    "aliases": [
+      "Dholpur"
+    ],
+    "fantastic_jobs_query": "Dhaulpur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_gondia",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Gondiā",
+    "catch_all": false,
+    "aliases": [
+      "gonadiya",
+      "Gondija",
+      "Gondiya",
+      "gondiya"
+    ],
+    "fantastic_jobs_query": "Gondiā, Maharashtra, India"
+  },
+  {
+    "location_id": "in_palakkad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Palakkad",
+    "catch_all": false,
+    "aliases": [
+      "blkad",
+      "palaghata",
+      "Palakad",
+      "palakkada",
+      "palakkara",
+      "palakkat"
+    ],
+    "fantastic_jobs_query": "Palakkad, Kerala, India"
+  },
+  {
+    "location_id": "in_bettiah",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Bettiah",
+    "catch_all": false,
+    "aliases": [
+      "betia",
+      "Betiakh",
+      "betiya",
+      "betti'a",
+      "bettia",
+      "Bettiakh"
+    ],
+    "fantastic_jobs_query": "Bettiah, Bihar, India"
+  },
+  {
+    "location_id": "in_palwal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Palwal",
+    "catch_all": false,
+    "aliases": [
+      "balwal",
+      "pal-wol",
+      "pala'oyala",
+      "palaraala",
+      "palavala",
+      "palawala"
+    ],
+    "fantastic_jobs_query": "Palwal, Haryana, India"
+  },
+  {
+    "location_id": "in_raniganj_west_bengal",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Rānīganj",
+    "catch_all": false,
+    "aliases": [
+      "Ranigandzhe"
+    ],
+    "fantastic_jobs_query": "Rānīganj, West Bengal, India"
+  },
+  {
+    "location_id": "in_etah",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Etah",
+    "catch_all": false,
+    "aliases": [
+      "Ehtakh",
+      "etaha"
+    ],
+    "fantastic_jobs_query": "Etah, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_pilibhit",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Pīlibhīt",
+    "catch_all": false,
+    "aliases": [
+      "Pilibhhit",
+      "Pilibkhit"
+    ],
+    "fantastic_jobs_query": "Pīlibhīt, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_rajapalayam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Rajapalayam",
+    "catch_all": false,
+    "aliases": [
+      "Rajapalaiyam"
+    ],
+    "fantastic_jobs_query": "Rajapalayam, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_botad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Botad",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Botad, Gujarat, India"
+  },
+  {
+    "location_id": "in_deoria",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Deoria",
+    "catch_all": false,
+    "aliases": [
+      "de'uriya",
+      "Deorija",
+      "devariya",
+      "dywrya"
+    ],
+    "fantastic_jobs_query": "Deoria, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_nimach",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Nimach",
+    "catch_all": false,
+    "aliases": [
+      "Neemuch"
+    ],
+    "fantastic_jobs_query": "Nimach, Rajasthan, India"
+  },
+  {
+    "location_id": "in_khardah",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Khardah",
+    "catch_all": false,
+    "aliases": [
+      "Khardaha"
+    ],
+    "fantastic_jobs_query": "Khardah, West Bengal, India"
+  },
+  {
+    "location_id": "in_yavatmal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Yavatmāl",
+    "catch_all": false,
+    "aliases": [
+      "Yeotmal"
+    ],
+    "fantastic_jobs_query": "Yavatmāl, Maharashtra, India"
+  },
+  {
+    "location_id": "in_halisahar",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Hālīsahar",
+    "catch_all": false,
+    "aliases": [
+      "Halishahar"
+    ],
+    "fantastic_jobs_query": "Hālīsahar, West Bengal, India"
+  },
+  {
+    "location_id": "in_khanna",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Khanna",
+    "catch_all": false,
+    "aliases": [
+      "Hanna",
+      "kan'na",
+      "kanna",
+      "khana",
+      "Kkhana"
+    ],
+    "fantastic_jobs_query": "Khanna, Punjab, India"
+  },
+  {
+    "location_id": "in_titagarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Titāgarh",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Titāgarh, West Bengal, India"
+  },
+  {
+    "location_id": "in_mustafabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Mustafābād",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Mustafābād, Delhi, India"
+  },
+  {
+    "location_id": "in_hathras",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Hāthras",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Hāthras, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_jorhat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Assam",
+    "city": "Jorhat",
+    "catch_all": false,
+    "aliases": [
+      "Dzhorkhat",
+      "jor'hat",
+      "Sibsagar"
+    ],
+    "fantastic_jobs_query": "Jorhat, Assam, India"
+  },
+  {
+    "location_id": "in_lalitpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Lalitpur",
+    "catch_all": false,
+    "aliases": [
+      "lalipura",
+      "lalitapura",
+      "lalitapuram",
+      "lallispuleu",
+      "rarittopuru"
+    ],
+    "fantastic_jobs_query": "Lalitpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_guntakal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Guntakal",
+    "catch_all": false,
+    "aliases": [
+      "gantalaka",
+      "Guntakai",
+      "guntakala",
+      "guntakallu",
+      "Guntakul",
+      "kuntakkal"
+    ],
+    "fantastic_jobs_query": "Guntakal, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_pithampur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Pithampur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Pithampur, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_mothihari",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Mothīhāri",
+    "catch_all": false,
+    "aliases": [
+      "Motihan",
+      "motihari",
+      "Motihari"
+    ],
+    "fantastic_jobs_query": "Mothīhāri, Bihar, India"
+  },
+  {
+    "location_id": "in_kanhangad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Kanhangad",
+    "catch_all": false,
+    "aliases": [
+      "Kannangad"
+    ],
+    "fantastic_jobs_query": "Kanhangad, Kerala, India"
+  },
+  {
+    "location_id": "in_jagdalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Jagdalpur",
+    "catch_all": false,
+    "aliases": [
+      "Dzhagdalpur",
+      "jagadalapura",
+      "jagadalpura",
+      "jgdlpwr"
+    ],
+    "fantastic_jobs_query": "Jagdalpur, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_jagadhri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Jagādhri",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jagādhri, Haryana, India"
+  },
+  {
+    "location_id": "in_darjiling",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Dārjiling",
+    "catch_all": false,
+    "aliases": [
+      "daleujilling",
+      "Dardzhiling",
+      "Dardzilingas",
+      "Dargiling",
+      "Darjeeling",
+      "darjilim"
+    ],
+    "fantastic_jobs_query": "Dārjiling, West Bengal, India"
+  },
+  {
+    "location_id": "in_kurichchi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Kurichchi",
+    "catch_all": false,
+    "aliases": [
+      "Kurichi"
+    ],
+    "fantastic_jobs_query": "Kurichchi, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_dam_dam",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Dam Dam",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Dam Dam, West Bengal, India"
+  },
+  {
+    "location_id": "in_hardoi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Hardoī",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Hardoī, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_puruliya",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Puruliya",
+    "catch_all": false,
+    "aliases": [
+      "Purulia"
+    ],
+    "fantastic_jobs_query": "Puruliya, West Bengal, India"
+  },
+  {
+    "location_id": "in_dharmavaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Dharmavaram",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Dharmavaram, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_gokalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Gokalpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gokalpur, Delhi, India"
+  },
+  {
+    "location_id": "in_bhadreswar",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bhadreswar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bhadreswar, West Bengal, India"
+  },
+  {
+    "location_id": "in_nagaon",
+    "country": "India",
+    "country_code": "in",
+    "region": "Assam",
+    "city": "Nagaon",
+    "catch_all": false,
+    "aliases": [
+      "nakon",
+      "Nowgong"
+    ],
+    "fantastic_jobs_query": "Nagaon, Assam, India"
+  },
+  {
+    "location_id": "in_vejalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Vejalpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Vejalpur, Gujarat, India"
+  },
+  {
+    "location_id": "in_chikmagalur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Chikmagalūr",
+    "catch_all": false,
+    "aliases": [
+      "Chickmagalur",
+      "Chikkamagaluru",
+      "Chikmanglur",
+      "Chikmugalur",
+      "cikkamagaluru"
+    ],
+    "fantastic_jobs_query": "Chikmagalūr, Karnataka, India"
+  },
+  {
+    "location_id": "in_bhadrak",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Bhadrak",
+    "catch_all": false,
+    "aliases": [
+      "baddorakku",
+      "badeulag",
+      "bhadraka",
+      "Bhadrakh",
+      "Bkhadrak",
+      "Bkhadrakkh"
+    ],
+    "fantastic_jobs_query": "Bhadrak, Odisha, India"
+  },
+  {
+    "location_id": "in_sawai_madhopur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Sawai Madhopur",
+    "catch_all": false,
+    "aliases": [
+      "sava'imadhopura",
+      "Savaj-Madkhopur"
+    ],
+    "fantastic_jobs_query": "Sawai Madhopur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_ambikapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Ambikāpur",
+    "catch_all": false,
+    "aliases": [
+      "Surguja",
+      "Surquja"
+    ],
+    "fantastic_jobs_query": "Ambikāpur, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_mandoli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Mandoli",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Mandoli, Delhi, India"
+  },
+  {
+    "location_id": "in_satara",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Satara",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Satara, Maharashtra, India"
+  },
+  {
+    "location_id": "in_churu",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Chūru",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Chūru, Rajasthan, India"
+  },
+  {
+    "location_id": "in_gangapur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Gangāpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gangāpur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_madhavaram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Madhavaram",
+    "catch_all": false,
+    "aliases": [
+      "madabaramu",
+      "Madavaram",
+      "madavarama",
+      "madhabarama",
+      "madhavarama",
+      "Madkhavaram"
+    ],
+    "fantastic_jobs_query": "Madhavaram, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_dohad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Dohad",
+    "catch_all": false,
+    "aliases": [
+      "Dahod"
+    ],
+    "fantastic_jobs_query": "Dohad, Gujarat, India"
+  },
+  {
+    "location_id": "in_barshi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Barshi",
+    "catch_all": false,
+    "aliases": [
+      "baleusi",
+      "barshy",
+      "barsi",
+      "Barsi",
+      "barsy",
+      "bashi"
+    ],
+    "fantastic_jobs_query": "Barshi, Maharashtra, India"
+  },
+  {
+    "location_id": "in_adilabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Ādilābād",
+    "catch_all": false,
+    "aliases": [
+      "adilabadu",
+      "atilapat",
+      "Edlabad"
+    ],
+    "fantastic_jobs_query": "Ādilābād, Telangana, India"
+  },
+  {
+    "location_id": "in_jhunjhunun",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Jhunjhunūn",
+    "catch_all": false,
+    "aliases": [
+      "Jhunjhunu"
+    ],
+    "fantastic_jobs_query": "Jhunjhunūn, Rajasthan, India"
+  },
+  {
+    "location_id": "in_jetpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Jetpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jetpur, Gujarat, India"
+  },
+  {
+    "location_id": "in_uppal_kalan",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Uppal Kalan",
+    "catch_all": false,
+    "aliases": [
+      "Oopal",
+      "Upal",
+      "Uppal"
+    ],
+    "fantastic_jobs_query": "Uppal Kalan, Telangana, India"
+  },
+  {
+    "location_id": "in_gudivada",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Gudivāda",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gudivāda, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_baran",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Bārān",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bārān, Rajasthan, India"
+  },
+  {
+    "location_id": "in_narmadapuram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Narmadapuram",
+    "catch_all": false,
+    "aliases": [
+      "fushangabado",
+      "hosangabad",
+      "hosangabada",
+      "hosankapat",
+      "Hoshangabad",
+      "hosyangabadeu"
+    ],
+    "fantastic_jobs_query": "Narmadapuram, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_amreli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Amreli",
+    "catch_all": false,
+    "aliases": [
+      "amareli",
+      "Amrelis",
+      "amrly",
+      "amryly"
+    ],
+    "fantastic_jobs_query": "Amreli, Gujarat, India"
+  },
+  {
+    "location_id": "in_pudukkottai",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Pudukkottai",
+    "catch_all": false,
+    "aliases": [
+      "Poodoocottah",
+      "pudoukottai",
+      "Puducotai",
+      "Pudukattai",
+      "pudukkotta'i",
+      "Pudukkottai-Trichinopoly"
+    ],
+    "fantastic_jobs_query": "Pudukkottai, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_narasaraopet",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Narasaraopet",
+    "catch_all": false,
+    "aliases": [
+      "narasara'opet",
+      "narasara'opeta",
+      "narasaravupeta"
+    ],
+    "fantastic_jobs_query": "Narasaraopet, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_rishra",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Rishra",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Rishra, West Bengal, India"
+  },
+  {
+    "location_id": "in_baripada",
+    "country": "India",
+    "country_code": "in",
+    "region": "Odisha",
+    "city": "Baripāda",
+    "catch_all": false,
+    "aliases": [
+      "Mayurbhanj"
+    ],
+    "fantastic_jobs_query": "Baripāda, Odisha, India"
+  },
+  {
+    "location_id": "in_muktsar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Muktsar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Muktsar, Punjab, India"
+  },
+  {
+    "location_id": "in_azamgarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Azamgarh",
+    "catch_all": false,
+    "aliases": [
+      "ajamagadha",
+      "ajamagadha-nagaram",
+      "ajamagara",
+      "ajhamagadha",
+      "azamagarha",
+      "Azamgarkh"
+    ],
+    "fantastic_jobs_query": "Azamgarh, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_barnala",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Barnāla",
+    "catch_all": false,
+    "aliases": [
+      "Anahadgarh"
+    ],
+    "fantastic_jobs_query": "Barnāla, Punjab, India"
+  },
+  {
+    "location_id": "in_yelahanka",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Yelahanka",
+    "catch_all": false,
+    "aliases": [
+      "yalahanka"
+    ],
+    "fantastic_jobs_query": "Yelahanka, Karnataka, India"
+  },
+  {
+    "location_id": "in_chittorgarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Chittorgarh",
+    "catch_all": false,
+    "aliases": [
+      "Chitor",
+      "Chitorgarh",
+      "Chittaurgarh",
+      "Chittor",
+      "Chittorgarkh",
+      "chittorugaru"
+    ],
+    "fantastic_jobs_query": "Chittorgarh, Rajasthan, India"
+  },
+  {
+    "location_id": "in_tinsukia",
+    "country": "India",
+    "country_code": "in",
+    "region": "Assam",
+    "city": "Tinsukia",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Tinsukia, Assam, India"
+  },
+  {
+    "location_id": "in_khargone",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Khargone",
+    "catch_all": false,
+    "aliases": [
+      "Khargon"
+    ],
+    "fantastic_jobs_query": "Khargone, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_baidyabati",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Baidyabāti",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Baidyabāti, West Bengal, India"
+  },
+  {
+    "location_id": "in_basti",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Bastī",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bastī, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_gangavati",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Gangavati",
+    "catch_all": false,
+    "aliases": [
+      "Gangawati"
+    ],
+    "fantastic_jobs_query": "Gangavati, Karnataka, India"
+  },
+  {
+    "location_id": "in_ambur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Ambur",
+    "catch_all": false,
+    "aliases": [
+      "ambura",
+      "amburu",
+      "ambwr",
+      "ampur"
+    ],
+    "fantastic_jobs_query": "Ambur, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_giridih",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jharkhand",
+    "city": "Giridih",
+    "catch_all": false,
+    "aliases": [
+      "girid'iha",
+      "giridi"
+    ],
+    "fantastic_jobs_query": "Giridih, Jharkhand, India"
+  },
+  {
+    "location_id": "in_wardha",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Wardha",
+    "catch_all": false,
+    "aliases": [
+      "oyaradha",
+      "raaradha",
+      "vardha",
+      "Vardha",
+      "Vardkha",
+      "Varntcha"
+    ],
+    "fantastic_jobs_query": "Wardha, Maharashtra, India"
+  },
+  {
+    "location_id": "in_tadepalligudem",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Tadepalligudem",
+    "catch_all": false,
+    "aliases": [
+      "Tadepallegudem"
+    ],
+    "fantastic_jobs_query": "Tadepalligudem, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_chanduasi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Chanduasi",
+    "catch_all": false,
+    "aliases": [
+      "Chandausi"
+    ],
+    "fantastic_jobs_query": "Chanduasi, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_bagaha",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Bagaha",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bagaha, Bihar, India"
+  },
+  {
+    "location_id": "in_achalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Achalpur",
+    "catch_all": false,
+    "aliases": [
+      "acalapur",
+      "acalapura",
+      "acalpur",
+      "Acalpur",
+      "accalpur",
+      "achalpuleu"
+    ],
+    "fantastic_jobs_query": "Achalpur, Maharashtra, India"
+  },
+  {
+    "location_id": "in_gondal",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Gondal",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Gondal, Gujarat, India"
+  },
+  {
+    "location_id": "in_dharashiv",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Dharashiv",
+    "catch_all": false,
+    "aliases": [
+      "osamanabada",
+      "Osmanabad",
+      "osmanabada",
+      "usamanabada",
+      "Usmanabad",
+      "usmanabada"
+    ],
+    "fantastic_jobs_query": "Dharashiv, Maharashtra, India"
+  },
+  {
+    "location_id": "in_port_blair",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andaman and Nicobar",
+    "city": "Port Blair",
+    "catch_all": false,
+    "aliases": [
+      "Port-Blehr",
+      "Port-Bler",
+      "portableyara",
+      "poteubeulleeo",
+      "potoburea"
+    ],
+    "fantastic_jobs_query": "Port Blair, Andaman and Nicobar, India"
+  },
+  {
+    "location_id": "in_bagalkot",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Bagalkot",
+    "catch_all": false,
+    "aliases": [
+      "bagakos",
+      "bagalakota",
+      "Bagalakote",
+      "bagalakote",
+      "bagalakotemandalam",
+      "Bagalkota"
+    ],
+    "fantastic_jobs_query": "Bagalkot, Karnataka, India"
+  },
+  {
+    "location_id": "in_suriapet",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Suriāpet",
+    "catch_all": false,
+    "aliases": [
+      "Suryapet"
+    ],
+    "fantastic_jobs_query": "Suriāpet, Telangana, India"
+  },
+  {
+    "location_id": "in_bangaon",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bangaon",
+    "catch_all": false,
+    "aliases": [
+      "banagam",
+      "banagamo",
+      "banagavam",
+      "Bongaon"
+    ],
+    "fantastic_jobs_query": "Bangaon, West Bengal, India"
+  },
+  {
+    "location_id": "in_ashoknagar_kalyangarh",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Ashoknagar Kalyangarh",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Ashoknagar Kalyangarh, West Bengal, India"
+  },
+  {
+    "location_id": "in_deesa",
+    "country": "India",
+    "country_code": "in",
+    "region": "Gujarat",
+    "city": "Deesa",
+    "catch_all": false,
+    "aliases": [
+      "Disa"
+    ],
+    "fantastic_jobs_query": "Deesa, Gujarat, India"
+  },
+  {
+    "location_id": "in_navadwip",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Navadwīp",
+    "catch_all": false,
+    "aliases": [
+      "Nabadurip",
+      "Nabadwip",
+      "Nadia",
+      "Navadvip"
+    ],
+    "fantastic_jobs_query": "Navadwīp, West Bengal, India"
+  },
+  {
+    "location_id": "in_nandurbar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Nandurbar",
+    "catch_all": false,
+    "aliases": [
+      "nandarabara",
+      "nandarbar",
+      "nandouabaru",
+      "nanduleubaleu",
+      "nandurabara",
+      "nandwrbar"
+    ],
+    "fantastic_jobs_query": "Nandurbar, Maharashtra, India"
+  },
+  {
+    "location_id": "in_sultanpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Sultānpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Sultānpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_delhi_cantonment",
+    "country": "India",
+    "country_code": "in",
+    "region": "Delhi",
+    "city": "Delhi Cantonment",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Delhi Cantonment, Delhi, India"
+  },
+  {
+    "location_id": "in_firozpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Firozpur",
+    "catch_all": false,
+    "aliases": [
+      "Ferozepore",
+      "Ferozepur",
+      "Feruzpur"
+    ],
+    "fantastic_jobs_query": "Firozpur, Punjab, India"
+  },
+  {
+    "location_id": "in_pandit_deen_dayal_upadhyaya_nagar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Pandit Deen Dayal Upadhyaya Nagar",
+    "catch_all": false,
+    "aliases": [
+      "Moghulserdai"
+    ],
+    "fantastic_jobs_query": "Pandit Deen Dayal Upadhyaya Nagar, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_sehore",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Sehore",
+    "catch_all": false,
+    "aliases": [
+      "cehor",
+      "seho",
+      "sehor",
+      "Sekhor",
+      "shwr",
+      "sihora"
+    ],
+    "fantastic_jobs_query": "Sehore, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_kanpur_cantonment",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Kanpur Cantonment",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kanpur Cantonment, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_bansbaria",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Bānsbāria",
+    "catch_all": false,
+    "aliases": [
+      "Bansberia"
+    ],
+    "fantastic_jobs_query": "Bānsbāria, West Bengal, India"
+  },
+  {
+    "location_id": "in_tadpatri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Tadpatri",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Tadpatri, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_jalpaiguri",
+    "country": "India",
+    "country_code": "in",
+    "region": "West Bengal",
+    "city": "Jalpāiguri",
+    "catch_all": false,
+    "aliases": [
+      "Paiguri"
+    ],
+    "fantastic_jobs_query": "Jalpāiguri, West Bengal, India"
+  },
+  {
+    "location_id": "in_mangalagiri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Mangalagiri",
+    "catch_all": false,
+    "aliases": [
+      "mankalakiri"
+    ],
+    "fantastic_jobs_query": "Mangalagiri, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_ranebennur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Karnataka",
+    "city": "Ranebennur",
+    "catch_all": false,
+    "aliases": [
+      "Ranebennuru",
+      "Raneebennur",
+      "Ranibennur",
+      "Renibennur"
+    ],
+    "fantastic_jobs_query": "Ranebennur, Karnataka, India"
+  },
+  {
+    "location_id": "in_khurja",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Khurja",
+    "catch_all": false,
+    "aliases": [
+      "khuraja",
+      "Khurga"
+    ],
+    "fantastic_jobs_query": "Khurja, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_kishanganj",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Kishanganj",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Kishanganj, Bihar, India"
+  },
+  {
+    "location_id": "in_ponnani",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Ponnāni",
+    "catch_all": false,
+    "aliases": [
+      "Ponani"
+    ],
+    "fantastic_jobs_query": "Ponnāni, Kerala, India"
+  },
+  {
+    "location_id": "in_hindaun",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Hindaun",
+    "catch_all": false,
+    "aliases": [
+      "hinda'una",
+      "hindauna",
+      "hindaunanagaram",
+      "hindona"
+    ],
+    "fantastic_jobs_query": "Hindaun, Rajasthan, India"
+  },
+  {
+    "location_id": "in_jamalpur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Jamālpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Jamālpur, Bihar, India"
+  },
+  {
+    "location_id": "in_nagaur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Nāgaur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Nāgaur, Rajasthan, India"
+  },
+  {
+    "location_id": "in_ambala_sadar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Haryana",
+    "city": "Ambala Sadar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Ambala Sadar, Haryana, India"
+  },
+  {
+    "location_id": "in_bhiwadi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Bhiwadi",
+    "catch_all": false,
+    "aliases": [
+      "bhiraadi",
+      "bhivadi",
+      "Bhivadi",
+      "bhivari",
+      "bhywady",
+      "bywady"
+    ],
+    "fantastic_jobs_query": "Bhiwadi, Rajasthan, India"
+  },
+  {
+    "location_id": "in_bundi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Būndi",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Būndi, Rajasthan, India"
+  },
+  {
+    "location_id": "in_miryalaguda",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Miryalaguda",
+    "catch_all": false,
+    "aliases": [
+      "Mirialguda",
+      "Miriyalguda",
+      "Miryalguda"
+    ],
+    "fantastic_jobs_query": "Miryalaguda, Telangana, India"
+  },
+  {
+    "location_id": "in_soyibug",
+    "country": "India",
+    "country_code": "in",
+    "region": "Jammu and Kashmir",
+    "city": "Soyībug",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Soyībug, Jammu and Kashmir, India"
+  },
+  {
+    "location_id": "in_jagtial",
+    "country": "India",
+    "country_code": "in",
+    "region": "Telangana",
+    "city": "Jagtiāl",
+    "catch_all": false,
+    "aliases": [
+      "jagityala"
+    ],
+    "fantastic_jobs_query": "Jagtiāl, Telangana, India"
+  },
+  {
+    "location_id": "in_roorkee",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttarakhand",
+    "city": "Roorkee",
+    "catch_all": false,
+    "aliases": [
+      "lugki",
+      "roraki",
+      "Rorke",
+      "Rourki",
+      "rraki",
+      "rudaki"
+    ],
+    "fantastic_jobs_query": "Roorkee, Uttarakhand, India"
+  },
+  {
+    "location_id": "in_udgir",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Udgīr",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Udgīr, Maharashtra, India"
+  },
+  {
+    "location_id": "in_nagda",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Nagda",
+    "catch_all": false,
+    "aliases": [
+      "Nagda-Dhar"
+    ],
+    "fantastic_jobs_query": "Nagda, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_betul",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Betūl",
+    "catch_all": false,
+    "aliases": [
+      "Badnur"
+    ],
+    "fantastic_jobs_query": "Betūl, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_jahanabad",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Jahānābād",
+    "catch_all": false,
+    "aliases": [
+      "Jehanabad"
+    ],
+    "fantastic_jobs_query": "Jahānābād, Bihar, India"
+  },
+  {
+    "location_id": "in_kashipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttarakhand",
+    "city": "Kashipur",
+    "catch_all": false,
+    "aliases": [
+      "kashipuru",
+      "kashypwr",
+      "kasipuleu",
+      "kasipur",
+      "kasipura"
+    ],
+    "fantastic_jobs_query": "Kashipur, Uttarakhand, India"
+  },
+  {
+    "location_id": "in_ghazipur",
+    "country": "India",
+    "country_code": "in",
+    "region": "Uttar Pradesh",
+    "city": "Ghazīpur",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Ghazīpur, Uttar Pradesh, India"
+  },
+  {
+    "location_id": "in_amaravati",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Amaravati",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Amaravati, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_nagapattinam",
+    "country": "India",
+    "country_code": "in",
+    "region": "Tamil Nadu",
+    "city": "Nagapattinam",
+    "catch_all": false,
+    "aliases": [
+      "Nagapatinam",
+      "nagapattinamu",
+      "Nagappattinam",
+      "nagappattinamu",
+      "nakappattinam",
+      "Negapatam"
+    ],
+    "fantastic_jobs_query": "Nagapattinam, Tamil Nadu, India"
+  },
+  {
+    "location_id": "in_buxar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Buxar",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Buxar, Bihar, India"
+  },
+  {
+    "location_id": "in_mormugao",
+    "country": "India",
+    "country_code": "in",
+    "region": "Goa",
+    "city": "Mormugao",
+    "catch_all": false,
+    "aliases": [
+      "Marmagao",
+      "Marmagoa",
+      "Marmugao",
+      "Mermugao",
+      "Porio"
+    ],
+    "fantastic_jobs_query": "Mormugao, Goa, India"
+  },
+  {
+    "location_id": "in_seoni",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Seoni",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Seoni, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_aurangabad_bihar",
+    "country": "India",
+    "country_code": "in",
+    "region": "Bihar",
+    "city": "Aurangābād",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Aurangābād, Bihar, India"
+  },
+  {
+    "location_id": "in_hinganghat",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Hinganghāt",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Hinganghāt, Maharashtra, India"
+  },
+  {
+    "location_id": "in_dhamtari",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Dhamtari",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Dhamtari, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_chilakalurupet",
+    "country": "India",
+    "country_code": "in",
+    "region": "Andhra Pradesh",
+    "city": "Chilakalūrupet",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Chilakalūrupet, Andhra Pradesh, India"
+  },
+  {
+    "location_id": "in_malappuram",
+    "country": "India",
+    "country_code": "in",
+    "region": "Kerala",
+    "city": "Malappuram",
+    "catch_all": false,
+    "aliases": [
+      "malabwram",
+      "Malapouram",
+      "malappurama",
+      "Malapurama",
+      "Malapuramas",
+      "mallapulam"
+    ],
+    "fantastic_jobs_query": "Malappuram, Kerala, India"
+  },
+  {
+    "location_id": "in_banswara",
+    "country": "India",
+    "country_code": "in",
+    "region": "Rajasthan",
+    "city": "Bānswāra",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Bānswāra, Rajasthan, India"
+  },
+  {
+    "location_id": "in_chirmiri",
+    "country": "India",
+    "country_code": "in",
+    "region": "Chhattisgarh",
+    "city": "Chirmiri",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Chirmiri, Chhattisgarh, India"
+  },
+  {
+    "location_id": "in_itarsi",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Itārsi",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Itārsi, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_vasco_da_gama",
+    "country": "India",
+    "country_code": "in",
+    "region": "Goa",
+    "city": "Vasco da Gama",
+    "catch_all": false,
+    "aliases": [
+      "Vasco",
+      "Vasko-da-Gama"
+    ],
+    "fantastic_jobs_query": "Vasco da Gama, Goa, India"
+  },
+  {
+    "location_id": "in_gangtok",
+    "country": "India",
+    "country_code": "in",
+    "region": "Sikkim",
+    "city": "Gangtok",
+    "catch_all": false,
+    "aliases": [
+      "gagatoka",
+      "ganatoka",
+      "gangataka",
+      "gangatok",
+      "gangatoka",
+      "Gangtoka"
+    ],
+    "fantastic_jobs_query": "Gangtok, Sikkim, India"
+  },
+  {
+    "location_id": "in_datia",
+    "country": "India",
+    "country_code": "in",
+    "region": "Madhya Pradesh",
+    "city": "Datia",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Datia, Madhya Pradesh, India"
+  },
+  {
+    "location_id": "in_phagwara",
+    "country": "India",
+    "country_code": "in",
+    "region": "Punjab",
+    "city": "Phagwāra",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Phagwāra, Punjab, India"
+  },
+  {
+    "location_id": "in_airoli",
+    "country": "India",
+    "country_code": "in",
+    "region": "Maharashtra",
+    "city": "Airoli",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Airoli, Maharashtra, India"
+  },
+  {
+    "location_id": "in_remote",
+    "country": "India",
+    "country_code": "in",
+    "region": "Remote",
+    "city": "Remote",
+    "catch_all": false,
+    "aliases": [],
+    "fantastic_jobs_query": "Remote, India"
+  },
+  {
+    "location_id": "in_other",
+    "country": "India",
+    "country_code": "in",
+    "region": null,
+    "city": null,
+    "catch_all": true,
+    "aliases": [],
+    "fantastic_jobs_query": "India"
+  }
+]

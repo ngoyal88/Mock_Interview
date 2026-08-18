@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 import { useConfirmDialog } from 'shared/context/ConfirmDialogContext';
 import { useAuth } from 'shared/context/AuthContext';
-import { useUserSettingsQuery } from 'features/dashboard/queries/useUserSettingsQuery';
+import { useAccountSettingsQuery as useUserSettingsQuery } from 'features/user/queries/useAccountSettingsQuery';
 
 import { useBuilderDraftMutations } from '../mutations/useBuilderDraftMutations';
 import { resumeBuilderApi } from '../services/resumeBuilderApi';

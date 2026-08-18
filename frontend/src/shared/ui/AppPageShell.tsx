@@ -4,6 +4,8 @@ type AppPageShellProps = {
   title: ReactNode;
   subtitle?: ReactNode;
   eyebrow?: ReactNode;
+  eyebrowClassName?: string;
+  headerActions?: ReactNode;
   backLink?: ReactNode;
   maxWidthClass?: string;
   children: ReactNode;
@@ -15,6 +17,8 @@ export default function AppPageShell({
   title,
   subtitle,
   eyebrow,
+  eyebrowClassName = "",
+  headerActions,
   backLink,
   maxWidthClass = "",
   children,
@@ -22,14 +26,25 @@ export default function AppPageShell({
   embedded = false,
 }: AppPageShellProps) {
   const header = (
-    <header className="mb-8 max-w-3xl space-y-2">
-      {eyebrow ? (
-        <p className="type-label-sm uppercase tracking-[0.14em] text-[var(--color-outline)]">{eyebrow}</p>
-      ) : null}
-      <h1 className="type-headline-lg text-[var(--color-on-surface)]">{title}</h1>
-      {subtitle ? (
-        <p className="type-body-md max-w-2xl text-[var(--color-on-surface-variant)]">{subtitle}</p>
-      ) : null}
+    <header className="mb-8">
+      <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
+        <div className="min-w-0 max-w-3xl space-y-2">
+          {eyebrow ? (
+            <p
+              className={`type-label-sm uppercase tracking-[0.14em] text-[var(--color-outline)] ${eyebrowClassName}`.trim()}
+            >
+              {eyebrow}
+            </p>
+          ) : null}
+          <h1 className="type-headline-lg text-[var(--color-on-surface)]">{title}</h1>
+          {subtitle ? (
+            <p className="type-body-md max-w-2xl text-[var(--color-on-surface-variant)]">{subtitle}</p>
+          ) : null}
+        </div>
+        {headerActions ? (
+          <div className="flex shrink-0 flex-wrap items-center gap-2 pt-0.5">{headerActions}</div>
+        ) : null}
+      </div>
     </header>
   );
 

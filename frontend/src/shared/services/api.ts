@@ -37,7 +37,7 @@ export type {
   TranscriptLine,
 } from "features/interview/services/interviewApi";
 
-import { accountApi } from "features/interview/services/accountApi";
+import { accountApi } from 'features/user/services/accountApi';
 import { interviewApi } from "features/interview/services/interviewApi";
 import { livekitApi } from "features/interview/services/livekitApi";
 import { profileClaimsApi } from "features/interview/services/profileClaimsApi";

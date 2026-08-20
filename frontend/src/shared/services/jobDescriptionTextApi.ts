@@ -24,11 +24,11 @@ const parseError = async (response: Response, fallback: string): Promise<string>
   return fallback;
 };
 
-export const jdTextApi = {
-  async extractJdTextFromFile(file: File): Promise<string> {
+export const jobDescriptionTextApi = {
+  async extractJobDescriptionFromFile(file: File): Promise<string> {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await fetch(`${API_URL}/jd-fit/extract-text`, {
+    const response = await fetch(`${API_URL}/application-fit/extract-text`, {
       method: 'POST',
       headers: await getAuthHeaders(),
       body: formData,
@@ -43,4 +43,9 @@ export const jdTextApi = {
     }
     return text;
   },
+};
+
+/** @deprecated use jobDescriptionTextApi */
+export const jdTextApi = {
+  extractJdTextFromFile: (file: File) => jobDescriptionTextApi.extractJobDescriptionFromFile(file),
 };

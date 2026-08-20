@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from services.jd_fit.jd_fit_models import AlignmentMode, FitBand, FunnelResult, RequirementAlignment
+from services.application_fit.models import AlignmentMode, FitBand, FunnelResult, RequirementAlignment
 
 
 def build_why_this_score(

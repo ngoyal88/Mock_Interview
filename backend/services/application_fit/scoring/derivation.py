@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from services.jd_fit.jd_fit_models import FitBand
-from services.jd_fit.jd_fit_weights import (
+from services.application_fit.models import FitBand
+from services.application_fit.weights import (
     FIT_BAND_COMPETITIVE_MIN,
     FIT_BAND_STRETCH_MIN,
     FIT_BAND_STRONG_MIN,

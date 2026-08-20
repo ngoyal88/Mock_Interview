@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from services.jd_fit.candidate_graph import CandidateIntelligenceGraph
-from services.jd_fit.jd_fit_models import (
+from services.application_fit.evidence.candidate_graph import CandidateIntelligenceGraph
+from services.application_fit.models import (
     ATSLayerResult,
     BottleneckStage,
     FunnelResult,
@@ -14,7 +14,7 @@ from services.jd_fit.jd_fit_models import (
     RequirementAlignment,
     RequirementAlignmentV2,
 )
-from services.jd_fit.typed_requirement_alignment import parse_years_from_text
+from services.application_fit.extract.typed_requirement_alignment import parse_years_from_text
 
 
 def build_ranked_actions(

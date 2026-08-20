@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any, Dict, List, Optional, Sequence
 
-from services.jd_fit.jd_fit_models import (
+from services.application_fit.models import (
     RequirementAlignmentV2,
     RequirementCategoryGroup,
     TypedRequirement,

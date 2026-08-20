@@ -6,14 +6,14 @@ import json
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from services.platform.llm import get_platform_llm
-from services.interview.prompt_contracts import extract_json_dict
-from services.jd_fit.jd_fit_models import (
+from services.platform.llm.prompt_contracts import extract_json_dict
+from services.application_fit.models import (
     EvidenceChunk,
     RequirementAlignmentStatus,
     RequirementEvidenceResult,
     TypedRequirement,
 )
-from services.jd_fit.typed_requirement_alignment import format_requirement_label
+from services.application_fit.extract.typed_requirement_alignment import format_requirement_label
 from utils.logger import get_logger
 
 logger = get_logger(__name__)

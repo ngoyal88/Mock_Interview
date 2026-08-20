@@ -7,24 +7,24 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Optional, Tuple
 
 from config import get_settings
-from services.interview.contracts.mode_contexts import JdFitContext
-from services.interview.jd_context_service import JDContextService
+from services.application_fit.models import JdFitContext
+from services.application_fit.extract.job_posting_context import JobPostingContextService
 from services.platform.llm import get_platform_llm
-from services.jd_fit.action_builder import build_ranked_actions
-from services.jd_fit.ats_format_checks import compute_ats_format_warnings
-from services.jd_fit.candidate_graph import build_candidate_graph
-from services.jd_fit.evidence_index import build_evidence_chunks
-from services.jd_fit.evidence_judge import judge_requirement_evidence
-from services.jd_fit.fit_score import (
+from services.application_fit.output.actions import build_ranked_actions
+from services.application_fit.scoring.ats_format import compute_ats_format_warnings
+from services.application_fit.evidence.candidate_graph import build_candidate_graph
+from services.application_fit.evidence.index import build_evidence_chunks
+from services.application_fit.evidence.judge import judge_requirement_evidence
+from services.application_fit.scoring.fit_score import (
     evidence_results_to_legacy_alignments,
     evidence_results_to_v2_alignments,
     resolve_prepared_fit,
     score_from_evidence_results,
 )
-from services.jd_fit.funnel_scoring import compute_funnel_from_evidence_results
+from services.application_fit.scoring.funnel import compute_funnel_from_evidence_results
 from services.resume.profile_normalizer import profile_content_hash
-from services.jd_fit.hash_utils import jd_hash
-from services.jd_fit.jd_fit_models import (
+from services.application_fit.persist.hash_utils import jd_hash
+from services.application_fit.models import (
     ComputeResponse,
     ExtractionMode,
     FunnelResult,
@@ -34,7 +34,7 @@ from services.jd_fit.jd_fit_models import (
     RequirementAlignmentV2,
     SemanticAlignmentResult,
 )
-from services.jd_fit.jd_fit_repository import (
+from services.application_fit.persist.repository import (
     build_inputs_digest,
     create_snapshot,
     get_cached_snapshot_id,
@@ -42,15 +42,15 @@ from services.jd_fit.jd_fit_repository import (
     list_history,
     set_cached_snapshot_id,
 )
-from services.jd_fit.jd_fit_weights import (
+from services.application_fit.weights import (
     BOTTLENECK_LABELS,
     MIN_JD_CHARS,
 )
-from services.jd_fit.narrative import build_why_this_score
-from services.jd_fit.profile_loader import load_resume_snapshot
-from services.jd_fit.score_derivation import fit_band_from_score
+from services.application_fit.output.narrative import build_why_this_score
+from services.application_fit.profile_loader import load_resume_snapshot
+from services.application_fit.scoring.derivation import fit_band_from_score
 from utils.domain_errors import DomainError
-from services.jd_fit.typed_requirement_alignment import (
+from services.application_fit.extract.typed_requirement_alignment import (
     apply_requirement_soft_cap,
     demote_skills_from_preferred_section,
     ensure_experience_requirements,
@@ -67,7 +67,7 @@ logger = get_logger(__name__)
 
 
 async def _build_fit_extraction(
-    jd_context_service: JDContextService,
+    job_posting_context: JobPostingContextService,
     *,
     target_company: Optional[str],
     target_role: str,
@@ -78,7 +78,7 @@ async def _build_fit_extraction(
     jd_text = (job_description or "").strip()
     used_llm = len(jd_text) >= MIN_JD_CHARS
 
-    context = await jd_context_service.build_context(
+    context = await job_posting_context.build_context(
         target_company=target_company,
         target_role=target_role,
         job_description=job_description,
@@ -239,9 +239,9 @@ def _base_requirement_rows(typed_requirements) -> list[RequirementAlignmentV2]:
     ]
 
 
-class JDFitService:
+class ApplicationFitService:
     def __init__(self) -> None:
-        self._jd_context = JDContextService(get_platform_llm())
+        self._job_posting_context = JobPostingContextService(get_platform_llm())
 
     async def compute_fit(
         self,
@@ -255,8 +255,8 @@ class JDFitService:
         first_seen: Optional[str] = None,
     ) -> ComputeResponse:
         settings = get_settings()
-        if not settings.jd_fit_enabled:
-            raise DomainError("jd_fit_disabled", "Application Fit is temporarily unavailable")
+        if not settings.application_fit_enabled:
+            raise DomainError("application_fit_disabled", "Application Fit is temporarily unavailable")
 
         role = (target_role or "").strip()
         if not role:
@@ -312,7 +312,7 @@ class JDFitService:
         years_int = int(years) if isinstance(years, (int, float)) else None
 
         jd_context, extraction_mode = await _build_fit_extraction(
-            self._jd_context,
+            self._job_posting_context,
             target_company=target_company,
             target_role=role,
             job_description=jd_text,

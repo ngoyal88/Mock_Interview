@@ -6,7 +6,7 @@ import hashlib
 import re
 from typing import Optional
 
-from services.jd_fit.jd_fit_weights import SCHEMA_VERSION
+from services.application_fit.weights import SCHEMA_VERSION
 
 
 def normalize_ws(text: str) -> str:

@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any, Dict, Iterable, List
 
-from services.jd_fit.jd_fit_models import EvidenceChunk
+from services.application_fit.models import EvidenceChunk
 from services.resume.profile_normalizer import profile_snapshot_dict
 from services.resume.skills_normalizer import normalize_skills_input
 

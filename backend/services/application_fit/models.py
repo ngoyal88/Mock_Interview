@@ -260,3 +260,16 @@ class ExtractJdTextResponse(BaseModel):
     text: str
     char_count: int
     warnings: List[str] = Field(default_factory=list)
+
+
+class JdFitContext(BaseModel):
+    """Extracted job-posting context (wire field name jd_fit_context on sessions)."""
+
+    required_skills: List[str] = Field(default_factory=list)
+    nice_to_have_skills: List[str] = Field(default_factory=list)
+    typed_requirements: List[Dict[str, Any]] = Field(default_factory=list)
+    candidate_strengths: List[str] = Field(default_factory=list)
+    candidate_gaps: List[str] = Field(default_factory=list)
+    probing_areas: List[str] = Field(default_factory=list)
+    interview_plan: List[str] = Field(default_factory=list)
+    summary: str = ""

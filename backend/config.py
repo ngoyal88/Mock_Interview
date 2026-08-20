@@ -3,6 +3,7 @@ import secrets
 from functools import lru_cache
 from typing import List, Optional
 
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -87,7 +88,10 @@ class Settings(BaseSettings):
     transcript_merge_max_chars: int = 1200
 
     vpm_enabled: bool = True
-    jd_fit_enabled: bool = True
+    application_fit_enabled: bool = Field(
+        default=True,
+        validation_alias=AliasChoices("application_fit_enabled", "jd_fit_enabled"),
+    )
     job_discovery_enabled: bool = False
     resume_builder_enabled: bool = False
     fantastic_jobs_api_key: str = ""
@@ -97,6 +101,7 @@ class Settings(BaseSettings):
     meilisearch_url: str = "http://127.0.0.1:7700"
     meilisearch_master_key: str = ""
     job_discovery_credit_budget: int = 5000
+    job_discovery_hourly_credit_budget: int = 1500
     job_discovery_stale_unseen_days: int = 7
     job_discovery_description_max_chars: int = 32000
     vpm_max_accepted_claims: int = 50

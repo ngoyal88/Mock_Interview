@@ -10,9 +10,9 @@ from typing import Any, Dict, List, Optional
 from firebase_admin import firestore
 
 from firebase_config import db
-from services.jd_fit.hash_utils import inputs_hash
-from services.jd_fit.jd_fit_models import HistoryEntry
-from services.jd_fit.jd_fit_weights import BOTTLENECK_LABELS, SCHEMA_VERSION
+from services.application_fit.persist.hash_utils import inputs_hash
+from services.application_fit.models import HistoryEntry
+from services.application_fit.weights import BOTTLENECK_LABELS, SCHEMA_VERSION
 from utils.logger import get_logger
 from utils.redis_client import get_redis
 

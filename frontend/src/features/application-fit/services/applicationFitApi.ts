@@ -36,7 +36,7 @@ const parseError = async (response: Response, fallback: string): Promise<string>
 export const applicationFitApi = {
   async compute(body: ComputeRequest): Promise<ComputeResponse> {
     const headers = await getAuthHeaders();
-    const response = await fetch(`${API_URL}/jd-fit/compute`, {
+    const response = await fetch(`${API_URL}/application-fit/compute`, {
       method: 'POST',
       headers,
       body: JSON.stringify(body),
@@ -56,7 +56,7 @@ export const applicationFitApi = {
     if (jobDescription.trim()) {
       params.set('job_description', jobDescription.trim());
     }
-    const response = await fetch(`${API_URL}/jd-fit/history?${params}`, { headers });
+    const response = await fetch(`${API_URL}/application-fit/history?${params}`, { headers });
     if (!response.ok) {
       throw new Error(await parseError(response, 'Failed to load fit history'));
     }
@@ -65,7 +65,7 @@ export const applicationFitApi = {
 
   async getSnapshot(snapshotId: string): Promise<ComputeResponse> {
     const headers = await getAuthHeaders();
-    const response = await fetch(`${API_URL}/jd-fit/snapshots/${snapshotId}`, { headers });
+    const response = await fetch(`${API_URL}/application-fit/snapshots/${snapshotId}`, { headers });
     if (!response.ok) {
       throw new Error(await parseError(response, 'Snapshot not found'));
     }

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
-from services.jd_fit.jd_fit_models import (
+from services.application_fit.models import (
     CategoryScore,
     GateStatus,
     HardGateFinding,
@@ -13,11 +13,11 @@ from services.jd_fit.jd_fit_models import (
     RequirementEvidenceResult,
     ScoreExplanation,
 )
-from services.jd_fit.jd_fit_weights import (
+from services.application_fit.weights import (
     HARD_GATE_BLOCKED_SCORE_CAP,
     HARD_GATE_RISKY_SCORE_CAP,
 )
-from services.jd_fit.typed_requirement_alignment import CATEGORY_GROUPS, IMPORTANCE_WEIGHT
+from services.application_fit.extract.typed_requirement_alignment import CATEGORY_GROUPS, IMPORTANCE_WEIGHT
 
 STATUS_VALUE = {
     "met": 1.0,

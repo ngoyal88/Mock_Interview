@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import List, Sequence
 
-from services.jd_fit.fit_score import score_fraction_for_results
-from services.jd_fit.jd_fit_models import (
+from services.application_fit.scoring.fit_score import score_fraction_for_results
+from services.application_fit.models import (
     ATSLayerResult,
     BottleneckStage,
     FunnelResult,
@@ -14,7 +14,7 @@ from services.jd_fit.jd_fit_models import (
     RecruiterLayerResult,
     RequirementEvidenceResult,
 )
-from services.jd_fit.jd_fit_weights import VERDICT_AT_RISK, VERDICT_PASS
+from services.application_fit.weights import VERDICT_AT_RISK, VERDICT_PASS
 
 
 def _verdict_from_score(score: float) -> LayerVerdict:

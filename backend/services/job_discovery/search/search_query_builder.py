@@ -20,6 +20,11 @@ def _in_filter(field: str, values: Iterable[str]) -> str | None:
     return f"{field} IN [{', '.join(_quote(value) for value in cleaned)}]"
 
 
+def _not_in_filter(field: str, values: Iterable[str]) -> str | None:
+    inner = _in_filter(field, values)
+    return f"NOT {inner}" if inner else None
+
+
 def _equals_filter(field: str, value: str | None) -> str | None:
     return f"{field} = {_quote(value)}" if value else None
 
@@ -60,6 +65,14 @@ def merge_with_preferences(filters: SearchFilters, prefs: CareerPreferencesDoc) 
         data["salary_max"] = prefs.salary_max
     if filters.visa_sponsorship is None and prefs.visa_sponsorship_required:
         data["visa_sponsorship"] = "required"
+    if not data.get("exclude_location_ids") and prefs.exclude_locations:
+        data["exclude_location_ids"] = [
+            location_id
+            for location in prefs.exclude_locations
+            if (location_id := resolve_location_id(location.country, location.region, location.city))
+        ]
+    if not data.get("exclude_titles") and prefs.exclude_titles:
+        data["exclude_titles"] = [title.strip() for title in prefs.exclude_titles if title.strip()]
     return SearchFilters(**data)
 
 
@@ -100,6 +113,9 @@ def build_filter(filters: SearchFilters, *, now: datetime | None = None) -> str:
         _in_filter("organization_slug", filters.organization_slugs),
         _equals_filter("ai_visa_sponsorship", _visa_index_value(filters.visa_sponsorship)),
         _salary_filter(filters),
+        _not_in_filter("location_ids", filters.exclude_location_ids),
+        # ponytail: exact title match only — Meili has no contains-NOT; paraphrased excludes need a later query rewrite.
+        _not_in_filter("title", filters.exclude_titles),
     ]:
         if clause:
             clauses.append(clause)

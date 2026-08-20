@@ -29,30 +29,76 @@ def _build_actor_input(
     params: dict[str, Any],
 ) -> dict[str, Any]:
     """Map direct-API ingest params to Apify actor input."""
+    taxonomy_csv = str(INGEST_DEFAULTS.get("ai_taxonomies_a_primary") or "")
+    taxonomy_list = [part.strip() for part in taxonomy_csv.split(",") if part.strip()]
+    employment = str(INGEST_DEFAULTS.get("ai_employment_type") or "").strip()
+    employment_list = [employment] if employment else []
+
     payload: dict[str, Any] = {
         "timeRange": _map_time_frame(time_frame),
-        "limit": max(10, min(int(limit), 5000)),
+        # Keep limit honest for credit budgets (do not inflate small remaining budgets to 10).
+        "limit": max(1, min(int(limit), 5000)),
         "descriptionType": "text",
         "includeCompanyDetails": True,
         "removeAgency": True,
         "aiLanguageFilter": ["English"],
-        "aiTaxonomiesPrimaryFilter": ["Technology", "Software"],
-        "aiEmploymentTypeFilter": ["FULL_TIME"],
+        "aiTaxonomiesPrimaryFilter": taxonomy_list,
+        "aiEmploymentTypeFilter": employment_list,
     }
 
-    location = params.get("location") or params.get("locationSearch") or params.get("geography")
+    # Match direct client: always apply INGEST_DEFAULTS location (India) unless params override.
+    location = (
+        params.get("location")
+        or params.get("locationSearch")
+        or params.get("geography")
+        or INGEST_DEFAULTS.get("location")
+    )
     if location:
         locations = location if isinstance(location, list) else [str(location)]
         payload["locationSearch"] = [str(item).strip() for item in locations if str(item).strip()]
 
-    # Allow explicit Apify camelCase overrides from callers/tests.
+    experience = params.get("ai_experience_level") or params.get("aiExperienceLevelFilter")
+    if experience:
+        if isinstance(experience, list):
+            payload["aiExperienceLevelFilter"] = [str(item).strip() for item in experience if str(item).strip()]
+        else:
+            payload["aiExperienceLevelFilter"] = [
+                part.strip() for part in str(experience).split(",") if part.strip()
+            ]
+
+    include_terms = params.get("title_include_terms") or params.get("titleSearch")
+    if include_terms:
+        if isinstance(include_terms, list):
+            payload["titleSearch"] = [str(item).strip() for item in include_terms if str(item).strip()]
+        else:
+            payload["titleSearch"] = [str(include_terms).strip()]
+
+    exclude_terms = params.get("title_exclude_terms") or params.get("titleExclusionSearch")
+    if exclude_terms:
+        if isinstance(exclude_terms, list):
+            payload["titleExclusionSearch"] = [str(item).strip() for item in exclude_terms if str(item).strip()]
+        else:
+            payload["titleExclusionSearch"] = [str(exclude_terms).strip()]
+
+    # Direct-API boolean title_advanced is not supported on Apify — term lists above approximate it.
+    skip_keys = {
+        "location",
+        "locationSearch",
+        "geography",
+        "ai_experience_level",
+        "aiExperienceLevelFilter",
+        "title_advanced",
+        "title_include_terms",
+        "title_exclude_terms",
+        "titleSearch",
+        "titleExclusionSearch",
+    }
     for key, value in params.items():
-        if key in {"location", "locationSearch", "geography"}:
+        if key in skip_keys:
             continue
         if value not in (None, ""):
             payload[key] = value
 
-    # Legacy direct-API defaults still used by ingest_service keyword args.
     if INGEST_DEFAULTS.get("organization_agency") == "exclude":
         payload.setdefault("removeAgency", True)
     return payload

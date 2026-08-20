@@ -53,6 +53,41 @@ def get_fantastic_jobs_client() -> JobIngestClient:
     return FantasticJobsClient()
 
 
+_ADAPTER_ONLY_QUERY_KEYS = frozenset(
+    {
+        "title_include_terms",
+        "title_exclude_terms",
+        "titleSearch",
+        "titleExclusionSearch",
+    }
+)
+
+
+def _direct_inventory_query(params: dict[str, Any]) -> dict[str, Any]:
+    query = {**INGEST_DEFAULTS, **params}
+    for key in _ADAPTER_ONLY_QUERY_KEYS:
+        query.pop(key, None)
+    return {key: value for key, value in query.items() if value not in (None, "", [])}
+
+
+def _direct_active_query(
+    params: dict[str, Any],
+    *,
+    time_frame: str,
+    limit: int,
+    cursor: Optional[str] = None,
+    offset: Optional[int] = None,
+) -> dict[str, Any]:
+    query = _direct_inventory_query(params)
+    query["time_frame"] = time_frame
+    query["limit"] = limit
+    if cursor:
+        query["cursor"] = cursor
+    elif offset is not None:
+        query["offset"] = offset
+    return query
+
+
 class FantasticJobsClient:
     def __init__(self, *, api_key: str | None = None, base_url: str | None = None) -> None:
         settings = get_settings()
@@ -89,11 +124,7 @@ class FantasticJobsClient:
         offset: Optional[int] = None,
         **params: Any,
     ) -> IngestPage:
-        query = {**INGEST_DEFAULTS, **params, "time_frame": time_frame, "limit": limit}
-        if cursor:
-            query["cursor"] = cursor
-        elif offset is not None:
-            query["offset"] = offset
+        query = _direct_active_query(params, time_frame=time_frame, limit=limit, cursor=cursor, offset=offset)
         return self._page_from_payload(await self._get("active-ats", query))
 
     async def fetch_expired_ats(
@@ -114,7 +145,7 @@ class FantasticJobsClient:
         return IngestPage(jobs=jobs, next_cursor=payload.get("next_cursor") or payload.get("cursor"))
 
     async def active_ats_count(self, **params: Any) -> int:
-        payload = await self._get("active-ats-count", {**INGEST_DEFAULTS, **params})
+        payload = await self._get("active-ats-count", _direct_inventory_query(params))
         if isinstance(payload, list):
             return len(payload)
         return int(payload.get("count") or payload.get("total") or 0)

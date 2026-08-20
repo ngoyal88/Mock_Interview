@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 from models.interview import DifficultyLevel, InterviewType
-from services.interview.modes.start_configs import ModeStartConfig
+from services.interview.catalog.start_request import ModeStartConfig
 
 
 @dataclass

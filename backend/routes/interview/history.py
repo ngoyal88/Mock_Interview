@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException
 
-from services.interview.interview_history_service import (
+from services.interview.session.persistence.history_service import (
     delete_interview_history,
     get_redis_session_details,
     list_interview_history,

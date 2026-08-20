@@ -1,0 +1,235 @@
+"""Interview orchestration facade: delegates to LLMEngine, PromptEngine, QuestionService, etc."""
+import json
+from datetime import datetime, timezone
+from typing import Any, AsyncGenerator, Dict, List, Optional, Union
+
+from config import get_settings
+from models.interview import DifficultyLevel, InterviewType
+from services.application_fit.extract.job_posting_context import JobPostingContextService
+from services.application_fit.models import JdFitContext
+from services.platform.llm import LLMEngine
+from services.interview.session.runtime.answer_evaluator import AnswerEvaluator
+from services.interview.session.runtime.answer_processor import AnswerProcessor
+from services.interview.session.runtime.feedback_service import FeedbackService
+from services.interview.catalog.registry import ModeStrategyRegistry
+from services.interview.session.runtime.prompt_engine import PromptEngine
+from services.interview.session.runtime.question_service import QuestionService
+from services.resume.probe_context import ResumeContextService
+from services.resume.probe_models import ResumeProbeContext
+from utils.logger import get_logger
+
+logger = get_logger("InterviewService")
+
+
+def _normalize_question_entry(q: Union[str, Dict], default_type: str = "behavioral") -> Dict:
+    """Normalise a questions[] entry to the canonical shape."""
+    if isinstance(q, dict):
+        if "question" in q or "title" in q or "description" in q:
+            out = q.copy()
+            if "type" not in out:
+                out["type"] = default_type
+            return out
+        return {
+            "question": q,
+            "type": q.get("type", default_type),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+    return {
+        "question": {"question": str(q)},
+        "type": default_type,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+from services.interview.session.runtime.question_text import extract_question_text as _extract_question_text
+
+class InterviewService:
+    """Facade over engines and processors. Public API unchanged for callers."""
+
+    def __init__(self) -> None:
+        settings = get_settings()
+        session_ttl = getattr(settings, "interview_session_ttl_seconds", 7200)
+
+        self._engine = LLMEngine(settings)
+        self.llm = self._engine.primary
+
+        self._prompt = PromptEngine(self._engine)
+        self._questions = QuestionService(self._engine)
+        self._job_posting_context = JobPostingContextService(self._engine)
+        self._resume_context = ResumeContextService()
+        self._mode_registry = ModeStrategyRegistry()
+        self._evaluator = AnswerEvaluator(self._engine)
+        self._feedback = FeedbackService(self._engine)
+        self._answers = AnswerProcessor(self._prompt, session_ttl)
+
+    async def generate_greeting(self, candidate_name: str, role: str) -> str:
+        return await self._prompt.generate_greeting(candidate_name, role)
+
+    async def process_answer_and_generate_followup(
+        self,
+        session_id: str,
+        user_answer: str,
+        llm_context: str = "",
+    ) -> Dict[str, Any]:
+        return await self._answers.process_answer_and_generate_followup(session_id, user_answer, llm_context)
+
+    async def prepare_followup(self, session_id: str, user_answer: str) -> Dict[str, Any]:
+        return await self._answers.prepare_followup(session_id, user_answer)
+
+    async def persist_followup_question(self, prepared: Dict[str, Any], next_question_text: str) -> Dict[str, Any]:
+        return await self._answers.persist_followup_question(prepared, next_question_text)
+
+    async def generate_first_question(
+        self,
+        interview_type: InterviewType,
+        difficulty: DifficultyLevel,
+        resume_data: Dict = None,
+        custom_role: str = None,
+        years_experience: Optional[int] = None,
+        target_context: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        context = self._prompt._build_context(
+            interview_type,
+            resume_data,
+            custom_role,
+            years_experience,
+            target_context=target_context,
+        )
+        return await self._questions.generate_first_question(interview_type, difficulty, context, custom_role)
+
+    def _build_context(
+        self,
+        interview_type: InterviewType,
+        resume_data: Dict = None,
+        custom_role: str = None,
+        years_experience: Optional[int] = None,
+        target_context: Optional[Dict[str, Any]] = None,
+    ) -> str:
+        return self._prompt._build_context(
+            interview_type,
+            resume_data,
+            custom_role,
+            years_experience,
+            target_context=target_context,
+        )
+
+    async def build_jd_fit_context(
+        self,
+        *,
+        target_company: Optional[str],
+        target_role: str,
+        job_description: str,
+        interview_focus: str,
+        resume_data: Optional[Dict[str, Any]] = None,
+        years_experience: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        context = await self._job_posting_context.build_context(
+            target_company=target_company,
+            target_role=target_role,
+            job_description=job_description,
+            interview_focus=interview_focus,
+            resume_data=resume_data,
+            years_experience=years_experience,
+        )
+        return JdFitContext(**context).model_dump()
+
+    def build_resume_probe_context(
+        self,
+        *,
+        resume_data: Optional[Dict[str, Any]],
+        years_experience: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        context = self._resume_context.build_context(
+            resume_data=resume_data,
+            years_experience=years_experience,
+        )
+        return ResumeProbeContext(**context).model_dump()
+
+    async def prepare_mode_start(
+        self,
+        *,
+        interview_type: InterviewType,
+        difficulty: DifficultyLevel,
+        resume_data: Dict[str, Any],
+        years_experience: Optional[int],
+        config: Any,
+    ) -> Dict[str, Any]:
+        strategy = self._mode_registry.get(interview_type)
+        result = await strategy.prepare_start(
+            interview_service=self,
+            difficulty=difficulty,
+            resume_data=resume_data,
+            years_experience=years_experience,
+            config=config,
+        )
+        return {
+            "target_context": result.target_context,
+            "jd_fit_context": result.jd_fit_context,
+            "resume_probe_context": result.resume_probe_context,
+            "seeded_questions": result.seeded_questions,
+        }
+
+    async def generate_resume_deep_dive_questions(
+        self,
+        *,
+        difficulty: DifficultyLevel,
+        context: str,
+        probe_targets: List[Dict[str, Any]],
+        count: int = 3,
+    ) -> List[Dict[str, Any]]:
+        return await self._questions.generate_resume_deep_dive_questions(
+            difficulty=difficulty,
+            context=context,
+            probe_targets=probe_targets,
+            count=count,
+        )
+
+    async def _generate_dsa_question(self, difficulty: DifficultyLevel, context: str) -> Dict[str, Any]:
+        return await self._questions._generate_dsa_question(difficulty, context)
+
+    async def generate_coding_question(
+        self,
+        *,
+        track: str,
+        difficulty: DifficultyLevel,
+        context: str,
+    ) -> Dict[str, Any]:
+        return await self._questions.generate_coding_question(
+            track=track,
+            difficulty=difficulty,
+            context=context,
+        )
+
+    async def generate_follow_up(
+        self,
+        previous_qa: List[Dict],
+        interview_type: InterviewType,
+        llm_context: str = "",
+    ) -> str:
+        return await self._prompt.generate_follow_up(previous_qa, interview_type, llm_context=llm_context)
+
+    async def generate_follow_up_stream(
+        self,
+        previous_qa: List[Dict],
+        interview_type: InterviewType,
+        llm_context: str = "",
+    ) -> AsyncGenerator[str, None]:
+        async for chunk in self._prompt.generate_follow_up_stream(previous_qa, interview_type, llm_context=llm_context):
+            yield chunk
+
+    async def evaluate_answer(
+        self,
+        question_asked: str,
+        candidate_answer: str,
+        answer_duration: float,
+        code_written: str = "",
+    ) -> Dict[str, Any]:
+        return await self._evaluator.evaluate_answer(
+            question_asked, candidate_answer, answer_duration, code_written
+        )
+
+    async def generate_final_feedback(self, session_data: Dict) -> Dict[str, Any]:
+        return await self._feedback.generate_final_feedback(session_data)
+
+    async def generate_replay_highlights(self, session_data: Dict) -> List[Dict[str, Any]]:
+        return await self._feedback.generate_replay_highlights(session_data)

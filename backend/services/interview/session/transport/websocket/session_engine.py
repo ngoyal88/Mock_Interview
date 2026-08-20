@@ -1,0 +1,948 @@
+"""Transport-agnostic interview state machine (WebSocket fallback — frozen)."""
+from __future__ import annotations
+
+import asyncio
+import time
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+
+from models.interview import DifficultyLevel, InterviewType
+from services.interview.session.lifecycle.completion_core import CompletionOptions, finalize_interview
+from services.interview.catalog.registry import is_coding_interview_type
+from services.interview.session.runtime.session_conductor import SessionConductor
+from services.interview.session.lifecycle.session_events import (
+    InterviewEndedEvent,
+    SessionStatusEvent,
+)
+from services.interview.session.persistence.session_store import persist_ws_session_blob
+from utils.logger import get_logger
+from utils.redis_client import get_session
+
+if TYPE_CHECKING:
+    from config import Settings
+    from services.interview.session.runtime.interview_service import InterviewService
+    from services.interview.session.transport.websocket.transport_protocol import ITransport
+
+logger = get_logger("InterviewSessionEngine")
+
+
+class InterviewPhase(str, Enum):
+    GREETING = "greeting"
+    BEHAVIORAL = "behavioral"
+    TECHNICAL = "technical"
+    DSA_CODING = "dsa"
+    WRAP_UP = "wrap_up"
+    FEEDBACK = "feedback"
+    ENDED = "ended"
+
+
+def _get_dsa_inner_question(payload: Any) -> Optional[Dict[str, Any]]:
+    if not isinstance(payload, dict):
+        return None
+    if payload.get("type") == "coding" and isinstance(payload.get("question"), dict):
+        return payload["question"]
+    if isinstance(payload.get("title"), str) and "test_cases" in payload:
+        return payload
+    return None
+
+
+def _extract_resume_name(resume_data: Any) -> Optional[str]:
+    if not isinstance(resume_data, dict):
+        return None
+    name = resume_data.get("name")
+    if isinstance(name, str) and name.strip():
+        return name.strip()
+    if isinstance(name, dict):
+        raw = name.get("raw")
+        if isinstance(raw, str) and raw.strip():
+            return raw.strip()
+    return None
+
+
+class InterviewSessionEngine:
+    def __init__(
+        self,
+        session_id: str,
+        user_id: str,
+        transport: "ITransport",
+        interview_service: "InterviewService",
+        settings: "Settings",
+    ) -> None:
+        self.session_id = session_id
+        self.user_id = user_id
+        self.transport = transport
+        self.interview_service = interview_service
+        self.settings = settings
+        self.session_key = f"interview:{session_id}"
+        self.session_ttl = getattr(settings, "interview_session_ttl_seconds", 7200)
+
+        self.current_phase: str = InterviewPhase.GREETING.value
+        self.conductor = SessionConductor()
+        self.is_processing = False
+        self.processing_lock = asyncio.Lock()
+        self.current_answer_parts: List[str] = []
+        self.latest_interim_transcript: str = ""
+        self._session_started_at: Optional[datetime] = None
+        self._first_question: Optional[Dict[str, Any]] = None
+        self._prebuilt_context: Optional[str] = None
+        self._utterance_finalize_task: Optional[asyncio.Task] = None
+        self._prebuild_task: Optional[asyncio.Task] = None
+        self._last_transcript_confidence: Optional[float] = None
+        self._current_answer_started_at: Optional[float] = None
+        self._streaming_llm_enabled = bool(getattr(settings, "streaming_llm_enabled", True))
+        self._finalize_used_stream_followup = False
+        self._silence_watchdog_task: Optional[asyncio.Task] = None
+        self._last_user_speech_at: float = time.monotonic()
+        self._silence_tier: int = 0
+
+    async def initialize(self, *, skip_greeting: bool = False) -> None:
+        session_data = await get_session(self.session_key)
+        if not session_data:
+            await self.transport.send_error("Session not found")
+            return
+
+        self.conductor = SessionConductor.load(session_data.get("session_conductor"))
+        started_at_raw = session_data.get("started_at")
+        if isinstance(started_at_raw, str):
+            try:
+                self._session_started_at = datetime.fromisoformat(started_at_raw.replace("Z", "+00:00"))
+            except Exception:
+                self._session_started_at = datetime.now(timezone.utc)
+        elif isinstance(started_at_raw, datetime):
+            self._session_started_at = (
+                started_at_raw if started_at_raw.tzinfo else started_at_raw.replace(tzinfo=timezone.utc)
+            )
+        else:
+            self._session_started_at = datetime.now(timezone.utc)
+        if self._session_started_at:
+            self.conductor.session_start_time = self._session_started_at.timestamp()
+
+        await self.transport.send_status("connected")
+        if not skip_greeting:
+            await self._start_greeting(session_data)
+        self._last_user_speech_at = time.monotonic()
+        self._silence_watchdog_task = asyncio.create_task(self._silence_watchdog_loop())
+
+    async def on_transcript(self, text: str, is_final: bool, confidence: Optional[float] = None) -> None:
+        await self.transport.send_transcript(text, is_final)
+        if is_final and len((text or "").strip()) >= 3:
+            self._last_user_speech_at = time.monotonic()
+            self._silence_tier = 0
+        self._last_transcript_confidence = confidence if is_final else self._last_transcript_confidence
+        if not is_final:
+            self.latest_interim_transcript = text
+            self.conductor.latest_interim_transcript = text
+            return
+
+        final_segment = text.strip()
+        if final_segment:
+            self.current_answer_parts.append(final_segment)
+            self.conductor.current_answer_parts.append(final_segment)
+        self.latest_interim_transcript = ""
+        self.conductor.latest_interim_transcript = ""
+
+    async def on_utterance_end(self, last_word_end: Optional[int] = None) -> None:
+        if self.current_phase == InterviewPhase.GREETING.value:
+            return
+        if self._utterance_finalize_task and not self._utterance_finalize_task.done():
+            self._utterance_finalize_task.cancel()
+        self._prebuild_task = asyncio.create_task(self._prebuild_llm_context_async())
+        await self.transport.send_message({"type": "interviewer_thinking"})
+        self._utterance_finalize_task = asyncio.create_task(self._debounced_utterance_finalize())
+
+    async def _prebuild_llm_context_async(self) -> None:
+        try:
+            session_data = await get_session(self.session_key)
+            static_context = ""
+            if session_data:
+                try:
+                    interview_type = InterviewType(session_data.get("interview_type", "role_targeted"))
+                except Exception:
+                    interview_type = InterviewType.ROLE_TARGETED
+                static_context = self.interview_service._build_context(
+                    interview_type,
+                    session_data.get("resume_data"),
+                    session_data.get("custom_role"),
+                    session_data.get("years_experience"),
+                    target_context={
+                        "target_company": session_data.get("target_company"),
+                        "target_role": session_data.get("target_role"),
+                        "job_description": session_data.get("job_description"),
+                        "interview_focus": session_data.get("interview_focus"),
+                        "jd_fit_context": session_data.get("jd_fit_context"),
+                        "resume_probe_context": session_data.get("resume_probe_context"),
+                    },
+                )
+            dynamic_context = self.conductor.build_llm_context()
+            self._prebuilt_context = "\n\n".join([part for part in [static_context, dynamic_context] if part])
+        except Exception:
+            self._prebuilt_context = None
+
+    async def schedule_prebuild_context(self) -> None:
+        self._prebuild_task = asyncio.create_task(self._prebuild_llm_context_async())
+
+    async def _ensure_prebuilt(self) -> None:
+        if self._prebuild_task and not self._prebuild_task.done():
+            try:
+                await self._prebuild_task
+            except asyncio.CancelledError:
+                pass
+        elif self._prebuilt_context is None:
+            await self._prebuild_llm_context_async()
+
+    async def _debounced_utterance_finalize(self) -> None:
+        try:
+            await asyncio.sleep(0.15)
+            await asyncio.gather(self._ensure_prebuilt(), return_exceptions=True)
+            if not (self.current_answer_parts or (self.latest_interim_transcript or "").strip()):
+                return
+            if not self.transport.connected:
+                return
+            await self.transport.send_message(
+                {
+                    "type": "utterance_end_detected",
+                    "transcript": " ".join(self.current_answer_parts).strip(),
+                }
+            )
+            await self._finalize_current_answer()
+        except asyncio.CancelledError:
+            pass
+
+    async def finalize_answer(self) -> None:
+        await self._finalize_current_answer()
+
+    async def on_code_update(self, code: str, language: str, changed_at: float) -> None:
+        session_data = await get_session(self.session_key)
+        if not session_data or not is_coding_interview_type(session_data.get("interview_type")):
+            return
+        self.conductor.update_code(code, language=language, changed_at=changed_at)
+        await self._persist_conductor()
+
+    async def on_execution_result(self, output: str, has_errors: bool) -> None:
+        session_data = await get_session(self.session_key)
+        if not session_data or not is_coding_interview_type(session_data.get("interview_type")):
+            return
+        self.conductor.update_execution(output, has_errors)
+        await self._persist_conductor()
+
+    async def on_skip_question(self) -> None:
+        try:
+            session_data = await get_session(self.session_key)
+            if not session_data:
+                await self.transport.send_error("Session not found")
+                return
+
+            questions = session_data.get("questions", []) or []
+            current_q_index = int(session_data.get("current_question_index", 0))
+            try:
+                interview_type = InterviewType(session_data.get("interview_type", "role_targeted"))
+            except Exception:
+                interview_type = InterviewType.ROLE_TARGETED
+            try:
+                difficulty = DifficultyLevel(session_data.get("difficulty", "medium"))
+            except Exception:
+                difficulty = DifficultyLevel.MEDIUM
+
+            responses = session_data.get("responses", []) or []
+            skipped_question = questions[current_q_index] if current_q_index < len(questions) else None
+            if skipped_question:
+                responses.append(
+                    {
+                        "question_index": current_q_index,
+                        "question": skipped_question,
+                        "response": "[skipped by user]",
+                        "skipped": True,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+
+            if is_coding_interview_type(interview_type):
+                track = str(session_data.get("track") or "dsa").strip().lower() or "dsa"
+                focus = (session_data.get("session_focus") or "").strip()
+                context = self.interview_service._build_context(
+                    interview_type,
+                    session_data.get("resume_data"),
+                    session_data.get("custom_role"),
+                    session_data.get("years_experience"),
+                    target_context={
+                        "target_company": session_data.get("target_company"),
+                        "target_role": session_data.get("target_role"),
+                        "job_description": session_data.get("job_description"),
+                        "interview_focus": session_data.get("interview_focus"),
+                        "session_focus": focus or None,
+                        "track": track,
+                        "jd_fit_context": session_data.get("jd_fit_context"),
+                        "resume_probe_context": session_data.get("resume_probe_context"),
+                    },
+                )
+                if focus:
+                    context = f"{context}\nSession focus topics: {focus}"
+                next_question_raw = await self.interview_service.generate_coding_question(
+                    track=track,
+                    difficulty=difficulty,
+                    context=context,
+                )
+                next_question_obj = {
+                    "question": next_question_raw,
+                    "type": "coding",
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            else:
+                context = self.interview_service._build_context(
+                    interview_type,
+                    session_data.get("resume_data"),
+                    session_data.get("custom_role"),
+                    session_data.get("years_experience"),
+                    target_context={
+                        "target_company": session_data.get("target_company"),
+                        "target_role": session_data.get("target_role"),
+                        "job_description": session_data.get("job_description"),
+                        "interview_focus": session_data.get("interview_focus"),
+                        "jd_fit_context": session_data.get("jd_fit_context"),
+                        "resume_probe_context": session_data.get("resume_probe_context"),
+                    },
+                )
+                follow_up_text = await self.interview_service.generate_follow_up(
+                    responses,
+                    interview_type,
+                    llm_context=context,
+                )
+                next_question_obj = {
+                    "question": {"question": follow_up_text},
+                    "type": interview_type.value,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+
+            questions.append(next_question_obj)
+            session_data["questions"] = questions
+            session_data["responses"] = responses
+            session_data["current_question_index"] = current_q_index + 1
+            session_data["last_updated"] = datetime.now(timezone.utc).isoformat()
+            session_data["session_conductor"] = self.conductor.serialize()
+            await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
+
+            if next_question_obj.get("type") == "coding":
+                self.current_phase = InterviewPhase.DSA_CODING.value
+                self._set_conductor_phase_str("coding")
+                self.conductor.append_turn("interviewer", self._extract_speakable_text(next_question_obj))
+                await self.transport.send_message({"type": "phase_change", "phase": "coding"})
+                inner = _get_dsa_inner_question(next_question_obj) or next_question_obj
+                await self.transport.send_message(
+                    {
+                        "type": "question",
+                        "question": inner,
+                        "phase": "coding",
+                        "audio": None,
+                        "spoken_text": None,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+                await self._persist_conductor(session_data)
+            else:
+                await self._speak_response(next_question_obj)
+                await self._persist_conductor()
+        except Exception as e:
+            logger.error("Skip question error: %s", e, exc_info=True)
+            await self.transport.send_error("Failed to skip question")
+
+    async def on_dsa_next_question(self) -> None:
+        """Alias for coding next-question (legacy message name)."""
+        await self.on_coding_next_question()
+
+    async def on_coding_next_question(self) -> None:
+        try:
+            session_data = await get_session(self.session_key)
+            if not session_data:
+                await self.transport.send_error("Session not found")
+                return
+            if not is_coding_interview_type(session_data.get("interview_type")):
+                await self.transport.send_error("Coding next-question is only for coding sessions")
+                return
+            questions = session_data.get("questions", []) or []
+            current_q_index = int(session_data.get("current_question_index", 0))
+            try:
+                difficulty = DifficultyLevel(session_data.get("difficulty", "medium"))
+            except Exception:
+                difficulty = DifficultyLevel.MEDIUM
+            try:
+                interview_type = InterviewType(session_data.get("interview_type", "pair_programming"))
+            except Exception:
+                interview_type = InterviewType.PAIR_PROGRAMMING
+            track = str(session_data.get("track") or "dsa").strip().lower() or "dsa"
+            focus = (session_data.get("session_focus") or "").strip()
+            context = self.interview_service._build_context(
+                interview_type,
+                session_data.get("resume_data"),
+                session_data.get("custom_role"),
+                session_data.get("years_experience"),
+                target_context={
+                    "target_company": session_data.get("target_company"),
+                    "target_role": session_data.get("target_role"),
+                    "job_description": session_data.get("job_description"),
+                    "interview_focus": session_data.get("interview_focus"),
+                    "session_focus": focus or None,
+                    "track": track,
+                    "jd_fit_context": session_data.get("jd_fit_context"),
+                    "resume_probe_context": session_data.get("resume_probe_context"),
+                },
+            )
+            if focus:
+                context = f"{context}\nSession focus topics: {focus}"
+            next_question_raw = await self.interview_service.generate_coding_question(
+                track=track,
+                difficulty=difficulty,
+                context=context,
+            )
+            next_question_obj = {
+                "question": next_question_raw,
+                "type": "coding",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+            questions.append(next_question_obj)
+            session_data["questions"] = questions
+            session_data["current_question_index"] = current_q_index + 1
+            session_data["last_updated"] = datetime.now(timezone.utc).isoformat()
+            session_data["session_conductor"] = self.conductor.serialize()
+            await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
+            self.current_phase = InterviewPhase.DSA_CODING.value
+            self._set_conductor_phase_str("coding")
+            self.conductor.append_turn("interviewer", self._extract_speakable_text(next_question_raw))
+            await self.transport.send_message({"type": "phase_change", "phase": "coding"})
+            await self.transport.send_message(
+                {
+                    "type": "question",
+                    "question": next_question_raw,
+                    "phase": "coding",
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            )
+            await self._persist_conductor(session_data)
+        except Exception as e:
+            logger.error("coding_next_question error: %s", e, exc_info=True)
+            await self.transport.send_error("Failed to load next question")
+
+    async def on_candidate_away(self) -> None:
+        session_data = await get_session(self.session_key)
+        if not session_data:
+            return
+        session_data["candidate_away_since"] = time.time()
+        session_data["silence_paused"] = True
+        self._silence_tier = 0
+        await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
+
+    async def on_candidate_back(self) -> None:
+        session_data = await get_session(self.session_key)
+        if not session_data:
+            return
+        session_data["silence_paused"] = False
+        session_data.pop("candidate_away_since", None)
+        self._last_user_speech_at = time.monotonic()
+        self._silence_tier = 0
+        await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
+        await self._emit_session_status(session_data)
+
+    async def _emit_session_status(self, session_data: Dict[str, Any]) -> None:
+        status = str(session_data.get("status") or "active")
+        ended = status in {"ended_early", "completed", "incomplete_exit"}
+        payload: Dict[str, Any] = {
+            "type": "session_status",
+            "status": "ended" if ended else "active",
+            "completion_reason": session_data.get("completion_reason"),
+        }
+        final_feedback = session_data.get("final_feedback")
+        if ended and final_feedback:
+            if isinstance(final_feedback, dict):
+                payload["final_feedback"] = final_feedback.get("feedback")
+                payload["full"] = final_feedback
+            else:
+                payload["final_feedback"] = final_feedback
+        await self.transport.send_message(SessionStatusEvent(**payload).model_dump(exclude_none=True))
+
+    async def on_end_interview(self, completion_reason: Optional[str] = None) -> None:
+        if self.current_phase == InterviewPhase.ENDED.value:
+            return
+
+        self.current_phase = InterviewPhase.FEEDBACK.value
+        self._set_conductor_phase_str(self.current_phase)
+        try:
+            session_data = await get_session(self.session_key)
+            if not session_data:
+                await self.transport.send_error("Session not found")
+                return
+
+            if not completion_reason:
+                completion_reason = (
+                    "ended_early" if session_data.get("status") != "completed" else "completed"
+                )
+
+            result = await finalize_interview(
+                self.session_id,
+                session_data,
+                interview_service=self.interview_service,
+                options=CompletionOptions(
+                    completion_reason=completion_reason,
+                    transport="websocket",
+                ),
+            )
+            if not result.acquired:
+                logger.info("Completion skipped for session %s (lock or already terminal)", self.session_id)
+                return
+
+            session_data = result.session_data
+            session_data["session_conductor"] = self.conductor.serialize()
+            await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
+
+            final_feedback = result.final_feedback
+            duration_minutes = result.duration_minutes
+            completed_ts = result.completed_at_iso
+
+            await self.transport.send_message(
+                InterviewEndedEvent(
+                    completion_reason=completion_reason,
+                    duration_minutes=duration_minutes,
+                    questions_answered=session_data["questions_answered"],
+                    timestamp=completed_ts,
+                ).model_dump()
+            )
+            await self.transport.send_message(
+                {
+                    "type": "feedback",
+                    "feedback": final_feedback.get("feedback") if isinstance(final_feedback, dict) else final_feedback,
+                    "full": final_feedback,
+                    "duration_minutes": duration_minutes,
+                    "questions_answered": session_data["questions_answered"],
+                    "code_problems_attempted": session_data["code_problems_attempted"],
+                    "status": session_data["status"],
+                    "completion_reason": completion_reason,
+                    "timestamp": completed_ts,
+                }
+            )
+            await self.transport.send_status("completed")
+        except Exception as e:
+            logger.error("Error ending interview: %s", e, exc_info=True)
+            await self.transport.send_error("Failed to finalize interview")
+        finally:
+            self.current_phase = InterviewPhase.ENDED.value
+            self._set_conductor_phase_str(self.current_phase)
+
+    async def on_candidate_disconnect(self) -> None:
+        try:
+            await asyncio.sleep(90)
+        except asyncio.CancelledError:
+            logger.info("Candidate reconnected, cancelling disconnect flow for session %s", self.session_id)
+            return
+        try:
+            session_data = await get_session(self.session_key)
+            if not session_data:
+                return
+
+            result = await finalize_interview(
+                self.session_id,
+                session_data,
+                interview_service=self.interview_service,
+                options=CompletionOptions(
+                    completion_reason="candidate_disconnected",
+                    transport="websocket",
+                    disconnect_mode=True,
+                    feedback_timeout_seconds=45.0,
+                ),
+            )
+            if not result.acquired:
+                return
+
+            session_data = result.session_data
+            session_data["session_conductor"] = self.conductor.serialize()
+            await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
+        except Exception as e:
+            logger.warning("Candidate disconnect handling failed: %s", e)
+
+    async def on_candidate_reconnect(self) -> None:
+        session_data = await get_session(self.session_key)
+        if session_data:
+            self.conductor = SessionConductor.load(session_data.get("session_conductor"))
+        await self.transport.send_status("reconnected")
+        await self.transport.speak("Welcome back. Ready to continue where we left off?", {})
+
+    async def on_silence_tier(self, tier: int, seconds_silent: int) -> None:
+        if tier == 1:
+            await self.transport.send_message({"type": "silence_warning", "tier": 1, "seconds_silent": seconds_silent})
+            await self.transport.speak("Take your time. When you're ready, just start speaking.", {})
+        elif tier == 2:
+            await self.transport.send_message({"type": "silence_warning", "tier": 2, "seconds_silent": seconds_silent})
+            await self.transport.speak("Would you like me to rephrase the question?", {})
+        elif tier >= 3:
+            await self.transport.send_message({
+                "type": "silence_warning",
+                "tier": 3,
+                "seconds_silent": seconds_silent,
+                "ending": True,
+            })
+            await self.transport.speak(
+                "I haven't heard anything for a while, so I'll wrap up here and share what we have so far.",
+                {},
+            )
+            await self.on_end_interview(completion_reason="silence_timeout")
+
+    async def _silence_watchdog_loop(self) -> None:
+        tier1 = int(getattr(self.settings, "silence_tier1_seconds", 60))
+        tier2 = int(getattr(self.settings, "silence_tier2_seconds", 120))
+        tier3 = int(getattr(self.settings, "silence_tier3_seconds", 180))
+        away_max = int(getattr(self.settings, "candidate_away_max_seconds", 600))
+
+        while self.current_phase != InterviewPhase.ENDED.value:
+            await asyncio.sleep(5)
+            if self.current_phase in {InterviewPhase.FEEDBACK.value, InterviewPhase.ENDED.value}:
+                return
+
+            session_data = await get_session(self.session_key)
+            if not session_data:
+                continue
+            if session_data.get("status") in {"ended_early", "completed", "incomplete_exit"}:
+                return
+
+            if session_data.get("silence_paused"):
+                away_since = session_data.get("candidate_away_since")
+                if away_since and (time.time() - float(away_since)) >= away_max:
+                    await self.transport.speak(
+                        "You were away for a while; I'll close out the session and share your report.",
+                        {},
+                    )
+                    await self.on_end_interview(completion_reason="tab_away_timeout")
+                    return
+                continue
+
+            if session_data.get("stt_unavailable"):
+                continue
+
+            conductor = SessionConductor.load(session_data.get("session_conductor"))
+            if conductor.session_phase in {"dsa", "coding"} and conductor.last_code_change_at:
+                if (time.time() - conductor.last_code_change_at) < 30:
+                    self._last_user_speech_at = time.monotonic()
+                    self._silence_tier = 0
+                    continue
+
+            silence_for = time.monotonic() - self._last_user_speech_at
+            if silence_for < tier1:
+                self._silence_tier = 0
+                continue
+
+            if silence_for >= tier3 and self._silence_tier < 3:
+                self._silence_tier = 3
+                await self.on_silence_tier(3, int(silence_for))
+                return
+            if silence_for >= tier2 and self._silence_tier < 2:
+                self._silence_tier = 2
+                await self.on_silence_tier(2, int(silence_for))
+            elif silence_for >= tier1 and self._silence_tier < 1:
+                self._silence_tier = 1
+                await self.on_silence_tier(1, int(silence_for))
+
+    def mark_answer_window_started(self) -> None:
+        self._current_answer_started_at = self._current_answer_started_at or time.monotonic()
+
+    def on_candidate_speech_started(self) -> None:
+        if self._utterance_finalize_task and not self._utterance_finalize_task.done():
+            self._utterance_finalize_task.cancel()
+        if self._prebuild_task and not self._prebuild_task.done():
+            self._prebuild_task.cancel()
+        self._prebuilt_context = None
+
+    def clear_interim_for_interrupt(self) -> None:
+        self.latest_interim_transcript = ""
+        self.conductor.latest_interim_transcript = ""
+
+    async def on_paste_detected(self) -> None:
+        setattr(self.conductor, "large_paste_occurred", True)
+        await self._persist_conductor()
+
+    async def on_text_answer(self, text: str) -> None:
+        clean = (text or "").strip()
+        if len(clean) < 3:
+            await self.transport.send_error("Please enter at least 3 characters.")
+            return
+        self.current_answer_parts = [clean]
+        self.conductor.current_answer_parts = [clean]
+        self.latest_interim_transcript = ""
+        self.conductor.latest_interim_transcript = ""
+        await self._finalize_current_answer()
+
+    async def cleanup(self) -> None:
+        if self._utterance_finalize_task and not self._utterance_finalize_task.done():
+            self._utterance_finalize_task.cancel()
+        if self._prebuild_task and not self._prebuild_task.done():
+            self._prebuild_task.cancel()
+
+    def _build_complete_answer(self) -> str:
+        parts = list(self.current_answer_parts)
+        interim = (self.latest_interim_transcript or "").strip()
+        if interim:
+            parts.append(interim)
+        return " ".join([p for p in parts if p]).strip()
+
+    def _is_coding_session(self, session_data: dict) -> bool:
+        return is_coding_interview_type(session_data.get("interview_type"))
+
+    def _set_conductor_phase_str(self, phase: str) -> None:
+        # ponytail: keep conductor "coding" (legacy sessions may still store "dsa")
+        if phase in {InterviewPhase.DSA_CODING.value, "coding", "dsa"}:
+            self.conductor.session_phase = "coding"
+        else:
+            self.conductor.session_phase = phase
+
+    def _extract_speakable_text(self, response: Any) -> str:
+        if isinstance(response, str):
+            return response
+        if isinstance(response, dict):
+            if response.get("type") == "coding":
+                inner = _get_dsa_inner_question(response) or response
+                title = inner.get("title", "") if isinstance(inner, dict) else ""
+                description = inner.get("description", "") if isinstance(inner, dict) else ""
+                if title or description:
+                    return f"{title}. {str(description)[:200]}..."
+                title = response.get("title", "")
+                description = response.get("description", "")
+                return f"{title}. {description[:200]}..."
+            question = response.get("question")
+            if isinstance(question, dict):
+                return str(question.get("question", ""))
+            if isinstance(question, str):
+                return question
+        return str(response)
+
+    async def _persist_conductor(self, session_data: Optional[Dict[str, Any]] = None) -> None:
+        snapshot = session_data if session_data is not None else await get_session(self.session_key)
+        if not snapshot:
+            return
+        snapshot["session_conductor"] = self.conductor.serialize()
+        await persist_ws_session_blob(self.session_key, snapshot, session_ttl=self.session_ttl)
+
+    async def persist_conductor(self, session_data: Optional[Dict[str, Any]] = None) -> None:
+        await self._persist_conductor(session_data)
+
+    async def _check_max_duration(self) -> bool:
+        max_duration_min = getattr(self.settings, "max_interview_duration_minutes", 60)
+        if not self._session_started_at or max_duration_min <= 0:
+            return False
+        elapsed_min = (datetime.now(timezone.utc) - self._session_started_at).total_seconds() / 60
+        if elapsed_min >= max_duration_min:
+            logger.info("Max interview duration (%s min) reached for %s", max_duration_min, self.session_id)
+            await self.on_end_interview(completion_reason="max_duration")
+            return True
+        return False
+
+    async def _start_greeting(self, session_data: Dict[str, Any]) -> None:
+        try:
+            questions = session_data.get("questions", []) or []
+            first_question = questions[0] if questions else None
+            if not first_question:
+                await self.transport.send_error("No questions available")
+                return
+
+            if self._is_coding_session(session_data):
+                inner = _get_dsa_inner_question(first_question) or first_question
+                test_cases = inner.get("test_cases") if isinstance(inner, dict) else []
+                if not test_cases or not isinstance(test_cases, list):
+                    await self.transport.send_error("No valid coding question available")
+                    return
+                self._first_question = first_question
+                self.current_phase = InterviewPhase.DSA_CODING.value
+                self._set_conductor_phase_str("coding")
+                self.conductor.append_turn("interviewer", self._extract_speakable_text(inner))
+                await self.transport.send_message({"type": "phase_change", "phase": "coding"})
+                await self.transport.send_message(
+                    {
+                        "type": "question",
+                        "question": inner,
+                        "phase": "coding",
+                        "audio": None,
+                        "spoken_text": None,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+                await self.transport.speak(
+                    "I'll pair with you on this coding problem. Talk through your approach, "
+                    "then we'll implement and refine together.",
+                    {},
+                )
+                await self._persist_conductor(session_data)
+                return
+
+            self.current_phase = InterviewPhase.GREETING.value
+            self._set_conductor_phase_str(self.current_phase)
+            user_name = (
+                session_data.get("candidate_name")
+                or _extract_resume_name(session_data.get("resume_data"))
+                or session_data.get("user_id", "Candidate")
+            )
+            interview_type = session_data.get("interview_type", "technical")
+            custom_role = session_data.get("custom_role")
+            role = session_data.get("target_role") or custom_role or interview_type
+
+            greeting = await self.interview_service.generate_greeting(user_name, role)
+            self._first_question = first_question
+            await self._speak_response(greeting)
+            await self._persist_conductor()
+        except Exception as e:
+            logger.error("Greeting error: %s", e, exc_info=True)
+            await self.transport.send_error("Failed to start interview")
+
+    async def _speak_response(self, response: Union[str, Dict[str, Any]]) -> None:
+        speak_text = self._extract_speakable_text(response)
+        if isinstance(response, dict) and response.get("type") == "coding":
+            if self.current_phase != InterviewPhase.DSA_CODING.value:
+                await self.transport.send_message({"type": "phase_change", "phase": "coding"})
+            self.current_phase = InterviewPhase.DSA_CODING.value
+            self._set_conductor_phase_str("coding")
+        elif self.current_phase == InterviewPhase.DSA_CODING.value:
+            self.current_phase = InterviewPhase.BEHAVIORAL.value
+            self._set_conductor_phase_str(self.current_phase)
+            await self.transport.send_message({"type": "phase_change", "phase": "behavioral"})
+
+        payload: Dict[str, Any] = {"response": response} if not isinstance(response, str) else {"text": response}
+        await self.transport.speak(speak_text, payload)
+
+    async def _finalize_current_answer(self) -> None:
+        if self.current_phase == InterviewPhase.DSA_CODING.value:
+            return
+
+        complete_text = self._build_complete_answer()
+
+        self.current_answer_parts.clear()
+        self.latest_interim_transcript = ""
+        self.conductor.current_answer_parts.clear()
+        self.conductor.latest_interim_transcript = ""
+
+        if not complete_text or len(complete_text) < 3:
+            await self.transport.send_status("waiting_for_speech")
+            await self.transport.send_error("No answer captured yet. Please speak a bit more.")
+            return
+        if len(complete_text) > 10_000:
+            await self.transport.send_error("Answer is too long. Please summarize.")
+            return
+
+        if await self._check_max_duration():
+            return
+
+        if self._last_transcript_confidence is not None and self._last_transcript_confidence < 0.4 and len(complete_text) < 10:
+            await self.transport.send_error("We didn't quite catch that. Could you repeat?")
+            return
+
+        answer_duration = 0.0
+        if self._current_answer_started_at is not None:
+            answer_duration = max(0.0, time.monotonic() - self._current_answer_started_at)
+        self._current_answer_started_at = None
+        self.conductor.last_answer_duration = answer_duration
+        self.conductor.turn_count += 1
+        self.conductor.append_turn("candidate", complete_text)
+
+        try:
+            await asyncio.wait_for(self.processing_lock.acquire(), timeout=0)
+        except asyncio.TimeoutError:
+            return
+
+        self.is_processing = True
+        self._finalize_used_stream_followup = False
+        try:
+            await self._finalize_after_lock(complete_text, answer_duration)
+        except asyncio.TimeoutError:
+            await self.transport.send_error("Processing timeout")
+        except Exception as e:
+            logger.error("Processing error: %s", e, exc_info=True)
+            await self.transport.send_error("Failed to process answer")
+        finally:
+            self.is_processing = False
+            self._prebuilt_context = None
+            self.processing_lock.release()
+            fn = getattr(self.transport, "after_answer_processed", None)
+            if callable(fn):
+                await fn()
+            elif not self._finalize_used_stream_followup:
+                await self.transport.send_status("listening")
+
+    async def _finalize_after_lock(self, complete_text: str, answer_duration: float) -> None:
+        if self.current_phase == InterviewPhase.GREETING.value:
+            await self.transport.send_status("thinking")
+            session_data = await get_session(self.session_key)
+            if session_data is not None:
+                session_data["candidate_intro"] = complete_text
+                session_data["session_conductor"] = self.conductor.serialize()
+                await persist_ws_session_blob(self.session_key, session_data, session_ttl=self.session_ttl)
+
+            first_question = self._first_question
+            if first_question is None and session_data:
+                qs = session_data.get("questions", []) or []
+                if qs:
+                    first_question = qs[0]
+            if not first_question:
+                await self.transport.send_error("No questions available")
+                return
+
+            self.current_phase = InterviewPhase.BEHAVIORAL.value
+            self._set_conductor_phase_str(self.current_phase)
+            await self._persist_conductor(session_data)
+            await self._speak_response(first_question)
+            return
+
+        await self.transport.send_status("thinking")
+
+        stream_fn = getattr(self.transport, "stream_followup_prepared", None)
+        if self._streaming_llm_enabled and callable(stream_fn):
+            self._finalize_used_stream_followup = True
+            prepared = await self.interview_service.prepare_followup(self.session_id, complete_text)
+            if prepared.get("done"):
+                await self._speak_response(prepared["response"])
+                return
+            current_question = prepared.get("current_question", {})
+            if isinstance(current_question, dict):
+                question_payload = current_question.get("question", current_question)
+                if isinstance(question_payload, dict):
+                    question_text = question_payload.get("question") or question_payload.get("title") or ""
+                else:
+                    question_text = str(question_payload)
+            else:
+                question_text = str(current_question)
+            evaluation = await self.interview_service.evaluate_answer(
+                question_text,
+                complete_text,
+                answer_duration,
+                self.conductor.current_code,
+            )
+            self.conductor.update_from_answer(complete_text, evaluation)
+            prepared["llm_context"] = (
+                f"{self._prebuilt_context or self.conductor.build_llm_context()}\n"
+                f"LATEST ANSWER EVALUATION:\n"
+                f"- Quality: {evaluation.get('quality')}\n"
+                f"- Completeness: {evaluation.get('completeness')}\n"
+                f"- What was good: {evaluation.get('what_was_good')}\n"
+                f"- What was missing: {evaluation.get('what_was_missing')}\n"
+                f"- Detected misconception: {evaluation.get('detected_misconception')}\n"
+                f"- Confidence signal: {evaluation.get('confidence_signal')}\n"
+                f"- Recommended action: {evaluation.get('recommended_action')}\n"
+            )
+            prepared["evaluation"] = evaluation
+            prepared["backchannel"] = self.conductor.get_backchannel(self._choose_backchannel_tone())
+            sd = prepared.get("session_data") or await get_session(self.session_key)
+            if sd:
+                sd["session_conductor"] = self.conductor.serialize()
+                prepared["session_data"] = sd
+            await asyncio.wait_for(stream_fn(prepared), timeout=45.0)
+            return
+
+        response = await asyncio.wait_for(
+            self.interview_service.process_answer_and_generate_followup(
+                self.session_id,
+                complete_text,
+                llm_context=self._prebuilt_context or self.conductor.build_llm_context(),
+            ),
+            timeout=30.0,
+        )
+        await self._speak_response(response)
+        await self._persist_conductor()
+
+    def _choose_backchannel_tone(self) -> str:
+        if self.conductor.last_recommended_action in {"CHALLENGE", "ADVANCE"}:
+            return "positive"
+        if self.conductor.last_recommended_action in {"PROBE", "SIMPLIFY", "HINT"}:
+            return "probe"
+        return "neutral"

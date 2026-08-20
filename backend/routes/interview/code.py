@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException
 from pydantic import BaseModel, Field
 
-from services.interview.code_submission_service import submit_code
+from services.interview.session.coding.submission_service import submit_code
 from utils.auth import verify_firebase_token
 from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error
@@ -31,7 +31,7 @@ async def submit_code_route(
         session_data = await get_session(f"interview:{request.session_id}")
         require_session_owner(session_data, uid)
 
-        from services.interview.modes.registry import require_coding_session
+        from services.interview.catalog.registry import require_coding_session
 
         require_coding_session(session_data)
 

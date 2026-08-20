@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException
 
-from services.interview.interview_complete_service import complete_interview_session
+from services.interview.session.lifecycle.complete_service import complete_interview_session
 from utils.auth import verify_firebase_token
 from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error

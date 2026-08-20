@@ -14,7 +14,7 @@ from firebase_admin import auth as firebase_auth
 
 from config import get_settings
 from services.integrations import DeepgramSTTService
-from services.interview import InterviewWebSocketHandler
+from services.interview.session.transport.websocket.interview_websocket import InterviewWebSocketHandler
 from utils.logger import get_logger
 from utils.redis_client import get_session
 

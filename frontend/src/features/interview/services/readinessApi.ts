@@ -35,7 +35,7 @@ export type ReadinessSnapshot = {
 
 const computeReadiness = async (payload: ReadinessRequest): Promise<ReadinessResponse> =>
   authenticatedJson(
-    "/interview/readiness/compute",
+    "/signal/readiness/compute",
     {
       method: "POST",
       body: JSON.stringify(payload),
@@ -54,7 +54,7 @@ const getReadinessHistory = async (
     limit: String(limit),
   });
   return authenticatedJson(
-    `/interview/readiness/history?${query.toString()}`,
+    `/signal/readiness/history?${query.toString()}`,
     { method: "GET" },
     "Failed to fetch readiness history",
   );

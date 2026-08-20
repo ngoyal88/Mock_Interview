@@ -1,13 +1,15 @@
+"""Signal Intelligence API routes."""
+
 from typing import Any, Dict, Optional
 
-from fastapi import Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
-from services.interview.readiness_service import compute_readiness, get_readiness_history
+from services.signal.readiness_service import compute_readiness, get_readiness_history
 from utils.auth import verify_firebase_token
 from utils.rate_limit import check_rate_limit
 
-from . import router
+router = APIRouter(prefix="/signal", tags=["Signal"])
 
 
 class ReadinessComputeRequest(BaseModel):

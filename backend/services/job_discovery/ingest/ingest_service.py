@@ -3,18 +3,19 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timedelta, timezone
-from typing import Iterable, Optional
+from typing import Any, Iterable, Optional
 
 from firebase_admin import firestore
 
 from config import get_settings
 from firebase_config import db
 from services.job_discovery.constants import INGEST_RUNS_COLLECTION, JOBS_COLLECTION, STALE_UNSEEN_DAYS
-from services.job_discovery.ingest.credit_budget import CreditBudgetExceeded
+from services.job_discovery.ingest.credit_budget import CreditBudget, CreditBudgetExceeded
+from services.job_discovery.ingest.demand_scope import build_plan, load_latest_snapshot
 from services.job_discovery.ingest.fantastic_jobs_client import JobIngestClient, get_fantastic_jobs_client
 from services.job_discovery.ingest.job_mapper import to_job_document
 from services.job_discovery.ingest.location_resolver import resolve_job_locations
-from services.job_discovery.models import IngestRunResult, JobDocument
+from services.job_discovery.models import IngestRunResult, IngestSegmentOutcome, JobDocument
 from services.job_discovery.search import search_index_sync
 from services.job_discovery.search.meilisearch_client import meili_unavailable_errors
 from utils.async_io import run_in_thread
@@ -92,6 +93,85 @@ async def _finish(result: IngestRunResult, *, kind: str, time_frame: str) -> Ing
     return result
 
 
+async def _ingest_slice(
+    fj: JobIngestClient,
+    *,
+    result: IngestRunResult,
+    time_frame: str,
+    segment_key: str,
+    extra_params: dict[str, Any],
+    budget: CreditBudget | None,
+) -> IngestSegmentOutcome:
+    outcome = IngestSegmentOutcome(key=segment_key)
+    cursor: str | None = None
+    while True:
+        page_limit = 1000
+        if budget is not None:
+            remaining = budget.limit - budget.consumed
+            if remaining <= 0:
+                result.status = "partial_budget_exhausted"
+                break
+            # Never request more than remaining — Fantastic.jobs charges per returned job.
+            page_limit = max(1, min(1000, remaining))
+
+        page = await fj.fetch_active_ats(
+            time_frame=time_frame,
+            limit=page_limit,
+            cursor=cursor,
+            **extra_params,
+        )
+        if not page.jobs:
+            break
+
+        batch = page.jobs
+        if budget is not None:
+            remaining = budget.limit - budget.consumed
+            batch = page.jobs[:remaining]
+            if not batch:
+                result.status = "partial_budget_exhausted"
+                break
+            try:
+                budget.reserve_page(len(batch))
+            except CreditBudgetExceeded:
+                result.status = "partial_budget_exhausted"
+                break
+
+        docs: list[JobDocument] = []
+        for raw in batch:
+            doc = to_job_document(raw)
+            if not doc.id:
+                continue
+            resolved = resolve_job_locations(doc)
+            docs.append(doc.model_copy(update={"location_ids": resolved.location_ids}))
+            result.unresolved_location_count += resolved.unresolved_count
+            if doc.ai_experience_level is None:
+                result.null_experience_count += 1
+
+        await firestore_upsert_batch(docs)
+        try:
+            await search_index_sync.upsert_batch(docs)
+        except meili_unavailable_errors() as exc:
+            logger.warning("Job Discovery Meili upsert failed (%s): %s", segment_key, exc)
+
+        credits = len(docs)
+        outcome.pages_completed += 1
+        outcome.jobs_upserted += len(docs)
+        outcome.credits_consumed += credits
+        result.pages_completed += 1
+        result.jobs_upserted += len(docs)
+        result.credits_consumed += credits
+
+        cursor = page.next_cursor
+        if not cursor:
+            break
+        if budget is not None and budget.consumed >= budget.limit:
+            result.status = "partial_budget_exhausted"
+            break
+
+    result.segments.append(outcome)
+    return outcome
+
+
 async def run_incremental_ingest(
     *,
     time_frame: str = "1h",
@@ -100,30 +180,45 @@ async def run_incremental_ingest(
     fj = client or get_fantastic_jobs_client()
     run_id = await run_in_thread(_start_run_sync, "incremental", time_frame)
     result = IngestRunResult(run_id=run_id, status="completed")
-    cursor: str | None = None
+    settings = get_settings()
+    budget = CreditBudget(limit=max(1, int(settings.job_discovery_hourly_credit_budget)))
+
     try:
-        while True:
-            page = await fj.fetch_active_ats(time_frame=time_frame, limit=1000, cursor=cursor)
-            if not page.jobs:
+        snapshot = await load_latest_snapshot()
+        plan = build_plan(snapshot)
+        result.scope_source = plan.source
+
+        for index, segment in enumerate(plan.segments):
+            if budget.consumed >= budget.limit:
+                result.status = "partial_budget_exhausted"
+                skipped = [f"{s.band}::{s.family_key}" for s in plan.segments[index:]]
+                logger.info(
+                    "Job Discovery hourly budget exhausted before remaining segments=%s credits=%s",
+                    skipped,
+                    result.credits_consumed,
+                )
                 break
-            docs: list[JobDocument] = []
-            for raw in page.jobs:
-                doc = to_job_document(raw)
-                resolved = resolve_job_locations(doc)
-                docs.append(doc.model_copy(update={"location_ids": resolved.location_ids}))
-                result.unresolved_location_count += resolved.unresolved_count
-
-            await firestore_upsert_batch(docs)
-            try:
-                await search_index_sync.upsert_batch(docs)
-            except meili_unavailable_errors() as exc:
-                logger.warning("Job Discovery Meili upsert failed: %s", exc)
-
-            result.pages_completed += 1
-            result.jobs_upserted += len(docs)
-            result.credits_consumed += page.credits_consumed
-            cursor = page.next_cursor
-            if not cursor:
+            await _ingest_slice(
+                fj,
+                result=result,
+                time_frame=time_frame,
+                segment_key=f"{segment.band}::{segment.family_key}",
+                extra_params={
+                    "ai_experience_level": segment.band,
+                    "title_advanced": segment.title_advanced,
+                    "title_include_terms": list(segment.title_include_terms),
+                    "title_exclude_terms": list(segment.title_exclude_terms),
+                },
+                budget=budget,
+            )
+            if result.status == "partial_budget_exhausted":
+                skipped = [f"{s.band}::{s.family_key}" for s in plan.segments[index + 1 :]]
+                logger.info(
+                    "Job Discovery hourly budget exhausted after segment=%s skipped=%s credits=%s",
+                    f"{segment.band}::{segment.family_key}",
+                    skipped,
+                    result.credits_consumed,
+                )
                 break
     except Exception as exc:
         result.status = "failed"
@@ -202,50 +297,22 @@ async def run_backfill_ingest(
     **params: str,
 ) -> IngestRunResult:
     fj = client or get_fantastic_jobs_client()
-    budget = credit_budget if credit_budget is not None else get_settings().job_discovery_credit_budget
+    budget_limit = credit_budget if credit_budget is not None else get_settings().job_discovery_credit_budget
     run_id = await run_in_thread(_start_run_sync, "backfill", time_frame)
-    result = IngestRunResult(run_id=run_id, status="completed")
-    cursor: str | None = None
+    result = IngestRunResult(run_id=run_id, status="completed", scope_source="fixed")
+    budget = CreditBudget(limit=max(1, int(budget_limit)))
     try:
-        while True:
-            remaining = budget - result.credits_consumed
-            if remaining <= 0:
-                result.status = "partial_budget_exhausted"
-                break
-            page_limit = max(10, min(1000, remaining))
-            page = await fj.fetch_active_ats(
-                time_frame=time_frame,
-                limit=page_limit,
-                cursor=cursor,
-                **params,
-            )
-            if not page.jobs:
-                break
-            batch = page.jobs[:remaining]
-            credits = len(batch)
-            docs = []
-            for raw in batch:
-                doc = to_job_document(raw)
-                resolved = resolve_job_locations(doc)
-                docs.append(doc.model_copy(update={"location_ids": resolved.location_ids}))
-                result.unresolved_location_count += resolved.unresolved_count
-            await firestore_upsert_batch(docs)
-            try:
-                await search_index_sync.upsert_batch(docs)
-            except meili_unavailable_errors() as exc:
-                logger.warning("Job Discovery Meili backfill upsert failed: %s", exc)
-            result.pages_completed += 1
-            result.jobs_upserted += len(docs)
-            result.credits_consumed += credits
-            cursor = page.next_cursor
-            if not cursor or result.credits_consumed >= budget:
-                if result.credits_consumed >= budget and cursor:
-                    result.status = "partial_budget_exhausted"
-                break
+        await _ingest_slice(
+            fj,
+            result=result,
+            time_frame=time_frame,
+            segment_key="_backfill",
+            extra_params=dict(params),
+            budget=budget,
+        )
     except Exception as exc:
         result.status = "failed"
         result.error = str(exc)
         await _finish(result, kind="backfill", time_frame=time_frame)
         raise
     return await _finish(result, kind="backfill", time_frame=time_frame)
-

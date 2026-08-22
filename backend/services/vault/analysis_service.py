@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from models.vault import VaultScorecard
 from services.platform.llm import get_platform_llm
-from services.interview.prompt_contracts import extract_json_dict
+from services.platform.llm.prompt_contracts import extract_json_dict
 from services.resume.scorecard_service import build_resume_scorecard
 from services.resume.skills_normalizer import flatten_skills_from_profile
 

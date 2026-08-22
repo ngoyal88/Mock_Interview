@@ -13,7 +13,7 @@ Answer four questions before creating a file: **domain**, **layer**, **shared?**
 ### New HTTP endpoint
 
 ```
-Which domain?  interview | vault | jd_fit | resume_builder | livekit | contact
+Which domain?  interview | vault | application_fit | signal | resume_builder | livekit | contact
   → routes/<domain>/          (preferred — see interview/)
   → routes/<domain>.py        (legacy single file until split)
 
@@ -29,7 +29,7 @@ Never put business logic, LLM calls, or Firestore orchestration in a route.
 **Errors:** Services raise [`DomainError`](utils/domain_errors.py) (stable `code` + message). HTTP status mapping lives in [`domain_error_registry.py`](utils/domain_error_registry.py) + the app handler in [`main.py`](main.py). Route-level input validators (e.g. [`routes/vault_validators.py`](routes/vault_validators.py)) may raise `HTTPException` at the trust boundary.
 ```
 
-**Examples:** [`routes/interview/start.py`](routes/interview/start.py) → [`interview_start_service.py`](services/interview/interview_start_service.py); [`routes/interview/code.py`](routes/interview/code.py) → [`code_submission_service.py`](services/interview/code_submission_service.py); [`routes/vault.py`](routes/vault.py) upload → [`vault_upload_service.py`](services/vault/vault_upload_service.py).
+**Examples:** [`routes/interview/start.py`](routes/interview/start.py) → [`session/lifecycle/start_service.py`](services/interview/session/lifecycle/start_service.py); [`routes/interview/code.py`](routes/interview/code.py) → [`session/coding/submission_service.py`](services/interview/session/coding/submission_service.py); [`routes/application_fit.py`](routes/application_fit.py) → [`application_fit/service.py`](services/application_fit/service.py).
 
 ### New business behavior
 
@@ -43,8 +43,8 @@ Workers (not REST) also live under `services/`:
 
 | Worker | Path |
 |--------|------|
-| LiveKit agent | [`services/interview/agent/`](services/interview/agent/) |
-| WS fallback engine | [`services/interview/session_engine.py`](services/interview/session_engine.py) (frozen — do not extend) |
+| LiveKit agent | [`services/interview/session/transport/agent/`](services/interview/session/transport/agent/) |
+| WS fallback engine | [`services/interview/session/transport/websocket/session_engine.py`](services/interview/session/transport/websocket/session_engine.py) (frozen — do not extend) |
 
 ### New models / DTOs
 
@@ -65,9 +65,9 @@ Mirror the service domain. Characterization tests lock behavior before refactors
 ### Shared kernel (2+ domains)
 
 ```
-services/platform/llm/         # LLM engine
+services/platform/llm/         # LLM engine + prompt_contracts (JSON LLM helpers)
 services/platform/reference/   # Cross-domain closed enums + supported role labels (FE mirror: shared/reference/)
-services/jd/extract.py         # shared JD text normalize (see docs/JD_EXTRACT_BOUNDARY.md)
+services/application_fit/extract/text.py   # job_description normalize + file extract SSOT
 ```
 
 Do **not** create `backend/helpers.py` or dump cross-domain logic into `utils/` unless it is truly infrastructure (auth, redis, rate limit).
@@ -80,15 +80,17 @@ Closed vocabularies (`EXPERIENCE_LEVELS`, `WORK_ARRANGEMENTS`, `EMPLOYMENT_TYPES
 
 | Domain | Routes | Services | Models / notes |
 |--------|--------|----------|----------------|
-| **Interview** | [`routes/interview/`](routes/interview/) | [`services/interview/`](services/interview/) | [`models/interview.py`](models/interview.py); modes SSOT [`modes/registry.py`](services/interview/modes/registry.py); start body SSOT [`modes/start_configs.py`](services/interview/modes/start_configs.py) |
+| **Interview** | [`routes/interview/`](routes/interview/) | [`services/interview/`](services/interview/) — `catalog/` + `modes/<type>/` + `session/` | [`models/interview.py`](models/interview.py); catalog SSOT [`catalog/registry.py`](services/interview/catalog/registry.py); start body [`catalog/start_request.py`](services/interview/catalog/start_request.py) |
+| **Application Fit** | [`routes/application_fit.py`](routes/application_fit.py) (`/application-fit/*`) | [`services/application_fit/`](services/application_fit/) — `extract/` `evidence/` `scoring/` `output/` `persist/` | [`models.py`](services/application_fit/models.py); wire IDs `jd_fit_snapshots`, `jd_fit_context` unchanged |
+| **Signal** | [`routes/signal.py`](routes/signal.py) (`/signal/readiness/*`) | [`services/signal/`](services/signal/) | Readiness from vault + VPM + history |
 | **Vault** | [`routes/vault.py`](routes/vault.py) | [`services/vault/`](services/vault/) | [`models/vault.py`](models/vault.py), [`models/resume.py`](models/resume.py) |
-| **JD Fit** | [`routes/jd_fit.py`](routes/jd_fit.py) | [`services/jd_fit/`](services/jd_fit/) | [`jd_fit_models.py`](services/jd_fit/jd_fit_models.py) |
+| **Resume kernel** | — | [`services/resume/`](services/resume/) (`probe_context.py`, parser) | [`models/resume.py`](models/resume.py) |
 | **Job Discovery** | [`routes/job_discovery.py`](routes/job_discovery.py) | [`services/job_discovery/`](services/job_discovery/) | Domain-local [`models.py`](services/job_discovery/models.py); Firestore `jobs/{id}` SSOT + Meilisearch active-only index |
-| **Resume builder** | [`routes/resume_builder.py`](routes/resume_builder.py) | [`services/resume_builder/`](services/resume_builder/) | compile worker separate from public API; LinkedIn import at `linkedin_import/` + `POST /resume-builder/import/linkedin` |
-| **Career preferences** | [`routes/career_preferences.py`](routes/career_preferences.py) | [`services/user/career_preferences/`](services/user/career_preferences/) | `users/{uid}.career_preferences` via Admin SDK; cross-domain reads via `loader.py` |
+| **Resume builder** | [`routes/resume_builder.py`](routes/resume_builder.py) | [`services/resume_builder/`](services/resume_builder/) | compile worker separate from public API; LinkedIn import at `linkedin_import/` |
+| **Career preferences** | [`routes/career_preferences.py`](routes/career_preferences.py) | [`services/user/career_preferences/`](services/user/career_preferences/) | `users/{uid}.career_preferences` via Admin SDK |
 | **User account** | [`routes/user_account.py`](routes/user_account.py) | [`services/user/account/`](services/user/account/) | `DELETE /user/account` purge |
 | **Profile memory (VPM)** | via interview routes | [`services/profile_memory/`](services/profile_memory/) | LiveKit-only pipeline |
-| **Platform** | — | [`services/platform/llm/`](services/platform/llm/), [`services/platform/reference/`](services/platform/reference/) | `get_platform_llm()`; reference enums + role labels (FE: `shared/reference/`) |
+| **Platform** | — | [`services/platform/llm/`](services/platform/llm/), [`services/platform/reference/`](services/platform/reference/) | `get_platform_llm()` |
 | **LiveKit tokens** | [`routes/livekit.py`](routes/livekit.py) | [`services/livekit/token_service.py`](services/livekit/token_service.py) | — |
 
 Cross-stack mode contract: [`docs/INTERVIEW_MODE_CONTRACT.md`](../docs/INTERVIEW_MODE_CONTRACT.md) + FE [`modeContract.ts`](../frontend/src/features/interview/domain/modeContract.ts).
@@ -102,19 +104,35 @@ backend/
   routes/           # HTTP routers — auth, rate limit, delegate to services
     interview/      # split by concern (start, code, history, …)
   services/         # Domain logic + workers
-    interview/      # LiveKit agent, sessions, modes, questions
+    interview/      # catalog/ + modes/<type>/ + session/{lifecycle,runtime,...}
+    application_fit/
+    signal/
     vault/
-    jd_fit/
-    user/             # User-owned settings (career_preferences v1, account purge)
+    resume/           # parse/normalize/probe kernel (not vault storage)
+    user/
       career_preferences/
-      account/        # purge_service.py
-    platform/       # Cross-domain kernel (LLM)
+      account/
+    platform/       # Cross-domain kernel (LLM + prompt_contracts)
   models/           # Shared API/storage Pydantic shapes
   utils/            # Redis, auth, rate limit, logging (infra only)
   tests/<domain>/   # Domain-grouped pytest modules
 ```
 
 **Import direction:** `routes → services → utils`. Never `models/` → business validators in `services/`. Never `services/` importing from `routes/`.
+
+---
+
+## Domain placement law (durable)
+
+1. **Domain first** — new product → `services/<domain>/` + `routes/<domain>.py`. Code lives with the **owner of the data**, not the caller. Cross-domain = import the other domain's public entry; never copy.
+2. **Inside interview:** `catalog/` (index), `modes/<type>/` (start + first questions), `session/` (shared machinery). New Pair Programming **track** → `modes/pair_programming/tracks/<id>.py`. New **mode** → new `modes/<type>/start.py` + catalog registration (see [`tests/interview/test_mode_catalog_guard.py`](tests/interview/test_mode_catalog_guard.py)).
+3. **Promotion rule** — the first `if interview_type == X` in `session/` is a bug; extract to `modes/<type>/` in the same PR. Session wire keys (`jd_fit_context`, …) stay stable; new mode state goes in `target_context` / namespaced dicts.
+
+**Add an interview mode:** (1) `modes/<type>/start.py`, (2) register in `catalog/registry.py`, (3) add config to `catalog/start_request.py`, (4) FE `modeContract.ts`. Forbidden: mode branches in `session/runtime/question_service.py`.
+
+**Add a pipeline stage (Application Fit-style):** new folder under `services/application_fit/` (`extract/`, `evidence/`, …).
+
+**Wire IDs vs package names:** Firestore/Redis/query params may still say `jd_fit_*`; engineer-facing packages say `application_fit`.
 
 ---
 
@@ -138,7 +156,7 @@ This prevents future “massive refactors” without stopping feature velocity.
 | Business logic in `routes/*.py` | `services/<domain>/*_service.py` |
 | New blind `update_session()` on live paths | `SessionStore.update(mutator)` — see session writes below |
 | Half-migrations (new package + old copy left wired) | Finish wiring or do not start the split |
-| Duplicate mode/route/label strings | `modes/registry.py` + FE `modeContract.ts` |
+| Duplicate mode/route/label strings | `catalog/registry.py` + FE `modeContract.ts` |
 | Root `helpers.py` / mystery `utils` in a domain | Named module under `services/<domain>/` |
 | Drive-by renames in an unrelated PR | One concern per PR |
 | Extend WS fallback (`websocket_routes`, `session_engine`) | LiveKit primary; WS frozen |
@@ -148,7 +166,7 @@ This prevents future “massive refactors” without stopping feature velocity.
 
 ## Interview start API
 
-`POST /interview/start` body = **common core** (`difficulty`, `candidate_name?`, `years_experience?`, `resume_data?`) + **mode `config`** discriminated on `interview_type`. Config models live in [`services/interview/modes/start_configs.py`](services/interview/modes/start_configs.py). Auth `uid` is server-side only — do not send `user_id`. Redis/Firestore session blobs stay **flat** (start maps `config` → session fields once).
+`POST /interview/start` body = **common core** (`difficulty`, `candidate_name?`, `years_experience?`, `resume_data?`) + **mode `config`** discriminated on `interview_type`. Config models live in [`services/interview/catalog/start_request.py`](services/interview/catalog/start_request.py). Auth `uid` is server-side only — do not send `user_id`. Redis/Firestore session blobs stay **flat** (start maps `config` → session fields once via mode `target_context`).
 
 ---
 
@@ -156,7 +174,7 @@ This prevents future “massive refactors” without stopping feature velocity.
 
 | Path | Role |
 |------|------|
-| LiveKit agent ([`services/interview/agent/`](services/interview/agent/)) | **Primary** interview transport |
+| LiveKit agent ([`services/interview/session/transport/agent/`](services/interview/session/transport/agent/)) | **Primary** interview transport |
 | WebSocket ([`routes/websocket_routes.py`](routes/websocket_routes.py)) | **Frozen fallback** when LiveKit unavailable |
 | REST ([`routes/interview/*`](routes/interview/)) | Start, complete, code submit, history |
 
@@ -170,11 +188,11 @@ Do not extend the WebSocket stack with new features.
 |-----------|-------|--------------|
 | `SessionStore.update(mutator)` | LiveKit agent, code submit | Live paths — atomic read-modify-write |
 | `SessionStore.replace()` | Session create, legacy agent coding controls | Initial blob or documented legacy only |
-| `create_session()` | `interview_start_service` | New session |
+| `create_session()` | [`session/lifecycle/start_service.py`](services/interview/session/lifecycle/start_service.py) | New session |
 | `persist_ws_session_blob()` | WS `session_engine`, `answer_processor` | Merged write via SessionStore |
 | `update_session()` blind SET | Legacy only | **Do not add new call sites** |
 
-**Rule:** Mutators must not drop keys another writer may have added (`session_conductor`, `live_transcription`, coding fields). Use [`deep_merge_session_conductor()`](services/interview/session_store.py) when patching conductor state.
+**Rule:** Mutators must not drop keys another writer may have added (`session_conductor`, `live_transcription`, coding fields). Use [`deep_merge_session_conductor()`](services/interview/session/persistence/session_store.py) when patching conductor state.
 
 ---
 
@@ -184,12 +202,12 @@ Touch only with characterization tests + smoke; no drive-by cleanup.
 
 | File | Why |
 |------|-----|
-| [`services/interview/agent/`](services/interview/agent/) | LiveKit primary path; VPM on disconnect |
-| [`services/interview/session_store.py`](services/interview/session_store.py) | Atomic RMW semantics |
-| [`services/interview/session_engine.py`](services/interview/session_engine.py) | WS state machine (frozen) |
-| [`services/interview/interview_start_service.py`](services/interview/interview_start_service.py) | Session create |
-| [`services/interview/completion_guard.py`](services/interview/completion_guard.py) | Double-complete prevention |
-| [`services/interview/modes/registry.py`](services/interview/modes/registry.py) | Start gate SSOT |
+| [`services/interview/session/transport/agent/`](services/interview/session/transport/agent/) | LiveKit primary path; VPM on disconnect |
+| [`services/interview/session/persistence/session_store.py`](services/interview/session/persistence/session_store.py) | Atomic RMW semantics |
+| [`services/interview/session/transport/websocket/session_engine.py`](services/interview/session/transport/websocket/session_engine.py) | WS state machine (frozen) |
+| [`services/interview/session/lifecycle/start_service.py`](services/interview/session/lifecycle/start_service.py) | Session create |
+| [`services/interview/session/lifecycle/completion_guard.py`](services/interview/session/lifecycle/completion_guard.py) | Double-complete prevention |
+| [`services/interview/catalog/registry.py`](services/interview/catalog/registry.py) | Start gate SSOT |
 | [`routes/interview/code.py`](routes/interview/code.py) | Coding submit entry |
 | [`services/profile_memory/*`](services/profile_memory/) | LiveKit-only VPM pipeline |
 
@@ -227,5 +245,5 @@ Interview PRs additionally require manual golden path: role_targeted voice sessi
 Not part of daily placement; small parity PRs when touching the area:
 
 - Split [`routes/vault.py`](routes/vault.py) → `routes/vault/` (mirror interview)
-- Wire [`services/interview/agent/livekit_agent.py`](services/interview/agent/livekit_agent.py) fully to [`session_ops.py`](services/interview/agent/session_ops.py) + [`server.py`](services/interview/agent/server.py)
+- Wire [`services/interview/session/transport/agent/livekit_agent.py`](services/interview/session/transport/agent/livekit_agent.py) fully to [`session_ops.py`](services/interview/session/transport/agent/session_ops.py) + [`server.py`](services/interview/session/transport/agent/server.py)
 - Remaining agent coding controls → SessionStore mutators (equivalence-tested)

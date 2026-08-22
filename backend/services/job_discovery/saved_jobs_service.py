@@ -39,10 +39,11 @@ async def save(uid: str, job_id: str, body: Optional[SaveJobRequest] = None) -> 
     await get_job_document(job_id)
     payload: dict[str, Any] = {"saved_at": firestore.SERVER_TIMESTAMP}
     if body:
-        if body.fit_snapshot_id:
-            payload["fit_snapshot_id"] = body.fit_snapshot_id
-        if body.applied_at:
-            payload["applied_at"] = body.applied_at
+        updates = body.model_dump(exclude_unset=True)
+        if "fit_snapshot_id" in updates:
+            payload["fit_snapshot_id"] = updates["fit_snapshot_id"]
+        if "applied_at" in updates:
+            payload["applied_at"] = updates["applied_at"] or firestore.DELETE_FIELD
     await run_in_thread(lambda: _saved_ref(uid, job_id).set(payload, merge=True))
     return SaveJobResponse(job_id=job_id, saved=True)
 

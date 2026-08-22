@@ -1,4 +1,4 @@
-import { jdTextApi } from 'shared/services/jdTextApi';
+import { jobDescriptionTextApi } from 'shared/services/jobDescriptionTextApi';
 
 export const JD_FILE_MAX_BYTES = 2 * 1024 * 1024;
 export const JD_FILE_ACCEPT = '.txt,.md,.pdf,.docx';
@@ -317,7 +317,7 @@ export async function loadJobDescriptionFromFile(file: File, maxChars = 8000): P
 
   const raw = isPlainTextExtension(ext)
     ? await readPlainTextFile(file)
-    : await jdTextApi.extractJdTextFromFile(file);
+    : await jobDescriptionTextApi.extractJobDescriptionFromFile(file);
 
   const normalized = normalizeJobDescriptionText(raw, maxChars);
   if (!normalized) {

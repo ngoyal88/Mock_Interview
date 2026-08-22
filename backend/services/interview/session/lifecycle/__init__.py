@@ -1,0 +1,1 @@
+"""Interview session lifecycle — start, complete, completion guard."""

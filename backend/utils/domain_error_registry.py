@@ -43,7 +43,7 @@ ERROR_REGISTRY: dict[str, ErrorSpec] = {
     "version_create_failed": ErrorSpec(400),
     "parse_rejected": ErrorSpec(400),
     # JD Fit
-    "jd_fit_disabled": ErrorSpec(503),
+    "application_fit_disabled": ErrorSpec(503),
     "target_role_required": ErrorSpec(400, structured=True),
     "jd_too_short": ErrorSpec(400, structured=True),
     "profile_insufficient": ErrorSpec(422, structured=True),

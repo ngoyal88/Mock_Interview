@@ -391,7 +391,7 @@ def _persist_version_txn(
 
 async def _invalidate_jd_fit_cache(uid: str) -> None:
     try:
-        from services.jd_fit.jd_fit_repository import invalidate_user_jd_fit_cache
+        from services.application_fit.persist.repository import invalidate_user_jd_fit_cache
 
         await invalidate_user_jd_fit_cache(uid)
     except Exception:

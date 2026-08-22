@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 
 from models.resume import ResumeCoverageCounts, ResumeScorecardMeta, ResumeScorecardResponse
 from services.platform.llm import get_platform_llm
-from services.interview.prompt_contracts import extract_json_dict
+from services.platform.llm.prompt_contracts import extract_json_dict
 from services.resume.skills_normalizer import flatten_skills_from_profile
 from utils.logger import get_logger
 

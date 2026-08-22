@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException
 
-from services.interview.interview_start_service import (
+from services.interview.session.lifecycle.start_service import (
     StartInterviewRequest,
     start_interview_session,
 )

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from services.interview.prompt_contracts import execute_json_contract
+from services.platform.llm.prompt_contracts import execute_json_contract
 from services.profile_memory.models import RawClaim
 from services.resume.skills_normalizer import flatten_skills_from_profile
 

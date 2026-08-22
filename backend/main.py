@@ -8,10 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from config import get_settings
-from routes import career_preferences, contact, jd_fit, job_discovery, livekit, resume_builder, user_account, vault
-from routes.websocket_routes import router as websocket_fallback_router
-from routes.interview import router as interview_router
+from routes import interview, career_preferences, contact, application_fit, job_discovery, livekit, resume_builder, signal, user_account, vault
+from routes.websocket_routes import router as websocket_fallback_router 
 from services.interview import InterviewService
+
 from utils.cors import apply_cors_headers
 from utils.domain_errors import DomainError
 
@@ -146,7 +146,7 @@ def _start_agent_worker() -> None:
         os.environ.setdefault("DEEPGRAM_API_KEY", settings.deepgram_api_key)
 
     try:
-        from services.interview.agent import server
+        from services.interview.session.transport.agent import server
 
         _agent_server = server
         _agent_task = asyncio.create_task(server.run(), name="livekit-agent-server")
@@ -210,14 +210,15 @@ async def access_log(request: Request, call_next):
 
 
 app.include_router(vault.router)
-app.include_router(jd_fit.router)
+app.include_router(application_fit.router)
+app.include_router(signal.router)
 app.include_router(job_discovery.router)
 app.include_router(career_preferences.router)
 app.include_router(user_account.router)
 app.include_router(livekit.router)
 app.include_router(resume_builder.router)
 app.include_router(contact.router)
-app.include_router(interview_router)
+app.include_router(interview.router)
 
 if settings.interview_websocket_fallback_enabled:
     app.include_router(websocket_fallback_router)

@@ -1,4 +1,5 @@
 # --- Environment & secrets ---
+docs/
 scripts/
 .env
 .env.*
@@ -37,6 +38,12 @@ ENV/
 backend/venv
 backend/.fontconfig-cache/
 backend/.venv/
+
+# Local Meilisearch data (Job Discovery dev)
+backend/data/meilisearch/
+# Local toolchain binaries (download separately; keep run_*.cmd/ps1 helpers)
+backend/bin/*.exe
+backend/bin/*.dll
 
 # --- Frontend tests (local only for now) ---
 frontend/e2e/

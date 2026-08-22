@@ -142,6 +142,8 @@ class SearchFilters(BaseModel):
     has_salary_only: bool = False
     posted_within_days: Optional[int] = None
     sort: Literal["fresh", "salary"] = "fresh"
+    exclude_location_ids: list[str] = Field(default_factory=list)
+    exclude_titles: list[str] = Field(default_factory=list)
 
 
 class SearchResult(BaseModel):
@@ -197,6 +199,13 @@ class IngestPage(BaseModel):
     credits_consumed: int = 0
 
 
+class IngestSegmentOutcome(BaseModel):
+    key: str
+    jobs_upserted: int = 0
+    credits_consumed: int = 0
+    pages_completed: int = 0
+
+
 class IngestRunResult(BaseModel):
     run_id: str
     status: Literal["completed", "partial_budget_exhausted", "failed"]
@@ -205,6 +214,9 @@ class IngestRunResult(BaseModel):
     jobs_expired: int = 0
     credits_consumed: int = 0
     unresolved_location_count: int = 0
+    null_experience_count: int = 0
+    scope_source: Literal["seed", "demand_snapshot", "fixed"] = "fixed"
+    segments: list[IngestSegmentOutcome] = Field(default_factory=list)
     error: Optional[str] = None
 
 

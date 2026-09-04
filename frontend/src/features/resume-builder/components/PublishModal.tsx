@@ -1,5 +1,6 @@
 import Modal from 'shared/components/Modal';
 import ModalActions, { modalInputClass } from 'shared/ui/ModalActions';
+
 import type { BuilderReadinessResult } from '../utils/builderReadiness';
 
 type PublishModalProps = {
@@ -26,10 +27,10 @@ export default function PublishModal(props: PublishModalProps) {
   const totalIssues = props.readiness.blocking.length + props.readiness.warnings.length + props.readiness.info.length;
 
   return (
-    <Modal open={props.open} onClose={props.onClose} title="Publish Resume">
+    <Modal open={props.open} onClose={props.onClose} title="Save to Vault">
       <div className="space-y-5 text-[var(--color-on-surface)]">
         <p className="type-body-md text-[var(--color-on-surface-variant)]">
-          Publishing creates or updates a Vault resume. Draft changes only become part of Vault after this step.
+          This files the resume in Vault and removes it from drafts. You can continue from Vault later.
         </p>
 
         <section
@@ -123,7 +124,9 @@ export default function PublishModal(props: PublishModalProps) {
 
         {props.hasExistingTarget ? (
           <fieldset className="space-y-3">
-            <legend className="type-label-sm uppercase tracking-[0.14em] text-[var(--color-primary)]">Publish target</legend>
+            <legend className="type-label-sm uppercase tracking-[0.14em] text-[var(--color-primary)]">
+              Where to save
+            </legend>
             <div className="grid gap-3">
               <label
                 className={[
@@ -140,7 +143,10 @@ export default function PublishModal(props: PublishModalProps) {
                   onChange={() => props.onPublishModeChange('existing')}
                   className="mt-1"
                 />
-                <span className="leading-6">Publish as a new version of the linked Vault resume</span>
+                <span className="leading-6">
+                  <span className="font-semibold text-[var(--color-on-surface)]">Update this resume</span>
+                  <span className="mt-0.5 block text-[var(--color-on-surface-variant)]">Adds a new version. Your current Vault resume stays.</span>
+                </span>
               </label>
               <label
                 className={[
@@ -157,7 +163,10 @@ export default function PublishModal(props: PublishModalProps) {
                   onChange={() => props.onPublishModeChange('new')}
                   className="mt-1"
                 />
-                <span className="leading-6">Create a new Vault resume entry from this draft</span>
+                <span className="leading-6">
+                  <span className="font-semibold text-[var(--color-on-surface)]">Save as a new resume</span>
+                  <span className="mt-0.5 block text-[var(--color-on-surface-variant)]">Keeps the current Vault resume unchanged.</span>
+                </span>
               </label>
             </div>
           </fieldset>
@@ -166,7 +175,9 @@ export default function PublishModal(props: PublishModalProps) {
         {props.publishMode === 'new' ? (
           <>
             <label className="block text-sm">
-              <span className="type-label-sm uppercase tracking-[0.12em] text-[var(--color-on-surface-variant)]">Vault resume name</span>
+              <span className="type-label-sm uppercase tracking-[0.12em] text-[var(--color-on-surface-variant)]">
+                Resume name
+              </span>
               <input
                 name="builder-publish-name"
                 autoComplete="off"
@@ -216,8 +227,8 @@ export default function PublishModal(props: PublishModalProps) {
         <ModalActions
           onCancel={props.onClose}
           onConfirm={() => void props.onSubmit()}
-          confirmLabel="Publish to Vault"
-          loadingLabel="Publishing…"
+          confirmLabel="Save to Vault"
+          loadingLabel="Saving…"
           loading={props.publishing}
           disabled={!props.canPublish}
         />

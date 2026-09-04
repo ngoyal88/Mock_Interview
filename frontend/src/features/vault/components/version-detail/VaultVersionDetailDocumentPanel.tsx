@@ -164,7 +164,7 @@ export default function VaultVersionDetailDocumentPanel({
             className="vault-version-detail__action-btn"
           >
             <Wand2 className="h-[18px] w-[18px]" aria-hidden />
-            Open in Builder
+            Continue in Builder
           </button>
           <button
             type="button"

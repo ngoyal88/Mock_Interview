@@ -35,9 +35,9 @@ export default function BuilderEntryCards({ landing, vaultEntryCount }: BuilderE
         <div className="rb-entry-card__icon" aria-hidden>
           <FileText className="h-5 w-5" />
         </div>
-        <h2 className="type-headline-sm text-[var(--color-on-surface)]">From Vault</h2>
+        <h2 className="type-headline-sm text-[var(--color-on-surface)]">Saved resume</h2>
         <p className="type-body-md mt-2 text-[var(--color-on-surface-variant)]">
-          Use parsed data from a resume you already uploaded.
+          Continue a resume you built here, or import one you uploaded.
         </p>
         {vaultEntryCount > 0 ? (
           <button

@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import uuid
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, Sequence
 
 from firebase_admin import firestore
 
@@ -22,6 +22,7 @@ from services.resume_builder.models import (
 )
 from services.resume_builder.style_spec import default_style_spec, hydrate_style_spec
 from services.resume_builder.template_catalog import get_template
+from services.resume_builder.vault_draft_seed import VaultDraftSeed
 
 COLLECTION_NAME = "resume_builder_drafts"
 
@@ -52,6 +53,31 @@ def _hydrate(doc_id: str, uid: str, data: dict) -> ResumeBuilderDraft:
     return ResumeBuilderDraft.model_validate(payload)
 
 
+def pick_draft_for_resume(
+    drafts: Sequence[ResumeBuilderDraft],
+    resume_id: str,
+) -> Optional[ResumeBuilderDraft]:
+    """Prefer target_resume_id, then source_resume_id. Latest updated_at wins."""
+    wanted = (resume_id or "").strip()
+    if not wanted:
+        return None
+    targeted = [draft for draft in drafts if (draft.target_resume_id or "").strip() == wanted]
+    sourced = [
+        draft
+        for draft in drafts
+        if (draft.target_resume_id or "").strip() != wanted and (draft.source_resume_id or "").strip() == wanted
+    ]
+    pool = targeted or sourced
+    if not pool:
+        return None
+    return max(pool, key=lambda draft: draft.updated_at)
+
+
+async def find_draft_for_resume(uid: str, resume_id: str) -> Optional[ResumeBuilderDraft]:
+    drafts = await list_drafts(uid)
+    return pick_draft_for_resume(drafts, resume_id)
+
+
 async def create_draft(
     uid: str,
     request: CreateDraftRequest,
@@ -59,6 +85,8 @@ async def create_draft(
     source_profile: Optional[dict] = None,
     source_kind: Optional[DraftSourceKind] = None,
     source_linkedin_url: Optional[str] = None,
+    vault_draft_seed: Optional[VaultDraftSeed] = None,
+    source_version_id: Optional[str] = None,
 ) -> ResumeBuilderDraft:
     def _create() -> ResumeBuilderDraft:
         draft_id = f"draft_{uuid.uuid4().hex[:12]}"
@@ -68,31 +96,44 @@ async def create_draft(
             for snap in _collection(uid).stream()
         ]
         draft_name = next_resume_draft_name(existing_names)
-        template = get_template(request.template_id)
-        profile_payload = source_profile or (
-            request.profile.model_dump() if request.profile is not None else _default_profile().model_dump()
-        )
-        profile = ResumeProfile.model_validate(profile_snapshot_dict(profile_payload))
-        if source_profile is not None:
-            section_layout, custom_sections, profile = derive_layout_from_profile(profile)
+        if vault_draft_seed is not None:
+            template = get_template(vault_draft_seed.template_id)
+            profile = vault_draft_seed.profile
+            section_layout = list(vault_draft_seed.section_layout)
+            custom_sections = list(vault_draft_seed.custom_sections)
+            style_spec = vault_draft_seed.style_spec
+            template_id = vault_draft_seed.template_id
+            template_version = vault_draft_seed.template_version or template.version
         else:
-            section_layout = default_section_layout()
-            custom_sections = []
+            template = get_template(request.template_id)
+            profile_payload = source_profile or (
+                request.profile.model_dump() if request.profile is not None else _default_profile().model_dump()
+            )
+            profile = ResumeProfile.model_validate(profile_snapshot_dict(profile_payload))
+            if source_profile is not None:
+                section_layout, custom_sections, profile = derive_layout_from_profile(profile)
+            else:
+                section_layout = default_section_layout()
+                custom_sections = []
+            style_spec = default_style_spec()
+            template_id = request.template_id
+            template_version = template.version
 
+        resolved_version_id = source_version_id if source_version_id is not None else request.version_id
         source_kind_value = source_kind or ("vault_fork" if request.resume_id else "blank")
         payload = {
             "name": draft_name,
             "created_at": now,
             "updated_at": now,
-            "template_id": request.template_id,
-            "template_version": template.version,
-            "style_spec": default_style_spec().model_dump(),
+            "template_id": template_id,
+            "template_version": template_version,
+            "style_spec": style_spec.model_dump(),
             "profile": profile_snapshot_dict(profile.model_dump()),
             "section_layout": [section.model_dump() for section in section_layout],
             "custom_sections": [section.model_dump() for section in custom_sections],
             "target_resume_id": request.resume_id,
             "source_resume_id": request.resume_id,
-            "source_version_id": request.version_id,
+            "source_version_id": resolved_version_id,
             "source_kind": source_kind_value,
             "status": "draft",
         }

@@ -36,10 +36,10 @@ from services.resume_builder.models import (
     validate_identity_fields,
 )
 from services.resume_builder.linkedin_import.service import import_linkedin_to_draft
+from services.resume_builder.open_vault_draft_service import open_or_restore_vault_draft
 from services.resume_builder.publish_service import publish_draft
 from services.resume_builder.render_service import render_draft_pdf
 from services.resume_builder.template_catalog import get_template, list_templates, template_preview_file
-from services.vault.vault_service import get_vault_entry, get_version_by_id
 from utils.auth import verify_firebase_token
 from utils.domain_errors import DomainError
 from utils.http_errors import raise_internal_error, raise_service_error
@@ -68,26 +68,6 @@ def _ensure_linkedin_import_enabled() -> None:
                 "message": "LinkedIn import is not configured on the server.",
             },
         )
-
-
-async def _load_source_profile(uid: str, request: CreateDraftRequest) -> dict | None:
-    if request.version_id:
-        version = await get_version_by_id(uid, request.version_id)
-        if not version:
-            raise HTTPException(status_code=404, detail="Source version not found")
-        return version.get("profile_snapshot") or {}
-    if request.resume_id:
-        entry = await get_vault_entry(uid, request.resume_id)
-        if not entry:
-            raise HTTPException(status_code=404, detail="Source resume not found")
-        current_version_id = entry.get("current_version_id")
-        if not current_version_id:
-            raise HTTPException(status_code=404, detail="Source resume has no version")
-        version = await get_version_by_id(uid, current_version_id)
-        if not version:
-            raise HTTPException(status_code=404, detail="Source version not found")
-        return version.get("profile_snapshot") or {}
-    return None
 
 
 @router.post("/import/linkedin", response_model=LinkedInImportResponse)
@@ -155,12 +135,13 @@ async def resume_builder_create_draft(
     await check_rate_limit(uid, "resume_builder_draft_save", limit=60, window_seconds=60)
     try:
         get_template(request.template_id)
-        source_profile = await _load_source_profile(uid, request)
-        if source_profile is None:
-            if request.profile is None:
-                raise HTTPException(status_code=422, detail="Name and email are required to create a new draft")
-            validate_identity_fields(request.profile)
-        draft = await create_draft(uid, request, source_profile=source_profile)
+        if request.resume_id or request.version_id:
+            draft = await open_or_restore_vault_draft(uid, request)
+            return DraftResponse(draft=draft)
+        if request.profile is None:
+            raise HTTPException(status_code=422, detail="Name and email are required to create a new draft")
+        validate_identity_fields(request.profile)
+        draft = await create_draft(uid, request)
         return DraftResponse(draft=draft)
     except HTTPException:
         raise

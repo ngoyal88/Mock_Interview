@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import VaultEditMetaModal from 'features/vault/components/VaultEditMetaModal';
 import { VaultAddVersionModal, VaultVersionCard, VaultVersionsHeader } from 'features/vault/components/versions';
 import PageLoadingState from 'shared/components/PageLoadingState';
-import { VAULT_VERSIONS_COPY } from 'features/vault/constants/versionsContent';
 import { useVersionsPage } from 'features/vault/hooks/useVersionsPage';
 
 export default function VaultVersionsPage() {
@@ -41,21 +40,19 @@ export default function VaultVersionsPage() {
     isCurrentVersion,
   } = useVersionsPage();
 
-  const copy = VAULT_VERSIONS_COPY;
-
   if (!resumeId) {
-    return <p className="type-body-md text-[var(--color-on-surface-variant)]">{copy.invalidResume}</p>;
+    return <p className="type-body-md text-[var(--color-on-surface-variant)]">Invalid resume</p>;
   }
 
   if (entryNotFound) {
     return (
       <div className="glass-panel rounded-xl py-16 text-center">
-        <p className="type-body-md text-[var(--color-on-surface-variant)]">{copy.notFound}</p>
+        <p className="type-body-md text-[var(--color-on-surface-variant)]">Resume not found</p>
         <Link
           to="/resume-vault/library"
           className="type-label-md mt-4 inline-block text-[var(--color-primary)] hover:underline"
         >
-          {copy.backToLibrary}
+          Back to Library
         </Link>
       </div>
     );
@@ -81,20 +78,20 @@ export default function VaultVersionsPage() {
             onClick={() => void refresh()}
             className="type-label-md mt-4 rounded-lg border border-[var(--border-strong)] px-4 py-2 text-[var(--color-on-surface)] transition-colors hover:bg-[var(--color-surface-container-high)]"
           >
-            {copy.retry}
+            Retry
           </button>
         </div>
       ) : !versions.length ? (
         <div className="glass-panel rounded-xl border border-dashed border-[var(--border-strong)] py-16 text-center">
-          <p className="type-headline-md text-[var(--color-on-surface)]">{copy.emptyTitle}</p>
-          <p className="type-body-md mt-2 text-[var(--color-on-surface-variant)]">{copy.empty}</p>
+          <p className="type-headline-md text-[var(--color-on-surface)]">No versions yet</p>
+          <p className="type-body-md mt-2 text-[var(--color-on-surface-variant)]">Upload a new version to start building history for this resume.</p>
           {entry ? (
             <button
               type="button"
               onClick={openAddVersion}
               className="vault-versions-action-btn vault-versions-action-btn--primary mt-6"
             >
-              {copy.newVersion}
+              New Version
             </button>
           ) : null}
         </div>

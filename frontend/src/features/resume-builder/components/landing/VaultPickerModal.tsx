@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Modal from 'shared/components/Modal';
@@ -11,14 +12,29 @@ type VaultPickerModalProps = {
   onSelect: (resumeId: string) => void;
 };
 
+function rowCta(origin: 'upload' | 'builder' | undefined, saving: boolean, selected: boolean): string {
+  const isBuilder = origin === 'builder';
+  if (saving && selected) {
+    return isBuilder ? 'Opening…' : 'Importing…';
+  }
+  return isBuilder ? 'Continue' : 'Import';
+}
+
 export default function VaultPickerModal({ open, saving, onClose, onSelect }: VaultPickerModalProps) {
   const { entries, loading } = useVaultLibraryContext();
+  const [pendingId, setPendingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) {
+      setPendingId(null);
+    }
+  }, [open]);
 
   return (
-    <Modal open={open} onClose={onClose} title="Start from a saved resume">
+    <Modal open={open} onClose={onClose} title="Choose a saved resume">
       <div className="space-y-4 text-[var(--color-on-surface)]">
         <p className="type-body-md text-[var(--color-on-surface-variant)]">
-          Pick a resume from Vault. We&apos;ll create a Builder draft from its latest parsed version.
+          Builder resumes open where you left off. Uploaded PDFs import parsed content.
         </p>
 
         {loading ? (
@@ -30,7 +46,10 @@ export default function VaultPickerModal({ open, saving, onClose, onSelect }: Va
                 <button
                   type="button"
                   disabled={saving}
-                  onClick={() => onSelect(entry.id)}
+                  onClick={() => {
+                    setPendingId(entry.id);
+                    onSelect(entry.id);
+                  }}
                   className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left transition-colors hover:bg-[var(--color-surface-container)]/50 disabled:opacity-60"
                 >
                   <div className="min-w-0">
@@ -43,7 +62,7 @@ export default function VaultPickerModal({ open, saving, onClose, onSelect }: Va
                     </p>
                   </div>
                   <span className="type-label-sm shrink-0 text-[var(--color-primary)]">
-                    {saving ? 'Creating…' : 'Use'}
+                    {rowCta(entry.origin, saving, pendingId === entry.id)}
                   </span>
                 </button>
               </li>

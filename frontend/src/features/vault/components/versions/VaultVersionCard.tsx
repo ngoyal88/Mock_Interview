@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { Download, RotateCcw, Sparkles, Wand2 } from 'lucide-react';
 
-import { VAULT_VERSIONS_COPY } from 'features/vault/constants/versionsContent';
 import type { VaultVersion } from 'features/vault/types';
 import {
   getVaultScoreTier,
@@ -31,7 +30,6 @@ function VaultVersionCard({
   onRestore,
   onOpenInBuilder,
 }: VaultVersionCardProps) {
-  const copy = VAULT_VERSIONS_COPY;
   const versionLabel = `v${version.version_number}`;
   const score = normalizeVaultScore(version.score_at_version ?? version.latest_score ?? null);
   const scoreTier = getVaultScoreTier(score);
@@ -55,7 +53,7 @@ function VaultVersionCard({
         <div className="flex items-center gap-3">
           <span className="type-headline-md text-[var(--color-on-surface)]">{versionLabel}</span>
           {isCurrent ? (
-            <span className="vault-version-card__head-badge">{copy.currentHead}</span>
+            <span className="vault-version-card__head-badge">CURRENT HEAD</span>
           ) : null}
           {version.builder ? (
             <span className="rounded-full border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--color-primary)]">
@@ -67,15 +65,15 @@ function VaultVersionCard({
 
       <dl className="vault-version-card__meta">
         <div className="vault-version-card__meta-row">
-          <dt>{copy.created}</dt>
+          <dt>Created</dt>
           <dd>{formatVersionDate(version.created_at)}</dd>
         </div>
         <div className="vault-version-card__meta-row">
-          <dt>{copy.filename}</dt>
+          <dt>Filename</dt>
           <dd title={filename}>{truncatedFilename}</dd>
         </div>
         <div className="vault-version-card__meta-row">
-          <dt>{copy.atsScore}</dt>
+          <dt>ATS Score</dt>
           <dd className={['flex items-center gap-1.5', scoreClass].join(' ')}>
             <Wand2 className="h-4 w-4 shrink-0" aria-hidden />
             <span className={score != null && scoreTier === 'excellent' ? 'font-bold' : ''}>
@@ -89,18 +87,18 @@ function VaultVersionCard({
 
       <div className={['vault-version-card__notes', isCurrent ? '' : 'vault-version-card__notes--muted'].join(' ')}>
         <div>
-          <h4 className="vault-version-card__section-label">{copy.userNote}</h4>
+          <h4 className="vault-version-card__section-label">User Note</h4>
           <p className="type-body-md text-[var(--color-on-surface)]">
-            {version.user_note?.trim() || copy.noUserNote}
+            {version.user_note?.trim() || 'No note added.'}
           </p>
         </div>
         <div className="vault-version-card__diff">
           <h4 className="vault-version-card__diff-label">
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
-            {copy.aiDiffSummary}
+            AI Diff Summary
           </h4>
           <p className="type-label-md line-clamp-2 leading-relaxed text-[var(--color-on-surface-variant)]">
-            {version.diff_summary?.trim() || copy.noDiffSummary}
+            {version.diff_summary?.trim() || 'No AI summary available for this version.'}
           </p>
         </div>
       </div>
@@ -112,14 +110,14 @@ function VaultVersionCard({
             className="vault-version-card__btn vault-version-card__btn--secondary"
             onClick={() => onPreview(version.id)}
           >
-            {copy.preview}
+            Preview
           </button>
           <button
             type="button"
             className="vault-version-card__btn vault-version-card__btn--secondary"
             onClick={() => onOpenInBuilder(version.id)}
           >
-            Open in Builder
+            Continue in Builder
           </button>
           <button
             type="button"
@@ -128,7 +126,7 @@ function VaultVersionCard({
             onClick={() => void onDownload(version)}
           >
             <Download className="h-4 w-4" aria-hidden />
-            {isDownloading ? copy.downloading : copy.pdf}
+            {isDownloading ? 'Downloading…' : 'PDF'}
           </button>
         </div>
       ) : (
@@ -138,7 +136,7 @@ function VaultVersionCard({
             className="vault-version-card__btn vault-version-card__btn--ghost"
             onClick={() => onOpenInBuilder(version.id)}
           >
-            Open in Builder
+            Continue in Builder
           </button>
           <button
             type="button"
@@ -146,7 +144,7 @@ function VaultVersionCard({
             className="vault-version-card__btn vault-version-card__btn--ghost"
             onClick={() => void onCompare(version)}
           >
-            {isComparing ? copy.comparing : copy.compare}
+            {isComparing ? 'Comparing…' : 'Compare'}
           </button>
           <button
             type="button"
@@ -155,7 +153,7 @@ function VaultVersionCard({
             onClick={() => void onRestore(version.id)}
           >
             <RotateCcw className="h-4 w-4" aria-hidden />
-            {isRestoring ? copy.restoring : copy.restore}
+            {isRestoring ? 'Restoring…' : 'Restore'}
           </button>
         </div>
       )}

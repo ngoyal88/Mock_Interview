@@ -17,7 +17,7 @@ export default function BuilderDraftHub({ landing }: BuilderDraftHubProps) {
         <div>
           <h2 className="type-headline-md text-[var(--color-on-surface)]">Your drafts</h2>
           <p className="type-body-md mt-1 text-[var(--color-on-surface-variant)]">
-            Pick up where you left off — rename anytime from the row menu.
+            Not in Vault yet. Work saves automatically while you edit.
           </p>
         </div>
         {draftCount > 0 ? (
@@ -49,9 +49,9 @@ export default function BuilderDraftHub({ landing }: BuilderDraftHubProps) {
         </ul>
       ) : (
         <div className="rb-draft-hub-empty glass-panel">
-          <p className="type-body-md text-[var(--color-on-surface)]">No drafts yet</p>
+          <p className="type-body-md text-[var(--color-on-surface)]">No unfinished drafts</p>
           <p className="type-body-md mt-1 text-[var(--color-on-surface-variant)]">
-            Start fresh or import from Vault above — your work saves automatically while you edit.
+            Published resumes live in Vault — use Continue in Builder there.
           </p>
         </div>
       )}

@@ -22,7 +22,7 @@ export default function BuilderLandingView({ landing, vaultEntryCount }: Builder
       <AppPageShell
         embedded
         title="Build a resume that interviews can use"
-        subtitle="Start from scratch, a resume you uploaded, or your public LinkedIn profile — choose a layout while editing."
+        subtitle="Unfinished work stays in drafts. Saving to Vault files the resume. Continue from Vault anytime."
       >
         {!landing.profileReady ? (
           <p className="type-body-md -mt-4 mb-8 text-[var(--color-on-surface-variant)]">

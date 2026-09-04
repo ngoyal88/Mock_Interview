@@ -115,7 +115,7 @@ export function useBuilderLanding() {
           resume_id: resumeId,
         });
         setVaultPickerOpen(false);
-        toast.success('Draft created from your resume');
+        toast.success('Opened in Builder');
         navigate(`/resume-vault/builder/${response.draft.id}`);
       } catch (err) {
         toast.error(err instanceof Error ? err.message : 'Failed to create draft from Vault');

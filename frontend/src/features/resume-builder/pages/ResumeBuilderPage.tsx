@@ -165,6 +165,9 @@ export default function ResumeBuilderPage() {
         open={builder.saveDraftOpen}
         saving={builder.saving}
         defaultName={builder.saveDraftName}
+        title="Rename draft"
+        description="Choose a name you will recognize on the Builder landing page."
+        submitLabel="Rename"
         onClose={builder.closeSaveDraftModal}
         onSubmit={builder.confirmSaveDraft}
       />

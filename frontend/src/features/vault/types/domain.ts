@@ -170,7 +170,10 @@ export interface VaultVersion {
   builder?: {
     template_id: string;
     template_version: string;
-    rendered_tex_hash: string;
+    render_engine?: string;
+    render_input_hash?: string;
+    style_spec?: Record<string, unknown>;
+    page_count?: number;
     section_layout?: Array<Record<string, unknown>>;
   } | null;
 }

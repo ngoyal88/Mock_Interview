@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Bolt, Pencil, Plus, Wand2 } from 'lucide-react';
 
-import { VAULT_VERSIONS_COPY } from 'features/vault/constants/versionsContent';
 import type { VaultEntry, VaultVersion } from 'features/vault/types';
 import { formatVersionLabel } from 'features/vault/utils/scorePresentation';
 
@@ -21,7 +20,6 @@ export default function VaultVersionsHeader({
   onEdit,
   onAddVersion,
 }: VaultVersionsHeaderProps) {
-  const copy = VAULT_VERSIONS_COPY;
   const headLabel = headVersion
     ? `v${headVersion.version_number}`
     : entry
@@ -43,7 +41,7 @@ export default function VaultVersionsHeader({
           ) : null}
           {compatScore != null ? (
             <div className="type-label-md flex items-center gap-2 text-[var(--color-on-surface-variant)]">
-              <span>{copy.compatScore}:</span>
+              <span>Compat Score:</span>
               <span className="flex items-center gap-1 text-[var(--color-tertiary)]">
                 <Bolt className="h-4 w-4" aria-hidden />
                 {compatScore}
@@ -53,7 +51,7 @@ export default function VaultVersionsHeader({
           {entry?.is_active ? (
             <span className="vault-versions-active-pill">
               <span className="vault-versions-active-pill__dot" aria-hidden />
-              {copy.active}
+              ACTIVE
             </span>
           ) : null}
         </div>
@@ -67,7 +65,7 @@ export default function VaultVersionsHeader({
           className="vault-versions-action-btn"
         >
           <Pencil className="h-4 w-4" aria-hidden />
-          {copy.editDetails}
+          Edit Details
         </button>
         {entry ? (
           <Link
@@ -75,7 +73,7 @@ export default function VaultVersionsHeader({
             className="vault-versions-action-btn"
           >
             <Wand2 className="h-4 w-4" aria-hidden />
-            Open in Builder
+            Continue in Builder
           </Link>
         ) : null}
         {entry ? (
@@ -85,7 +83,7 @@ export default function VaultVersionsHeader({
             className="vault-versions-action-btn vault-versions-action-btn--primary"
           >
             <Plus className="h-4 w-4" aria-hidden />
-            {copy.newVersion}
+            New Version
           </button>
         ) : null}
       </div>

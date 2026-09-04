@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, LayoutTemplate, Redo2, Save, Trash2, Undo2, UploadCloud } from 'lucide-react';
+import { ArrowLeft, Eye, LayoutTemplate, Redo2, Trash2, Undo2, UploadCloud } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import type { SaveState } from '../hooks/draftAutosave';
@@ -108,7 +108,6 @@ export default function BuilderToolbar({
   onOpenTemplateTab,
 }: BuilderToolbarProps) {
   const pageHint = pageCount > 0 ? `${pageCount} page preview` : null;
-  const isSaving = saving || saveState === 'saving';
 
   return (
     <header className="rb-toolbar p-4 sm:p-5">
@@ -116,11 +115,20 @@ export default function BuilderToolbar({
         <div className="min-w-0 space-y-3">
           <Link to="/resume-vault/builder" className="rb-toolbar__back focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]">
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-            All drafts
+            Builder home
           </Link>
 
           <div className="min-w-0">
-            <p className="type-label-sm uppercase tracking-[0.2em] text-[var(--color-secondary)]">{draftName}</p>
+            <button
+              type="button"
+              onClick={() => void onSaveDraft()}
+              disabled={busy || saving}
+              className="type-label-sm rounded-md uppercase tracking-[0.2em] text-[var(--color-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60"
+              aria-label="Rename draft"
+              title="Rename draft"
+            >
+              {draftName}
+            </button>
             <h1 className="type-headline-md mt-1 text-[var(--color-on-surface)]">Resume Builder</h1>
           </div>
 
@@ -186,11 +194,6 @@ export default function BuilderToolbar({
               <Redo2 className="h-4 w-4" aria-hidden />
             </button>
 
-            <button type="button" onClick={() => void onSaveDraft()} disabled={busy || isSaving} className={actionButtonClass}>
-              <Save className="h-4 w-4" aria-hidden />
-              {isSaving ? 'Saving…' : 'Save'}
-            </button>
-
             <button
               type="button"
               onClick={() => void onRefreshPreview()}
@@ -209,7 +212,7 @@ export default function BuilderToolbar({
               className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-primary)] px-3.5 py-2 text-sm font-semibold text-[var(--color-on-primary)] transition-opacity hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60"
             >
               <UploadCloud className="h-4 w-4" aria-hidden />
-              {publishing ? 'Publishing…' : 'Publish'}
+              {publishing ? 'Saving…' : 'Save to Vault'}
             </button>
           </div>
 

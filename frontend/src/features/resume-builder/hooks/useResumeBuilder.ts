@@ -82,7 +82,6 @@ function splitValues(value: string): string[] {
     .filter(Boolean);
 }
 
-
 function createWorkExperienceItem(): ResumeWorkExperienceItem {
   return {
     title: '',
@@ -517,7 +516,7 @@ export function useResumeBuilder() {
             loadedBootstrapKeyRef.current = `draft:${draftResponse.draft.id}`;
             applyDraftStateRef.current(draftResponse.draft);
             historyRef.current.clear();
-            announce('Draft created from your existing resume.');
+            announce('Opened in Builder');
           } finally {
             if (generation === bootstrapGenRef.current && mountedRef.current) {
               setWorkspaceLoading(false);
@@ -1216,8 +1215,8 @@ export function useResumeBuilder() {
       setPreviewStatus('idle');
       setPageCount(0);
       setPublishOpen(false);
-      announce('Resume published to Vault.');
-      toast.success('Resume published to Vault');
+      announce('Saved to Vault. Continue from there anytime.');
+      toast.success('Saved to Vault. Continue from there anytime.');
       navigate(`/resume-vault/r/${response.resume_id}/${response.version_id}`);
       return response;
     } catch (err) {

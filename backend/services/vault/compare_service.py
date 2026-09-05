@@ -209,7 +209,7 @@ async def compare_profiles(
         f"score_a={score_a} score_b={score_b}"
     )
 
-    raw = await get_platform_llm().json_completion(system_prompt, user_prompt)
+    raw = await get_platform_llm("vault_analyze").json_completion(system_prompt, user_prompt)
     payload = extract_json_dict(raw)
     if not payload:
         logger.warning("Vault compare LLM returned unparseable JSON; using score-based fallbacks")

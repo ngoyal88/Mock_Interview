@@ -241,7 +241,7 @@ def _base_requirement_rows(typed_requirements) -> list[RequirementAlignmentV2]:
 
 class ApplicationFitService:
     def __init__(self) -> None:
-        self._job_posting_context = JobPostingContextService(get_platform_llm())
+        self._job_posting_context = JobPostingContextService(get_platform_llm("application_fit"))
 
     async def compute_fit(
         self,

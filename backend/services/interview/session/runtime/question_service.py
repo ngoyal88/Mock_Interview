@@ -1,7 +1,7 @@
 from utils.logger import get_logger
 from typing import Dict, Any, Optional
 from datetime import datetime, timezone
-from services.platform.llm import LLMEngine
+from services.platform.llm import FeatureLLM
 from models.interview import InterviewType, DifficultyLevel
 from services.interview.session.coding.leetcode_service import DSA_EXCLUDE_TOPICS, LeetCodeService
 from services.interview.session.coding.problem_rewrite_service import rewrite_to_story, generate_starter_code
@@ -19,7 +19,7 @@ def _clean_question_text(value: Any, fallback: str) -> str:
 
 
 class QuestionService:
-    def __init__(self, engine: LLMEngine):
+    def __init__(self, engine: FeatureLLM):
         self._engine = engine
         self._lc = LeetCodeService()
 

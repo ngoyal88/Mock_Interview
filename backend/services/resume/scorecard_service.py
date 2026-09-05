@@ -12,7 +12,6 @@ from utils.logger import get_logger
 logger = get_logger(__name__)
 
 SCORECARD_VERSION = "resume_scorecard_v1"
-SCORECARD_MODEL = "groq/llama-3.1-8b-instant"
 
 
 def _safe_str(value: Any) -> str:
@@ -154,7 +153,7 @@ async def _llm_score(
         f"has_responsibilities={any((w.get('responsibilities') for w in (normalized.get('work_experience') or [])))}\n"
         f"role_hint={role_hint or ''}\n"
     )
-    raw = await get_platform_llm().json_completion(system_prompt, user_prompt)
+    raw = await get_platform_llm("resume_scorecard").json_completion(system_prompt, user_prompt)
     data = extract_json_dict(raw)
     score = data.get("score")
     role_hint_text = data.get("role_hint_text")
@@ -183,7 +182,7 @@ async def _llm_polish_suggestions(
         f"role_hint={role_hint or ''}\n"
         f"suggestions={json.dumps(base_suggestions)}"
     )
-    raw = await get_platform_llm().json_completion(system_prompt, user_prompt)
+    raw = await get_platform_llm("resume_scorecard").json_completion(system_prompt, user_prompt)
     payload = extract_json_dict(raw)
     items = payload.get("suggestions")
     if not isinstance(items, list):
@@ -237,6 +236,7 @@ async def build_resume_scorecard(
         fallback_used,
     )
 
+    llm = get_platform_llm("resume_scorecard")
     return ResumeScorecardResponse(
         score=score,
         coverage_counts=counts,
@@ -244,7 +244,7 @@ async def build_resume_scorecard(
         role_hint_text=role_hint_text,
         suggestions=suggestions[:3],
         meta=ResumeScorecardMeta(
-            model=SCORECARD_MODEL,
+            model=f"{llm.provider_id}/{llm.model}",
             version=SCORECARD_VERSION,
             generated_at=datetime.now(timezone.utc).isoformat(),
             fallback_used=fallback_used,

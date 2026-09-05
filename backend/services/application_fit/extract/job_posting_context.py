@@ -3,7 +3,7 @@ import json
 import re
 from typing import Any, Dict, List, Optional
 
-from services.platform.llm.engine import LLMEngine
+from services.platform.llm.engine import FeatureLLM
 from services.platform.llm.prompt_contracts import extract_json_dict
 from services.application_fit.weights import MIN_JD_CHARS
 from services.resume.skills_normalizer import flatten_skills_from_profile
@@ -123,7 +123,7 @@ _OR_REPAIR_SYSTEM = (
 
 
 async def _repair_or_groups(
-    engine: LLMEngine,
+    engine: FeatureLLM,
     jd_text: str,
     typed_requirements: List[Dict[str, Any]],
 ) -> List[Dict[str, Any]]:
@@ -262,7 +262,7 @@ def _fallback_context(
 
 
 class JobPostingContextService:
-    def __init__(self, engine: LLMEngine):
+    def __init__(self, engine: FeatureLLM):
         self._engine = engine
 
     async def build_context(

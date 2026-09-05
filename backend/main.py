@@ -10,7 +10,6 @@ from fastapi.responses import JSONResponse
 from config import get_settings
 from routes import interview, career_preferences, contact, application_fit, job_discovery, livekit, resume_builder, signal, user_account, vault
 from routes.websocket_routes import router as websocket_fallback_router 
-from services.interview import InterviewService
 
 from utils.cors import apply_cors_headers
 from utils.domain_errors import DomainError
@@ -44,12 +43,6 @@ async def lifespan(app: FastAPI):
         log.warning("Redis connection failed — sessions will be unavailable")
 
     _log_service_status()
-
-    try:
-        _svc = InterviewService()
-        log.info("LLM: %s model=%s", type(_svc.llm).__name__, getattr(_svc.llm, "model", None))
-    except Exception as e:
-        log.warning("LLM check failed: %s", e)
 
     if (
         AgentServer is not None
@@ -107,11 +100,12 @@ async def lifespan(app: FastAPI):
 def _log_service_status() -> None:
     services = []
     try:
-        provider = (settings.llm_provider or "groq").lower()
-        if provider == "groq":
-            services.append("Groq LLM" if settings.groq_api_key else "Groq LLM (missing key)")
-        else:
-            services.append("Gemini LLM" if settings.llm_api_key else "Gemini LLM (missing key)")
+        if settings.groq_api_key:
+            services.append("Groq LLM")
+        if settings.llm_api_key:
+            services.append("Gemini LLM")
+        if not settings.groq_api_key and not settings.llm_api_key:
+            services.append("LLM (no API keys)")
     except Exception:
         pass
 

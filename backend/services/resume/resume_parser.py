@@ -652,7 +652,8 @@ async def parse_resume_llm(
     link_appendix = _build_pdf_links_prompt_appendix(pdf_links)
     user_prompt = f"Resume text with line numbers (UTF-8):\n\n{numbered_text}{link_appendix}"
 
-    json_str = await get_platform_llm().json_completion(_RESUME_PARSER_SYSTEM_PROMPT, user_prompt)
+    llm = get_platform_llm("resume_parse")
+    json_str = await llm.json_completion(_RESUME_PARSER_SYSTEM_PROMPT, user_prompt)
 
     try:
         payload = json.loads(json_str or "{}")
@@ -677,7 +678,7 @@ async def parse_resume_llm(
     meta = {
         "uid": uid,
         "source": "groq_llm_resume_parser",
-        "model": "groq/llama-3.1-8b-instant",
+        "model": f"{llm.provider_id}/{llm.model}",
         "parsed_at": datetime.now(timezone.utc).isoformat(),
         "version": "v2",
         "extractor": extraction_meta,

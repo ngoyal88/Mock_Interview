@@ -1,60 +1,54 @@
-"""Platform LLM provider selection and call orchestration."""
-import asyncio
-from functools import lru_cache
-from typing import Any, AsyncGenerator, Optional
+"""Feature-bound LLM facade — resolve routing + orchestrate primary/fallback calls."""
+from __future__ import annotations
 
-from config import Settings, get_settings
-from services.integrations import GeminiService, GroqService
+import asyncio
+from typing import Any, AsyncGenerator, Optional, Union
+
+from config import get_settings
+from services.platform.llm.features import LlmFeature, parse_feature
+from services.platform.llm.protocol import LLMProvider
+from services.platform.llm.registry import build_provider_from_route
+from services.platform.llm.routing import FALLBACK_ROUTE, resolve_route
 from utils.logger import get_logger
 from utils.response_validator import process_response
 
-logger = get_logger("LLMEngine")
+logger = get_logger("FeatureLLM")
+
+_feature_llm_cache: dict[LlmFeature, "FeatureLLM"] = {}
+_policy_logged = False
 
 
-class LLMEngine:
-    """Holds primary / eval / fallback LLM clients and shared retry + fallback call logic."""
+def _log_llm_policy_once() -> None:
+    global _policy_logged
+    if _policy_logged:
+        return
+    logger.info(
+        "LLM model policy: services/platform/llm/routing.py "
+        "(API keys from env: GROQ_API_KEY / LLM_API_KEY / OPENROUTER_API_KEY)"
+    )
+    _policy_logged = True
 
-    def __init__(self, settings: Settings) -> None:
-        provider = (settings.llm_provider or "").lower()
-        logger.info(
-            "LLM config: provider=%s groq_key=%s gemini_key=%s",
-            provider or "<unset>",
-            "yes" if settings.groq_api_key else "no",
-            "yes" if settings.llm_api_key else "no",
-        )
 
-        if provider == "groq":
-            if settings.groq_api_key:
-                self.primary = GroqService()
-            else:
-                logger.warning("groq selected but GROQ_API_KEY missing; falling back to Gemini")
-                self.primary = GeminiService()
-        elif provider == "gemini":
-            if settings.llm_api_key:
-                self.primary = GeminiService()
-            elif settings.groq_api_key:
-                logger.info("Gemini key missing; falling back to Groq")
-                self.primary = GroqService()
-            else:
-                logger.warning("No LLM keys configured")
-                self.primary = GeminiService()
-        else:
-            if settings.groq_api_key:
-                self.primary = GroqService()
-            else:
-                self.primary = GeminiService()
+class FeatureLLM:
+    """Orchestrates generate / generate_raw / generate_stream / json_completion for one feature."""
 
-        self.eval_llm = GroqService() if settings.groq_api_key else self.primary
+    def __init__(
+        self,
+        feature: LlmFeature,
+        primary: LLMProvider,
+        fallback: Optional[LLMProvider] = None,
+    ) -> None:
+        self.feature = feature
+        self.primary = primary
+        self.fallback = fallback
 
-        self.fallback: Optional[Any] = None
-        if provider == "groq" and getattr(settings, "llm_api_key", None):
-            self.fallback = GeminiService()
-        elif provider == "gemini" and getattr(settings, "groq_api_key", None):
-            self.fallback = GroqService()
-        elif provider not in ("groq", "gemini") and settings.groq_api_key and settings.llm_api_key:
-            self.fallback = (
-                GeminiService() if self.primary.__class__.__name__ == "GroqService" else GroqService()
-            )
+    @property
+    def provider_id(self) -> str:
+        return getattr(self.primary, "provider_id", type(self.primary).__name__)
+
+    @property
+    def model(self) -> str:
+        return str(getattr(self.primary, "model", "") or "")
 
     def _is_retryable_error(self, e: Exception) -> bool:
         code = getattr(e, "status_code", None) or getattr(e, "code", None)
@@ -90,7 +84,10 @@ class LLMEngine:
     ) -> str:
         llm = llm if llm is not None else self.primary
         fallback_llm = fallback_llm if fallback_llm is not None else self.fallback
-        safe_fallback = "I'm having trouble generating a response right now. Could you try rephrasing or continuing?"
+        safe_fallback = (
+            "I'm having trouble generating a response right now. "
+            "Could you try rephrasing or continuing?"
+        )
 
         async def _try_one(provider_llm: Any, validate: bool = True) -> Optional[str]:
             try:
@@ -107,7 +104,7 @@ class LLMEngine:
                     return process_response(raw)
                 return raw.strip() or None
             except asyncio.TimeoutError:
-                logger.warning("LLM call timed out after 15s")
+                logger.warning("LLM call timed out after 15s feature=%s", self.feature.value)
                 return None
             except Exception as e:
                 if self._is_retryable_error(e):
@@ -120,7 +117,10 @@ class LLMEngine:
         if result:
             return result
         if fallback_llm and fallback_llm is not llm:
-            logger.info("Trying fallback LLM provider")
+            logger.info(
+                "Trying fallback LLM provider feature=%s",
+                self.feature.value,
+            )
             result = await _try_one(fallback_llm)
             if result:
                 return result
@@ -148,7 +148,7 @@ class LLMEngine:
                     return None
                 return (raw or "").strip() or None
             except asyncio.TimeoutError:
-                logger.warning("LLM call timed out after 15s")
+                logger.warning("LLM call timed out after 15s feature=%s", self.feature.value)
                 return None
             except Exception as e:
                 if self._is_retryable_error(e):
@@ -174,7 +174,7 @@ class LLMEngine:
         fallback_llm: Optional[Any] = None,
         empty_fallback: str = "{}",
     ) -> str:
-        llm = llm if llm is not None else self.eval_llm
+        llm = llm if llm is not None else self.primary
         fallback_llm = fallback_llm if fallback_llm is not None else self.fallback
 
         async def _try_one(provider_llm: Any) -> Optional[str]:
@@ -197,7 +197,10 @@ class LLMEngine:
                     return None
                 return (raw or "").strip() or None
             except asyncio.TimeoutError:
-                logger.warning("LLM json_completion timed out after 15s")
+                logger.warning(
+                    "LLM json_completion timed out after 15s feature=%s",
+                    self.feature.value,
+                )
                 return None
             except Exception as e:
                 if self._is_retryable_error(e):
@@ -210,7 +213,10 @@ class LLMEngine:
         if result:
             return result
         if fallback_llm and fallback_llm is not llm:
-            logger.info("Trying fallback LLM provider for json_completion")
+            logger.info(
+                "Trying fallback LLM provider for json_completion feature=%s",
+                self.feature.value,
+            )
             result = await _try_one(fallback_llm)
             if result:
                 return result
@@ -232,7 +238,9 @@ class LLMEngine:
             prompt, temperature, llm, fallback_llm, empty_fallback
         )
 
-    async def generate_stream(self, prompt: str, temperature: float = 0.8) -> AsyncGenerator[str, None]:
+    async def generate_stream(
+        self, prompt: str, temperature: float = 0.8
+    ) -> AsyncGenerator[str, None]:
         if hasattr(self.primary, "generate_text_stream"):
             async for chunk in self.primary.generate_text_stream(prompt, temperature=temperature):
                 yield chunk
@@ -244,12 +252,55 @@ class LLMEngine:
         return await self._call_json_completion_with_fallback(
             system_prompt,
             user_prompt,
-            llm=self.eval_llm,
+            llm=self.primary,
             fallback_llm=self.fallback,
             empty_fallback="{}",
         )
 
 
-@lru_cache(maxsize=1)
-def get_platform_llm() -> LLMEngine:
-    return LLMEngine(get_settings())
+def _build_feature_llm(feature: LlmFeature) -> FeatureLLM:
+    settings = get_settings()
+    route = resolve_route(feature)
+    primary = build_provider_from_route(route)
+    fallback: Optional[LLMProvider] = None
+    if FALLBACK_ROUTE is not None:
+        # Only attach Gemini fallback when key exists and primary is not already that route
+        if FALLBACK_ROUTE.provider == "gemini" and settings.llm_api_key:
+            if not (
+                route.provider == FALLBACK_ROUTE.provider and route.model == FALLBACK_ROUTE.model
+            ):
+                fallback = build_provider_from_route(FALLBACK_ROUTE)
+        elif FALLBACK_ROUTE.provider == "groq" and settings.groq_api_key:
+            if not (
+                route.provider == FALLBACK_ROUTE.provider and route.model == FALLBACK_ROUTE.model
+            ):
+                fallback = build_provider_from_route(FALLBACK_ROUTE)
+    logger.info(
+        "LLM feature=%s provider=%s model=%s fallback=%s",
+        feature.value,
+        route.provider,
+        route.model,
+        f"{FALLBACK_ROUTE.provider}/{FALLBACK_ROUTE.model}" if fallback and FALLBACK_ROUTE else "none",
+    )
+    return FeatureLLM(feature=feature, primary=primary, fallback=fallback)
+
+
+def get_platform_llm(feature: Union[str, LlmFeature]) -> FeatureLLM:
+    """Return a cached FeatureLLM for the given feature id (required)."""
+    _log_llm_policy_once()
+    feat = parse_feature(feature)
+    cached = _feature_llm_cache.get(feat)
+    if cached is not None:
+        return cached
+    built = _build_feature_llm(feat)
+    _feature_llm_cache[feat] = built
+    return built
+
+
+def clear_llm_caches() -> None:
+    """Test helper — drop FeatureLLM instances so routing/settings changes apply."""
+    _feature_llm_cache.clear()
+
+
+# Back-compat alias for type hints / imports during migration
+LLMEngine = FeatureLLM

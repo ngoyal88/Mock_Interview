@@ -58,7 +58,7 @@ Original description:
 Return JSON: rewritten_title, rewritten_description (plain text), and function_signature with name, params (list of {{name, type}}), and return_type. Preserve the exact contract so test cases (stdin: one JSON line per param, stdout: one JSON line for return value) still apply."""
 
     try:
-        raw = await get_platform_llm().json_completion(system_prompt, user_prompt)
+        raw = await get_platform_llm("interview_turn").json_completion(system_prompt, user_prompt)
         data = json.loads(raw) if isinstance(raw, str) else raw
 
         rewritten_title = data.get("rewritten_title") or title

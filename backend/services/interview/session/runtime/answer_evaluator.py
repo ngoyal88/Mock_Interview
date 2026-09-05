@@ -1,6 +1,6 @@
 from typing import Dict, Any
 from utils.logger import get_logger
-from services.platform.llm import LLMEngine
+from services.platform.llm import FeatureLLM
 from services.platform.llm.prompt_contracts import (
     execute_json_contract,
     normalize_answer_evaluation,
@@ -9,7 +9,7 @@ from services.platform.llm.prompt_contracts import (
 logger = get_logger("AnswerEvaluator")
 
 class AnswerEvaluator:
-    def __init__(self, engine:LLMEngine):
+    def __init__(self, engine: FeatureLLM):
         self._engine = engine
 
     async def evaluate_answer(

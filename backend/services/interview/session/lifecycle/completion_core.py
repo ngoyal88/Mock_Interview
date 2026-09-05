@@ -20,6 +20,7 @@ from services.interview.session.lifecycle.session_events import (
 )
 from services.interview.session.runtime.interview_service import InterviewService
 from services.interview.session.persistence.transcript_service import attach_transcript_to_session
+from services.platform.llm import get_platform_llm
 from services.profile_memory.profile_claims_service import run_profile_claims_pipeline
 from utils.async_io import run_in_thread
 from utils.feedback_parser import parse_scores_from_feedback
@@ -228,7 +229,7 @@ def schedule_vpm_after_completion(
                 uid=str(session_data.get("user_id") or ""),
                 session_id=session_id,
                 session_data=session_data,
-                engine=interview_service._engine,  # noqa: SLF001
+                engine=get_platform_llm("profile_memory"),
             )
             if result.get("failed") or result.get("pipeline_status") == "failed":
                 logger.warning(

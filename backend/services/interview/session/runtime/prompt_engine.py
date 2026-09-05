@@ -3,14 +3,14 @@ from typing import Any, AsyncGenerator, Optional, List, Dict
 
 from utils.logger import get_logger
 from models.interview import InterviewType
-from services.platform.llm import LLMEngine
+from services.platform.llm import FeatureLLM
 from services.interview.session.runtime.follow_up_prompt import build_follow_up_prompt
 from services.resume.skills_normalizer import flatten_skills_from_profile
 
 logger = get_logger("PromptEngine")
 
 class PromptEngine:
-    def __init__(self, engine:LLMEngine):
+    def __init__(self, engine: FeatureLLM):
         self._engine = engine
 
     def _build_interviewer_prompt(self, previous_qa: List[Dict], interview_type: InterviewType, llm_context: str = "",) -> str:

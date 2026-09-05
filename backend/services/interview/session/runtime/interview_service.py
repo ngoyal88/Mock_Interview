@@ -1,4 +1,4 @@
-"""Interview orchestration facade: delegates to LLMEngine, PromptEngine, QuestionService, etc."""
+"""Interview orchestration facade: delegates to FeatureLLM, PromptEngine, QuestionService, etc."""
 import json
 from datetime import datetime, timezone
 from typing import Any, AsyncGenerator, Dict, List, Optional, Union
@@ -7,7 +7,7 @@ from config import get_settings
 from models.interview import DifficultyLevel, InterviewType
 from services.application_fit.extract.job_posting_context import JobPostingContextService
 from services.application_fit.models import JdFitContext
-from services.platform.llm import LLMEngine
+from services.platform.llm import get_platform_llm
 from services.interview.session.runtime.answer_evaluator import AnswerEvaluator
 from services.interview.session.runtime.answer_processor import AnswerProcessor
 from services.interview.session.runtime.feedback_service import FeedbackService
@@ -50,8 +50,8 @@ class InterviewService:
         settings = get_settings()
         session_ttl = getattr(settings, "interview_session_ttl_seconds", 7200)
 
-        self._engine = LLMEngine(settings)
-        self.llm = self._engine.primary
+        self._engine = get_platform_llm("interview_turn")
+        self.llm = self._engine
 
         self._prompt = PromptEngine(self._engine)
         self._questions = QuestionService(self._engine)

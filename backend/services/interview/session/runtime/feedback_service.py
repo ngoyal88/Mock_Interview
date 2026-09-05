@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Dict, Any, List
 from utils.logger import get_logger
-from services.platform.llm import LLMEngine
+from services.platform.llm import FeatureLLM
 from services.interview.session.persistence.transcript_service import extract_live_transcription
 from services.platform.llm.prompt_contracts import (
     execute_json_contract,
@@ -16,7 +16,7 @@ _HIGHLIGHT_Q_MAX = 240
 _HIGHLIGHT_A_MAX = 500
 
 class FeedbackService:
-    def __init__(self, engine:LLMEngine):
+    def __init__(self, engine: FeatureLLM):
         self._engine = engine
 
     def _is_invalid_feedback_text(self, text: str) -> bool:

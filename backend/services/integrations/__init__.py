@@ -3,6 +3,7 @@ from .edge_tts_service import EdgeTTSService
 from .elevenlabs_service import ElevenLabsTTSService, TTSCache
 from .groq_service import GroqService
 from .gemini_service import GeminiService
+from .openrouter_service import OpenRouterService
 
 __all__ = [
     "DeepgramSTTService",
@@ -11,5 +12,5 @@ __all__ = [
     "TTSCache",
     "GroqService",
     "GeminiService",
+    "OpenRouterService",
 ]
-

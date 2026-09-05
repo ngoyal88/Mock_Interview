@@ -1,42 +1,46 @@
-# NOTE: Primary LLM adapter for platform LLMEngine (Groq JSON + chat completions).
+# NOTE: Primary LLM adapter for platform FeatureLLM (Groq JSON + chat completions).
 import asyncio
 import threading
-from typing import AsyncGenerator, List, Dict, Optional
+from typing import AsyncGenerator, Optional
+
 from groq import Groq
+
 from config import get_settings
 from utils.async_io import run_in_thread
 from utils.logger import get_logger
 
 logger = get_logger("GroqService")
-settings = get_settings()
 
 
 class GroqService:
-    """Groq LLM client using the official SDK, compatible with InterviewService."""
+    """Groq LLM client using the official SDK."""
 
-    def __init__(self):
-        # Guard models are not suitable for chat; pick a valid default
-        self.model = settings.groq_model
-        try:
-            m = (self.model or "").lower()
-            if ("guard" in m) or (not m.strip()):
-                logger.warning(f"Invalid Groq model '{self.model}' for chat; falling back to 'llama-3.3-70b-versatile'")
-                self.model = "llama-3.3-70b-versatile"
-        except Exception:
-            self.model = "llama-3.3-70b-versatile"
+    provider_id = "groq"
+
+    def __init__(self, *, model: str, api_key: Optional[str] = None) -> None:
+        settings = get_settings()
+        resolved = (model or "").strip()
+        if not resolved:
+            raise ValueError("GroqService requires a non-empty model id from routing")
+        if "guard" in resolved.lower():
+            raise ValueError(
+                f"Groq model {model!r} is a guard/moderation model; use a chat model from routing.py"
+            )
+        self.model = resolved
         self.max_tokens = settings.llm_max_tokens
         self.temperature = settings.llm_temperature
-        if not settings.groq_api_key:
+        key = api_key if api_key is not None else settings.groq_api_key
+        if not key:
             logger.error("Groq API key not configured")
             self.client = None
         else:
-            self.client = Groq(api_key=settings.groq_api_key)
+            self.client = Groq(api_key=key)
 
     async def generate_text(self, prompt: str, temperature: Optional[float] = None) -> str:
-        """Generate text using Groq Chat Completions via SDK."""
         if not self.client:
             return "LLM service not configured"
         try:
+
             def _call() -> str:
                 chat_completion = self.client.chat.completions.create(
                     messages=[{"role": "user", "content": prompt}],
@@ -46,12 +50,16 @@ class GroqService:
                     stream=False,
                 )
                 choice = (chat_completion.choices or [None])[0]
-                content = getattr(choice, "message", None).content if choice and getattr(choice, "message", None) else None
+                content = (
+                    getattr(choice, "message", None).content
+                    if choice and getattr(choice, "message", None)
+                    else None
+                )
                 return content or "No response generated"
 
             return await run_in_thread(_call)
         except Exception as e:
-            logger.error(f"Groq generation error: {e}", exc_info=True)
+            logger.error("Groq generation error: %s", e, exc_info=True)
             return f"Error generating response: {str(e)}"
 
     async def generate_text_stream(
@@ -59,7 +67,6 @@ class GroqService:
         prompt: str,
         temperature: Optional[float] = None,
     ) -> AsyncGenerator[str, None]:
-        """Stream text tokens from Groq without blocking the event loop."""
         if not self.client:
             yield "LLM service not configured"
             return
@@ -85,7 +92,7 @@ class GroqService:
                     if delta:
                         loop.call_soon_threadsafe(queue.put_nowait, delta)
             except Exception as e:
-                logger.error(f"Groq streaming error: {e}", exc_info=True)
+                logger.error("Groq streaming error: %s", e, exc_info=True)
                 loop.call_soon_threadsafe(queue.put_nowait, e)
             finally:
                 loop.call_soon_threadsafe(queue.put_nowait, sentinel)
@@ -102,10 +109,7 @@ class GroqService:
             yield str(item)
 
     async def json_completion(self, system_prompt: str, user_prompt: str) -> str:
-        """
-        Generate JSON via Groq with response_format=json_object.
-        Uses GROQ_JSON_MODEL when set, otherwise GROQ_MODEL (same quality as chat extraction).
-        """
+        """Generate JSON via Groq with response_format=json_object (uses constructor model)."""
         if not self.client:
             return "{}"
 
@@ -115,18 +119,17 @@ class GroqService:
             text = text.strip()
             return text if len(text) <= max_len else text[:max_len]
 
-        json_model = (getattr(settings, "groq_json_model", None) or "").strip() or self.model
-        # Larger models can handle fuller JD Fit corpora; clip only for pathological prompts.
         sys_c = _clip(system_prompt, 12000)
         usr_c = _clip(user_prompt, 24000)
         try:
+
             def _call() -> str:
                 chat_completion = self.client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": sys_c},
                         {"role": "user", "content": usr_c},
                     ],
-                    model=json_model,
+                    model=self.model,
                     temperature=0.0,
                     max_tokens=min(4096, int(self.max_tokens or 4096)),
                     stream=False,
@@ -142,6 +145,5 @@ class GroqService:
 
             return await run_in_thread(_call)
         except Exception as e:
-            logger.error(f"Groq JSON completion error (model={json_model}): {e}", exc_info=True)
+            logger.error("Groq JSON completion error (model=%s): %s", self.model, e, exc_info=True)
             return "{}"
-

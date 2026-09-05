@@ -234,7 +234,7 @@ async def _judge_batch(
         return [], False
 
     try:
-        raw = await get_platform_llm().json_completion(
+        raw = await get_platform_llm("application_fit").json_completion(
             _JUDGE_SYSTEM_PROMPT,
             _build_user_prompt(requirements, evidence_corpus),
         )

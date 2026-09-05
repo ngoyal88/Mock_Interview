@@ -36,7 +36,8 @@ from utils.session_errors import SessionConflictError
 from redis.asyncio import Redis
 
 from livekit.agents import Agent, AgentServer, AgentSession, AutoSubscribe, JobContext, JobProcess, llm
-from livekit.plugins import deepgram, groq, silero
+from livekit.plugins import deepgram, silero
+from services.platform.llm import build_livekit_llm
 
 settings = get_settings()
 log = get_logger("InterviewAgent")
@@ -977,10 +978,7 @@ async def entrypoint(ctx: JobContext) -> None:
     answer_started_at = [time.monotonic()]
     last_user_speech_at = [time.monotonic()]
 
-    groq_llm = groq.LLM(
-        model=settings.groq_model or "llama-3.3-70b-versatile",
-        api_key=settings.groq_api_key,
-    )
+    voice_llm = build_livekit_llm("interview_voice")
 
     from services.interview.session.transport.agent_tts_plugin import EdgeTTSPlugin
 
@@ -1004,7 +1002,7 @@ async def entrypoint(ctx: JobContext) -> None:
             interim_results=True,
             endpointing_ms=getattr(settings, "deepgram_endpointing_ms", 300),
         ),
-        llm=groq_llm,
+        llm=voice_llm,
         tts=tts_plugin,
         allow_interruptions=True,
     )

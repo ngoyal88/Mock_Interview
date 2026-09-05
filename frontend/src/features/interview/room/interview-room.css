@@ -57,7 +57,7 @@
     radial-gradient(
       ellipse 55% 50% at 50% 48%,
       color-mix(in srgb, var(--color-primary-container) 16%, transparent) 0%,
-      color-mix(in srgb, var(--color-secondary, #4fdbc8) 6%, transparent) 38%,
+      color-mix(in srgb, var(--color-secondary) 6%, transparent) 38%,
       transparent 68%
     ),
     radial-gradient(
@@ -124,7 +124,7 @@
   width: 7px;
   height: 7px;
   border-radius: 9999px;
-  background: var(--color-warning, #fbbf24);
+  background: var(--color-warning);
 }
 
 .ir-hud__dot--live {
@@ -133,7 +133,7 @@
 }
 
 .ir-hud__dot--warn {
-  background: var(--color-warning, #fbbf24);
+  background: var(--color-warning);
 }
 
 .ir-hud__label {
@@ -181,8 +181,8 @@
   height: 100%;
   pointer-events: none;
   /* Soft dissolve into the stage — no hard rectangle */
-  mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, #000 20%, transparent 78%);
-  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, black 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, black 20%, transparent 78%);
   opacity: 0.92;
   transition: opacity 0.7s ease;
 }
@@ -290,11 +290,11 @@
   background: transparent;
 }
 .transcript-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-strong);
   border-radius: 4px;
 }
 .transcript-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--glass-border);
 }
 
 .ir-turn {
@@ -333,7 +333,7 @@
   font-size: 0.875rem;
   line-height: 1.55;
   color: var(--text-primary);
-  background: color-mix(in srgb, var(--bg-raised, #171f33) 70%, transparent);
+  background: color-mix(in srgb, var(--bg-raised) 70%, transparent);
   border: 1px solid var(--glass-border);
 }
 
@@ -344,7 +344,7 @@
 }
 
 .ir-turn--you .ir-turn__bubble {
-  background: var(--color-surface-container-high, #222a3d);
+  background: var(--color-surface-container-high);
   border-top-right-radius: 0.2rem;
 }
 
@@ -401,7 +401,7 @@
   border-radius: 0.75rem;
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-panel);
 }
 
 .ir-pip__video {
@@ -446,7 +446,7 @@
   border-radius: 9999px;
   border: 1px solid var(--glass-border);
   padding: 0.65rem 1.15rem;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.42);
+  box-shadow: var(--shadow-panel);
   background: color-mix(in srgb, var(--bg-0) 58%, transparent);
 }
 
@@ -479,7 +479,7 @@
 
 .ir-dock__btn--primary {
   background: var(--color-primary);
-  color: var(--color-on-primary, #122f5f);
+  color: var(--color-on-primary);
   box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary) 30%, transparent);
 }
 
@@ -487,17 +487,17 @@
   transform: scale(1.06);
   box-shadow: 0 0 22px color-mix(in srgb, var(--color-primary) 40%, transparent);
   background: var(--color-primary);
-  color: var(--color-on-primary, #122f5f);
+  color: var(--color-on-primary);
 }
 
 .ir-dock__btn--muted {
-  background: var(--color-surface-container-high, #222a3d);
+  background: var(--color-surface-container-high);
   color: var(--text-tertiary);
   box-shadow: none;
 }
 
 .ir-dock__btn--solid {
-  background: color-mix(in srgb, var(--color-surface-container-high, #222a3d) 85%, transparent);
+  background: color-mix(in srgb, var(--color-surface-container-high) 85%, transparent);
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
 }
@@ -510,16 +510,16 @@
 
 .ir-dock__btn--end {
   width: 3.25rem;
-  background: var(--color-error, #ffb4ab);
-  color: var(--color-on-error, #690005);
+  background: var(--color-error);
+  color: var(--color-on-error);
   box-shadow: 0 6px 20px color-mix(in srgb, var(--color-error) 28%, transparent);
 }
 
 .ir-dock__btn--end:hover:not(:disabled) {
   transform: scale(1.06);
   box-shadow: 0 0 22px color-mix(in srgb, var(--color-error) 40%, transparent);
-  background: var(--color-error, #ffb4ab);
-  color: var(--color-on-error, #690005);
+  background: var(--color-error);
+  color: var(--color-on-error);
 }
 
 .ir-dock__divider {

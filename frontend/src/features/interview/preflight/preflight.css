@@ -9,10 +9,10 @@
 }
 
 .preflight-section {
-  background: rgba(15, 23, 42, 0.55);
+  background: color-mix(in srgb, var(--color-surface-container-lowest) 55%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   transition:
     border-color var(--duration) var(--ease-out),
@@ -20,7 +20,7 @@
 }
 
 .preflight-section--active {
-  border-color: rgba(173, 198, 255, 0.22);
+  border-color: color-mix(in srgb, var(--color-primary) 22%, transparent);
 }
 
 .preflight-section--done {

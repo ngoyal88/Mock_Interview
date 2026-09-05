@@ -51,11 +51,11 @@ function StatusBadge({ state, label, tone = "neutral" }: BadgeProps) {
     tone === "ok"
       ? "bg-[var(--emerald-dim)] text-[var(--color-tertiary)] border-[var(--emerald-border)]"
       : tone === "warn"
-        ? "bg-[rgba(232,169,65,0.12)] text-[var(--color-warning)] border-[rgba(232,169,65,0.35)]"
+        ? "bg-[var(--warning-dim)] text-[var(--color-warning)] border-[var(--warning-border)]"
         : tone === "bad"
-          ? "bg-[rgba(255,180,171,0.12)] text-[var(--color-error)] border-[rgba(255,180,171,0.35)]"
+          ? "bg-[var(--error-dim)] text-[var(--color-error)] border-[var(--error-border)]"
           : tone === "info"
-            ? "bg-[rgba(79,219,200,0.12)] text-[var(--color-secondary)] border-[rgba(79,219,200,0.35)]"
+            ? "bg-[var(--secondary-dim)] text-[var(--color-secondary)] border-[var(--secondary-border)]"
             : "bg-[var(--color-surface-container)]/50 text-[var(--color-on-surface-variant)] border-white/10";
 
   const showPulse = state === "passed" || state === "live" || state === "warning";
@@ -70,7 +70,7 @@ function StatusBadge({ state, label, tone = "neutral" }: BadgeProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[12px] font-semibold leading-4 tracking-[0.02em] ${toneClass}`}
+      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold leading-4 tracking-[0.02em] ${toneClass}`}
     >
       {showPulse ? (
         <span className={`h-2 w-2 rounded-full ${pulseColor} preflight-pulse-dot`} aria-hidden />
@@ -122,14 +122,14 @@ function InlineAlert({
 }) {
   const box =
     tone === "error"
-      ? "border-[rgba(255,180,171,0.3)] bg-[rgba(255,180,171,0.1)] text-[var(--color-error)]"
-      : "border-[rgba(232,169,65,0.3)] bg-[rgba(232,169,65,0.1)] text-[var(--color-warning)]";
+      ? "border-[var(--error-border)] bg-[var(--error-dim)] text-[var(--color-error)]"
+      : "border-[var(--warning-border)] bg-[var(--warning-dim)] text-[var(--color-warning)]";
 
   return (
     <div className={`rounded-lg border p-3 ${box}`}>
-      <p className="text-[12px] font-medium">{title}</p>
-      <p className="mt-1 text-[12px] opacity-80">{body}</p>
-      {fix ? <p className="mt-2 text-[12px] text-[var(--color-outline)]">{fix}</p> : null}
+      <p className="text-xs font-medium">{title}</p>
+      <p className="mt-1 text-xs opacity-80">{body}</p>
+      {fix ? <p className="mt-2 text-xs text-[var(--color-outline)]">{fix}</p> : null}
       {action}
     </div>
   );
@@ -166,11 +166,11 @@ function CheckSection({
             {icon}
           </span>
           <div className="min-w-0">
-            <h3 className="text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[var(--color-on-surface)] md:text-[24px] md:leading-8">
+            <h3 className="text-xl font-semibold leading-7 tracking-[-0.01em] text-[var(--color-on-surface)] md:text-2xl md:leading-8">
               {title}
             </h3>
             {subtitle ? (
-              <p className="mt-0.5 truncate text-[12px] leading-4 text-[var(--color-outline)]">
+              <p className="mt-0.5 truncate text-xs leading-4 text-[var(--color-outline)]">
                 {subtitle}
               </p>
             ) : null}
@@ -804,7 +804,8 @@ export function PreSessionChecker({
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-[var(--color-background)] p-4 md:p-8">
       <div
-        className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(173,198,255,0.08),transparent_55%)]"
+        className="pointer-events-none fixed inset-0"
+        style={{ backgroundImage: "var(--preflight-ambient)" }}
         aria-hidden
       />
 
@@ -812,10 +813,10 @@ export function PreSessionChecker({
         <div className="h-1 w-full bg-gradient-to-r from-secondary via-primary to-secondary" />
 
         <header className="border-b border-white/5 px-8 py-6 text-center">
-          <h2 className="text-[24px] font-bold leading-8 tracking-[-0.01em] text-[var(--color-on-surface)] md:text-[32px] md:leading-10">
+          <h2 className="text-2xl font-bold leading-8 tracking-[-0.01em] text-[var(--color-on-surface)] md:text-3xl md:leading-10">
             Pre-Flight Diagnostic
           </h2>
-          <p className="mt-2 text-[14px] leading-5 text-[var(--color-on-surface-variant)] md:text-[16px] md:leading-6">
+          <p className="mt-2 text-sm leading-5 text-[var(--color-on-surface-variant)] md:text-base md:leading-6">
             Checks run one at a time. Camera stays on this device only.
           </p>
         </header>
@@ -837,7 +838,7 @@ export function PreSessionChecker({
                     “{MIC_PHRASE_PROMPT}”
                   </p>
                   <WaveformBars level={audioMeterLevel} active={showAudioMeter} />
-                  <p className="text-center text-[12px] leading-4 text-[var(--color-outline)]">
+                  <p className="text-center text-xs leading-4 text-[var(--color-outline)]">
                     {phraseHeard
                       ? `Heard: ${phraseHeard}`
                       : showAudioMeter
@@ -850,7 +851,7 @@ export function PreSessionChecker({
                   <button
                     type="button"
                     onClick={() => void playTestTone()}
-                    className="flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 px-5 py-3 text-[14px] font-semibold text-[var(--color-on-surface)] transition-colors hover:bg-white/5"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 px-5 py-3 text-sm font-semibold text-[var(--color-on-surface)] transition-colors hover:bg-white/5"
                   >
                     <Play className="h-4 w-4" aria-hidden />
                     Play test sound
@@ -860,14 +861,14 @@ export function PreSessionChecker({
                       <button
                         type="button"
                         onClick={() => advanceAfterSpeaker("passed")}
-                        className="flex-1 rounded-lg border border-[var(--emerald-border)] bg-[var(--emerald-dim)] py-2.5 text-[12px] font-semibold text-[var(--color-tertiary)] transition-colors hover:bg-[rgba(78,222,163,0.2)]"
+                        className="flex-1 rounded-lg border border-[var(--emerald-border)] bg-[var(--emerald-dim)] py-2.5 text-xs font-semibold text-[var(--color-tertiary)] transition-colors hover:bg-[var(--emerald-hover)]"
                       >
                         Yes, I heard it
                       </button>
                       <button
                         type="button"
                         onClick={() => advanceAfterSpeaker("warning")}
-                        className="flex-1 rounded-lg border border-white/10 py-2.5 text-[12px] font-semibold text-[var(--color-on-surface-variant)] transition-colors hover:bg-white/5"
+                        className="flex-1 rounded-lg border border-white/10 py-2.5 text-xs font-semibold text-[var(--color-on-surface-variant)] transition-colors hover:bg-white/5"
                       >
                         No, I did not
                       </button>
@@ -896,7 +897,7 @@ export function PreSessionChecker({
 
               {showDeviceSelector && audioInputDevices.length > 0 ? (
                 <div>
-                  <p className="mb-1 text-[12px] text-[var(--color-outline)]">
+                  <p className="mb-1 text-xs text-[var(--color-outline)]">
                     Try a different microphone:
                   </p>
                   <select
@@ -934,10 +935,10 @@ export function PreSessionChecker({
                     Latency
                   </span>
                   <div className="mt-2 flex items-baseline gap-2">
-                    <span className="text-[40px] font-bold leading-[48px] tracking-[-0.02em] text-[var(--color-on-surface)] tabular-nums md:text-[48px] md:leading-[56px]">
+                    <span className="text-4xl font-bold leading-[48px] tracking-[-0.02em] text-[var(--color-on-surface)] tabular-nums md:text-5xl md:leading-[56px]">
                       {connectionLatencyMs != null ? connectionLatencyMs : "—"}
                     </span>
-                    <span className="text-[14px] font-semibold text-[var(--color-tertiary)]">ms</span>
+                    <span className="text-sm font-semibold text-[var(--color-tertiary)]">ms</span>
                   </div>
                 </div>
                 <div className="rounded-lg border border-white/5 bg-[var(--color-surface-container)]/50 p-4">
@@ -945,11 +946,11 @@ export function PreSessionChecker({
                     Interview link
                   </span>
                   <div className="mt-2">
-                    <span className="text-[18px] font-semibold leading-7 text-[var(--color-on-surface)]">
+                    <span className="text-lg font-semibold leading-7 text-[var(--color-on-surface)]">
                       {linkLabel}
                     </span>
                   </div>
-                  <p className="mt-2 text-[12px] leading-4 text-[var(--color-outline)]">
+                  <p className="mt-2 text-xs leading-4 text-[var(--color-outline)]">
                     LiveKit health + short room connect probe.
                   </p>
                 </div>
@@ -968,7 +969,7 @@ export function PreSessionChecker({
                     <button
                       type="button"
                       onClick={routeToWebSocket}
-                      className="mt-3 w-full rounded-lg bg-primary-container py-2 text-[12px] font-semibold text-on-primary transition-colors hover:bg-primary"
+                      className="mt-3 w-full rounded-lg bg-primary-container py-2 text-xs font-semibold text-on-primary transition-colors hover:bg-primary"
                     >
                       Try WebSocket fallback
                     </button>
@@ -1000,7 +1001,7 @@ export function PreSessionChecker({
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[var(--color-on-surface-variant)]">
                   <Lock className="h-9 w-9 opacity-50" aria-hidden />
-                  <p className="px-4 text-center text-[14px] font-semibold leading-5">
+                  <p className="px-4 text-center text-sm font-semibold leading-5">
                     {camera.status === "requesting"
                       ? "Requesting camera permission…"
                       : camera.errorMessage || "Camera access requires permission."}
@@ -1009,7 +1010,7 @@ export function PreSessionChecker({
                     <button
                       type="button"
                       onClick={() => void camera.start()}
-                      className="mt-1 rounded-lg border border-white/10 px-4 py-2 text-[12px] font-semibold transition-colors hover:bg-white/5"
+                      className="mt-1 rounded-lg border border-white/10 px-4 py-2 text-xs font-semibold transition-colors hover:bg-white/5"
                     >
                       Enable camera
                     </button>
@@ -1025,9 +1026,9 @@ export function PreSessionChecker({
             type="button"
             onClick={handleStart}
             disabled={!allChecksDone || hasBlockingFailure}
-            className={`w-full rounded-xl py-4 text-[18px] font-semibold leading-7 tracking-tight transition-colors md:text-[20px] ${
+            className={`w-full rounded-xl py-4 text-lg font-semibold leading-7 tracking-tight transition-colors md:text-xl ${
               allChecksDone && !hasBlockingFailure
-                ? "bg-primary-container text-on-primary shadow-[0_0_15px_rgba(77,142,255,0.4)] hover:bg-primary"
+                ? "bg-primary-container text-on-primary shadow-[var(--shadow-primary-glow)] hover:bg-primary"
                 : "cursor-not-allowed border border-white/5 bg-[var(--color-surface-container)] text-[var(--color-outline)] opacity-50 shadow-none"
             }`}
           >
@@ -1036,14 +1037,14 @@ export function PreSessionChecker({
           <button
             type="button"
             onClick={handleSkipPrecheck}
-            className="w-full rounded-xl py-2.5 text-[12px] text-[var(--color-on-surface-variant)] transition-colors hover:border hover:border-white/10 hover:text-[var(--color-on-surface)]"
+            className="w-full rounded-xl py-2.5 text-xs text-[var(--color-on-surface-variant)] transition-colors hover:border hover:border-white/10 hover:text-[var(--color-on-surface)]"
           >
             Skip pre-check, I know it works
           </button>
           <button
             type="button"
             onClick={handleCancel}
-            className="w-full rounded-xl py-2.5 text-[14px] text-[var(--color-on-surface-variant)] transition-colors hover:border hover:border-white/10 hover:text-[var(--color-on-surface)]"
+            className="w-full rounded-xl py-2.5 text-sm text-[var(--color-on-surface-variant)] transition-colors hover:border hover:border-white/10 hover:text-[var(--color-on-surface)]"
           >
             Cancel
           </button>

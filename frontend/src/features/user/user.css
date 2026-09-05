@@ -763,7 +763,7 @@
 }
 
 .profile-save-bar__dirty {
-  color: var(--color-warning, #f5c542);
+  color: var(--color-warning);
   font-weight: 600;
 }
 
@@ -777,7 +777,7 @@
 }
 
 .profile-save-bar--dirty {
-  border-top-color: color-mix(in srgb, var(--color-warning, #f5c542) 35%, var(--border));
+  border-top-color: color-mix(in srgb, var(--color-warning) 35%, var(--border));
 }
 
 .profile-account-layout {

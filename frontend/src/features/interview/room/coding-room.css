@@ -22,7 +22,7 @@
   background: color-mix(in srgb, var(--bg-0) 70%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border);
 }
 
 .dsa-header__left,
@@ -81,7 +81,7 @@
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  background: var(--color-error, #ffb4ab);
+  background: var(--color-error);
   opacity: 0.75;
   animation: dsa-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
@@ -92,7 +92,7 @@
   height: 0.75rem;
   width: 0.75rem;
   border-radius: 9999px;
-  background: var(--color-error, #ffb4ab);
+  background: var(--color-error);
 }
 
 .dsa-active__label {
@@ -100,13 +100,13 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-error, #ffb4ab);
+  color: var(--color-error);
 }
 
 .dsa-header__sep {
   width: 1px;
   height: 1rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-strong);
 }
 
 .dsa-timer {
@@ -116,11 +116,6 @@
   font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
   font-size: 14px;
   color: var(--text-secondary);
-}
-
-.dsa-timer--urgent {
-  color: var(--color-error, #ffb4ab);
-  animation: dsa-timer-pulse 1s ease-in-out infinite;
 }
 
 .dsa-mic-chip {
@@ -137,9 +132,9 @@
 }
 
 .dsa-mic-chip--warn {
-  border-color: color-mix(in srgb, #fbbf24 30%, transparent);
-  background: color-mix(in srgb, #fbbf24 12%, transparent);
-  color: #fbbf24;
+  border-color: color-mix(in srgb, var(--color-warning) 30%, transparent);
+  background: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  color: var(--color-warning);
 }
 
 .dsa-mic-chip--bad {
@@ -156,7 +151,7 @@
   border-radius: 0.375rem;
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-error, #ffb4ab);
+  color: var(--color-error);
   background: color-mix(in srgb, var(--color-error) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-error) 20%, transparent);
   transition: background-color 0.15s ease, border-color 0.15s ease;
@@ -184,8 +179,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-  background: color-mix(in srgb, var(--color-surface-container-low, #131b2e) 50%, transparent);
+  border-right: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--color-surface-container-low) 50%, transparent);
 }
 
 .dsa-problem {
@@ -194,7 +189,7 @@
   max-height: 40%;
   overflow-y: auto;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .dsa-problem__head {
@@ -217,9 +212,9 @@
   border-radius: 0.25rem;
   font-size: 12px;
   font-weight: 600;
-  background: var(--color-surface-variant, #2d3449);
+  background: var(--color-surface-variant);
   color: var(--text-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-strong);
   text-transform: capitalize;
 }
 
@@ -265,7 +260,7 @@
   border-radius: 0.5rem;
   background: color-mix(in srgb, var(--bg-0) 75%, transparent);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   box-shadow: 0 12px 40px color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
 
@@ -284,14 +279,14 @@
   display: flex;
   flex-direction: column;
   background: var(--bg-0);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 1px solid var(--border-subtle);
 }
 
 .dsa-ai {
   position: relative;
   height: 12rem;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -430,7 +425,7 @@
 }
 
 .dsa-turn {
-  border-left: 2px solid var(--color-surface-variant, #2d3449);
+  border-left: 2px solid var(--color-surface-variant);
   padding: 0.25rem 0 0.25rem 1rem;
 }
 
@@ -462,7 +457,7 @@
 }
 
 .dsa-turn--live .dsa-turn__text {
-  background: linear-gradient(90deg, var(--text-secondary) 0%, #fff 50%, var(--text-secondary) 100%);
+  background: linear-gradient(90deg, var(--text-secondary) 0%, var(--color-on-surface) 50%, var(--text-secondary) 100%);
   background-size: 200% auto;
   color: transparent;
   -webkit-background-clip: text;
@@ -478,8 +473,8 @@
 
 .dsa-dock {
   padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  background: var(--color-surface-container-lowest, #060e20);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--color-surface-container-lowest);
   display: flex;
   justify-content: center;
   gap: 1rem;
@@ -493,13 +488,13 @@
   align-items: center;
   justify-content: center;
   color: var(--text-primary);
-  background: var(--color-surface-variant, #2d3449);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--color-surface-variant);
+  border: 1px solid var(--border-subtle);
   transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
 .dsa-dock__btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-strong);
 }
 
 .dsa-dock__btn:focus-visible {
@@ -517,18 +512,6 @@
   100% {
     transform: scale(2);
     opacity: 0;
-  }
-}
-
-@keyframes dsa-timer-pulse {
-  0%,
-  100% {
-    color: var(--text-secondary);
-    text-shadow: none;
-  }
-  50% {
-    color: var(--color-error, #ffb4ab);
-    text-shadow: 0 0 10px rgba(255, 180, 171, 0.7);
   }
 }
 
@@ -562,7 +545,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dsa-active__ping-ring,
-  .dsa-timer--urgent,
   .dsa-ai__glow,
   .dsa-wave__bar,
   .dsa-turn--live .dsa-turn__text {
@@ -579,7 +561,7 @@
     width: 100%;
     height: 40%;
     border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .dsa-ai {

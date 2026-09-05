@@ -44,8 +44,7 @@ export function LandingPreview() {
       <div
         className="grid grid-cols-1 gap-gutter bg-[var(--color-background)]/90 p-6 md:grid-cols-3 md:p-8"
         style={{
-          backgroundImage:
-            'radial-gradient(circle at 20% 80%, rgba(77, 142, 255, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(79, 219, 200, 0.06) 0%, transparent 45%)',
+          backgroundImage: "var(--landing-glow)",
         }}
       >
         <div className="glass-panel col-span-1 rounded-lg p-6 md:col-span-2">
@@ -99,7 +98,7 @@ export function LandingPreview() {
                 cy="50"
                 r={CIRCLE_RADIUS}
                 fill="none"
-                stroke="rgba(255,255,255,0.05)"
+                stroke="var(--border-subtle)"
                 strokeWidth="8"
               />
               <circle

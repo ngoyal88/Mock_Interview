@@ -7,7 +7,7 @@
   min-height: 0;
   border-radius: 0.75rem;
   border: 1px solid color-mix(in srgb, var(--color-outline-variant) 55%, transparent);
-  background: var(--color-surface-container-lowest, #060e20);
+  background: var(--color-surface-container-lowest);
   overflow: hidden;
 }
 
@@ -173,7 +173,7 @@
 
 .ce-editor-pane .monaco-editor,
 .ce-editor-pane .monaco-editor-background {
-  background: var(--color-surface-container-lowest, #060e20) !important;
+  background: var(--color-surface-container-lowest) !important;
 }
 
 .ce-output {
@@ -271,7 +271,7 @@
   padding: 0.625rem 0.75rem;
   border-radius: 0.5rem;
   border: 1px solid color-mix(in srgb, var(--color-outline-variant) 35%, transparent);
-  background: var(--color-surface-container-lowest, #060e20);
+  background: var(--color-surface-container-lowest);
   font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
   font-size: 0.75rem;
   line-height: 1.5;
@@ -428,130 +428,4 @@
   .ce-output__tab {
     transition: none;
   }
-}
-
-/* Problem panel (embedded in coding room) */
-
-.pq-tabs {
-  display: flex;
-  gap: 0.25rem;
-  margin-bottom: 0.75rem;
-}
-
-.pq-tab {
-  padding: 0.375rem 0.75rem;
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0.375rem 0.375rem 0 0;
-  background: transparent;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-outline);
-  cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
-}
-
-.pq-tab:hover {
-  color: var(--color-on-surface-variant);
-  background: color-mix(in srgb, var(--color-surface-container) 35%, transparent);
-}
-
-.pq-tab--active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
-}
-
-.pq-tab:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--color-primary) 55%, transparent);
-  outline-offset: 1px;
-}
-
-.pq-body {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--color-on-surface-variant);
-}
-
-.pq-body .lc-content {
-  color: var(--color-on-surface);
-}
-
-.pq-inline-code {
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
-  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 40%, transparent);
-  background: var(--color-surface-container-lowest);
-  font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
-  font-size: 0.75rem;
-  color: var(--color-secondary);
-}
-
-.pq-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.125rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.6875rem;
-  color: var(--color-outline);
-  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 40%, transparent);
-  background: color-mix(in srgb, var(--color-surface-container-low) 50%, transparent);
-}
-
-.pq-example {
-  border-radius: 0.5rem;
-  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 40%, transparent);
-  overflow: hidden;
-  background: color-mix(in srgb, var(--color-surface-container-low) 40%, transparent);
-}
-
-.pq-example__head {
-  padding: 0.375rem 0.75rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-outline-variant) 35%, transparent);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-outline);
-}
-
-.pq-example__pre {
-  margin: 0.25rem 0 0;
-  padding: 0.5rem 0.625rem;
-  border-radius: 0.375rem;
-  background: var(--color-surface-container-lowest);
-  font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
-  font-size: 0.75rem;
-  color: var(--color-on-surface);
-  white-space: pre-wrap;
-  overflow-x: auto;
-}
-
-.pq-example__pre--out {
-  color: var(--color-success);
-}
-
-.pq-hint {
-  display: flex;
-  gap: 0.625rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid color-mix(in srgb, var(--color-warning) 35%, transparent);
-  background: color-mix(in srgb, var(--color-warning) 10%, transparent);
-  color: color-mix(in srgb, var(--color-warning) 85%, white);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-
-.pq-constraint {
-  padding: 0.375rem 0.625rem;
-  border-left: 2px solid var(--color-primary);
-  border-radius: 0 0.25rem 0.25rem 0;
-  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
-  font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
-  font-size: 0.8125rem;
-  color: var(--color-on-surface-variant);
 }

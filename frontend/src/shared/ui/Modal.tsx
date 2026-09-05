@@ -71,7 +71,7 @@ export default function Modal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(2,6,23,0.72)] p-4 backdrop-blur-md"
+      className="modal-scrim fixed inset-0 z-[100] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
@@ -79,7 +79,7 @@ export default function Modal({
     >
       <div
         ref={panelRef}
-        className={`glass-panel max-h-[90vh] w-full max-w-md overflow-auto rounded-2xl border border-[var(--border-subtle)] bg-[var(--color-surface-container)]/92 shadow-[0_24px_80px_rgba(2,6,23,0.48)] ${className}`}
+        className={`glass-panel modal-panel max-h-[90vh] w-full max-w-md overflow-auto rounded-2xl border border-[var(--border-subtle)] bg-[var(--color-surface-container)]/92 ${className}`}
         onClick={(event) => event.stopPropagation()}
       >
         {title ? (

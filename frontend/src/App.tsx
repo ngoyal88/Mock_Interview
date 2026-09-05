@@ -38,7 +38,7 @@ export default function App() {
             background: "var(--bg-surface)",
             color: "var(--text-primary)",
             border: "1px solid var(--border-subtle)",
-            boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
+            boxShadow: "var(--shadow-luminous)",
           },
           success: { iconTheme: { primary: "var(--success)", secondary: "var(--bg-surface)" } },
           error: { iconTheme: { primary: "var(--error)", secondary: "var(--bg-surface)" } },

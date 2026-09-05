@@ -16,8 +16,7 @@
 
 /* Override global glass-panel white borders inside report surfaces only */
 .application-fit-report .glass-panel,
-.application-fit-panel,
-.application-fit-surface {
+.application-fit-panel {
   border: none !important;
   outline: none;
   box-shadow: none;
@@ -65,11 +64,6 @@
     var(--color-surface-container) 223deg,
     var(--color-surface-container) 360deg
   );
-}
-
-.application-fit-gauge-ring {
-  stroke: var(--color-tertiary-container);
-  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--color-tertiary) 50%, transparent));
 }
 
 .application-fit-band-chip {
@@ -499,30 +493,6 @@
   50% {
     opacity: 0.5;
   }
-}
-
-/* Input page — shared form field class lives in shared/ui/ModalActions (formFieldClass). */
-.application-fit-target-input {
-  display: block;
-  width: 100%;
-  min-height: 3rem;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 40%, transparent);
-  background: color-mix(in srgb, var(--color-surface-container-highest) 92%, var(--color-surface-container-low));
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: var(--color-on-surface);
-  outline: none;
-}
-
-.application-fit-target-input::placeholder {
-  color: var(--color-outline);
-}
-
-.application-fit-target-input:focus-visible {
-  border-color: color-mix(in srgb, var(--color-primary) 42%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 16%, transparent);
 }
 
 /* JD panel — textarea fills the bordered wrap (no nested half-height box). */

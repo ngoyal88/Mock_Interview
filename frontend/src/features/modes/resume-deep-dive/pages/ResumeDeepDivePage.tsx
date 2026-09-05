@@ -176,11 +176,11 @@ const ResumeDeepDivePage: React.FC = () => {
       ) : null}
 
       <div
-        className="pointer-events-none absolute -top-20 left-1/3 h-[360px] w-[360px] rounded-full bg-[var(--color-primary)]/10 blur-[120px]"
+        className="setup-glow-secondary pointer-events-none absolute -top-20 left-1/3"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute bottom-0 right-1/4 h-[280px] w-[280px] rounded-full bg-[var(--color-tertiary)]/10 blur-[140px]"
+        className="setup-glow-tertiary pointer-events-none absolute bottom-0 right-1/4"
         aria-hidden
       />
 

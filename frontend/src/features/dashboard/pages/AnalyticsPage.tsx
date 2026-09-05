@@ -72,7 +72,7 @@ const AnalyticsPage: React.FC = () => {
   return (
     <div className="relative min-h-[calc(100vh-4rem)] overflow-hidden pb-16 pt-10">
       <div
-        className="pointer-events-none absolute -top-20 right-1/4 h-[360px] w-[360px] rounded-full bg-[var(--color-secondary)]/10 blur-[120px]"
+        className="setup-glow-secondary pointer-events-none absolute -top-20 right-1/4"
         aria-hidden
       />
 

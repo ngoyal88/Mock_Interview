@@ -61,6 +61,7 @@ module.exports = {
       },
       maxWidth: {
         app: 'var(--container-max)',
+        'setup-panel': 'var(--width-setup-panel)',
       },
       spacing: {
         gutter: 'var(--space-gutter)',

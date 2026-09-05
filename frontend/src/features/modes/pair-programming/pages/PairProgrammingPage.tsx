@@ -56,11 +56,11 @@ const PairProgrammingPage: React.FC = () => {
       ) : null}
 
       <div
-        className="pointer-events-none absolute -top-20 left-1/4 h-[320px] w-[320px] rounded-full bg-[var(--color-primary)]/10 blur-[120px]"
+        className="setup-glow-primary pointer-events-none absolute -top-20 left-1/4"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute bottom-0 right-1/4 h-[280px] w-[280px] rounded-full bg-[var(--color-tertiary)]/10 blur-[140px]"
+        className="setup-glow-tertiary pointer-events-none absolute bottom-0 right-1/4"
         aria-hidden
       />
 

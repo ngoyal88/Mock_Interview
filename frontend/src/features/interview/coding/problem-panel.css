@@ -344,6 +344,81 @@
   color: color-mix(in srgb, var(--color-warning) 82%, white);
 }
 
+/* DSA problem HTML body (was global in index.css) */
+.lc-content {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.lc-content p {
+  margin-bottom: 0.75rem;
+}
+.lc-content p:empty,
+.lc-content p > br:only-child {
+  display: none;
+}
+.lc-content strong.example {
+  display: block;
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+}
+.lc-content pre {
+  background: var(--bg-overlay);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  overflow-x: auto;
+  color: var(--cream-1);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0.5rem 0 1rem;
+}
+.lc-content pre strong {
+  color: var(--teal-1);
+  font-weight: 600;
+  background: transparent;
+}
+.lc-content code {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.35em;
+  color: var(--teal-1);
+  font-size: 0.82em;
+}
+.lc-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+.lc-content ul,
+.lc-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.lc-content ul {
+  list-style-type: disc;
+}
+.lc-content ol {
+  list-style-type: decimal;
+}
+.lc-content li {
+  margin-bottom: 0.3rem;
+}
+.lc-content strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.lc-content p strong:not(.example) {
+  color: var(--color-warning);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pq-tab {
     transition: none;

@@ -33,7 +33,7 @@ export function AuthShowcasePanel() {
                 cy="50"
                 r={CIRCLE_RADIUS}
                 fill="none"
-                stroke="rgba(255,255,255,0.05)"
+                stroke="var(--border-subtle)"
                 strokeWidth="6"
               />
               <circle

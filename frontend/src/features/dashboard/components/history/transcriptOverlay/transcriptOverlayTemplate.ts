@@ -122,7 +122,7 @@ export function buildTranscriptDocument(lines: TranscriptLineLike[], meta: Trans
         <span class="dot"></span>
         <span>${normalizedDate}</span>
         <span class="dot"></span>
-        <span style="color:#6ffbbe;">${normalizedDuration}</span>
+        <span class="meta-accent">${normalizedDuration}</span>
       </div>
     </div>
     <div class="searchbar">
@@ -138,7 +138,7 @@ export function buildTranscriptDocument(lines: TranscriptLineLike[], meta: Trans
       <div class="footer-note">End-to-End Encrypted Session</div>
       <div class="footer-actions">
         <button class="btn" type="button">Export PDF</button>
-        <button class="btn" type="button" style="border-color:rgba(173,198,255,0.45);background:rgba(173,198,255,0.18);">Full Analysis</button>
+        <button class="btn btn--primary" type="button">Full Analysis</button>
       </div>
     </div>
   </div>

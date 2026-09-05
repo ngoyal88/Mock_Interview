@@ -25,7 +25,7 @@ type TemplatePreviewThumbProps = {
 
 function TemplatePreviewThumb({ previewUrl, label, previewPending = false, onExpand }: TemplatePreviewThumbProps) {
   return (
-    <div className="group/preview relative h-[132px] overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-0)]/70">
+    <div className="group/preview rb-template-thumb relative overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-0)]/70">
       {previewUrl ? (
         <>
           <img
@@ -88,10 +88,10 @@ export default function TemplateGallery({
         {Array.from({ length: 3 }, (_, index) => (
           <div
             key={`catalog-skeleton-${index}`}
-            className="flex min-w-[220px] max-w-[248px] shrink-0 flex-col gap-2.5 rounded-xl border border-[var(--border-subtle)] p-3"
+            className="rb-template-card flex shrink-0 flex-col gap-2.5 rounded-xl border border-[var(--border-subtle)] p-3"
           >
             <div className="app-shimmer h-3 w-24 rounded-md" aria-hidden />
-            <div className="app-shimmer h-[132px] w-full rounded-xl" aria-hidden />
+            <div className="app-shimmer rb-template-thumb w-full rounded-xl" aria-hidden />
             <div className="app-shimmer h-3 w-full rounded-md" aria-hidden />
           </div>
         ))}
@@ -125,7 +125,7 @@ export default function TemplateGallery({
                   }
                 }}
                 className={[
-                  'group flex min-w-[220px] max-w-[248px] shrink-0 flex-col gap-2.5 rounded-xl border p-3 text-left transition-all duration-200',
+                  'group rb-template-card flex shrink-0 flex-col gap-2.5 rounded-xl border p-3 text-left transition-all duration-200',
                   selected
                     ? 'border-[var(--color-primary)] bg-[var(--color-surface-container)]/90 shadow-[0_0_0_1px_var(--color-primary),0_12px_28px_rgba(2,6,23,0.18)]'
                     : 'border-[var(--border-subtle)] bg-[var(--color-surface-container-low)]/78',
@@ -171,7 +171,7 @@ export default function TemplateGallery({
               <div
                 // eslint-disable-next-line react/no-array-index-key
                 key={`placeholder-${index}`}
-                className="flex min-w-[220px] max-w-[248px] shrink-0 flex-col gap-2.5 rounded-xl border border-dashed border-[var(--border-subtle)] bg-[var(--bg-0)]/36 p-3"
+                className="rb-template-card flex shrink-0 flex-col gap-2.5 rounded-xl border border-dashed border-[var(--border-subtle)] bg-[var(--bg-0)]/36 p-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-on-surface-variant)]">
@@ -183,7 +183,7 @@ export default function TemplateGallery({
                   </span>
                 </div>
 
-                <div className="h-[132px] rounded-xl border border-dashed border-[var(--border-subtle)] bg-[var(--bg-0)]/55 p-2">
+                <div className="rb-template-thumb rounded-xl border border-dashed border-[var(--border-subtle)] bg-[var(--bg-0)]/55 p-2">
                   <div className="grid h-full grid-cols-2 gap-2 opacity-60">
                     <div className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-1)]/70" />
                     <div className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-1)]/70" />

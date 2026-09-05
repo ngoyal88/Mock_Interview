@@ -18,6 +18,7 @@ import {
 import { useAuth } from 'shared/context/AuthContext';
 import UserAccountMenu from 'shared/components/UserAccountMenu';
 import { prefetchForNavPath } from 'shared/query/prefetchQueries';
+import 'shared/styles/app-shell.css';
 
 type NavItem = {
   label: string;

@@ -177,7 +177,7 @@ export default function AiInterviewPage() {
   return (
     <div className="relative min-h-[calc(100vh-4rem)] overflow-hidden pb-14 pt-10">
       <div
-        className="pointer-events-none absolute -top-20 left-1/3 h-[360px] w-[360px] rounded-full bg-[var(--color-primary)]/10 blur-[120px]"
+        className="setup-glow-secondary pointer-events-none absolute -top-20 left-1/3"
         aria-hidden
       />
       <div className="app-container relative z-10 flex flex-col gap-10">
